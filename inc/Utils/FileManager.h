@@ -1,12 +1,13 @@
 #include "InsertedData.h"
 
 #include <fstream>
+#include <filesystem>
+#include <iostream>
 #include <string>
 
 class FileManager
 {
-    size_t citiesNumber;
-    int *data;
+    InsertedData *data;
 
     std::string graphPath;
     std::fstream graphFile;
@@ -14,8 +15,12 @@ class FileManager
     std::string resultsPath;
     std::fstream resultsFile;
 
-    void setupStreams();
-
+    void openStreams();
+    std::string receiveGraphFileName();
+    void setPaths();
+    void setStreamsPointers();
+    bool checkStreams();
+    void closeStreams();
 
 public:
 

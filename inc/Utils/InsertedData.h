@@ -1,3 +1,5 @@
+#include <cstddef>
+
 class InsertedData
 {
     size_t citiesNumber {0};
@@ -15,11 +17,11 @@ public:
 
     size_t getCitiesNumber() const
     {
-        return citiesNumber;
+        return this->citiesNumber;
     }
 
     int* getData() const
     {
-        return data;
+        return this->data;
     }
 };

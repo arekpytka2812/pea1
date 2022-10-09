@@ -25,8 +25,8 @@ void InsertedData::deallocateMemory()
 
 int & InsertedData::operator[](const size_t & index_)
 {
-    if(index_ < 0 || index_ > this->citiesNumber - 1)
-        return;
+//    if(index_ < 0 || index_ > this->citiesNumber - 1)
+//        return;
 
     return this->data[index_];
 }
