@@ -39,16 +39,5 @@ void GraphGenerator::generateData()
 
 void GraphGenerator::printData()
 {
-    auto tempSize = this->data->getCitiesNumber() * this->data->getCitiesNumber();
-
-    for(int i = 0; i < tempSize; ++i)
-    {
-
-        if(i % this->data->getCitiesNumber() == 0)
-            std::cout << "\n";
-
-        std::cout << (*this->data)[i] << " ";
-    }
-
-    std::cout << "\n";
+    this->data->printData();
 }

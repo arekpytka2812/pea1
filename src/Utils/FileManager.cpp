@@ -1,17 +1,12 @@
-#include "../../inc/Utils/FileManager.h"
-
-
+#include "../../inc/Utils/FileManager.h" 
 
 void FileManager::setPaths()
 {
     auto tempFileName = this->receiveGraphFileName();
 
-    graphPath = "../../" + tempFileName + ".txt";
-    resultsPath = "../../out/results.csv";
+    graphPath = tempFileName + ".txt";
+    resultsPath = "out/results.csv";
 
-    std::cout << std::filesystem::path() << std::endl;
-
-    std::cout << graphPath << std::endl;
 }
 
 std::string FileManager::receiveGraphFileName()
@@ -48,7 +43,35 @@ void FileManager::setStreamsPointers()
 
 void FileManager::closeStreams()
 {
+    graphFile.close();
+    resultsFile.close();
+}
 
+void FileManager::clearData()
+{
+    if(this->data != nullptr)
+        delete this->data;
+}
+
+size_t FileManager::receiveCitiesNumber()
+{
+    size_t tempCitiesNumber {0};
+
+    this->graphFile >> tempCitiesNumber;
+
+    return tempCitiesNumber;
+}
+
+void FileManager::insertValues()
+{
+    auto dataSize = this->data->getCitiesNumber() * this->data->getCitiesNumber(); 
+
+    for(int i = 0; i < dataSize; ++i)
+    {
+        int tempValue;
+        this->graphFile >> tempValue;
+        (*this->data)[i] = tempValue;
+    }
 }
 
 FileManager::FileManager()
@@ -57,22 +80,32 @@ FileManager::FileManager()
     this->openStreams();
 
     if(this->checkStreams())
-        {this->setStreamsPointers();
+        this->setStreamsPointers();
 
-        std::cout << "dziala";}
 }
 
 FileManager::~FileManager()
 {
     this->closeStreams();
+    this->clearData();
 }
 
-void FileManager::readData()
+void FileManager::readGraphFile()
 {
+    auto tempCitiesNumber = this->receiveCitiesNumber();
+    this->clearData();
 
+    this->data = new InsertedData(tempCitiesNumber);
+
+    this->insertValues();
 }
 
 void FileManager::writeIntoFile()
 {
 
+}
+
+void FileManager::printData()
+{
+    this->data->printData();
 }

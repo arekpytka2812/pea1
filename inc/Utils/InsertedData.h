@@ -1,4 +1,5 @@
 #include <cstddef>
+#include <iostream>
 
 class InsertedData
 {
@@ -12,6 +13,8 @@ public:
 
     void allocateMemory();
     void deallocateMemory();
+
+    void printData();
 
     int & operator[](const size_t & index_);
 

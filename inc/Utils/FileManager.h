@@ -1,7 +1,6 @@
 #include "InsertedData.h"
 
 #include <fstream>
-#include <filesystem>
 #include <iostream>
 #include <string>
 
@@ -20,13 +19,21 @@ class FileManager
     void setPaths();
     void setStreamsPointers();
     bool checkStreams();
+    
     void closeStreams();
+    void clearData();
+
+    size_t receiveCitiesNumber();
+    void insertValues();
+
 
 public:
 
     FileManager();
     ~FileManager();
 
-    void readData();
+    void readGraphFile();
     void writeIntoFile();
+
+    void printData();
 };

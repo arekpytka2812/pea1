@@ -11,8 +11,10 @@ int main() {
                   75,  37,  14,  19,  -1};
 
     auto fm = new FileManager();
-    
 
+    fm->readGraphFile();
+
+    fm->printData();
 
     return 0;
 }

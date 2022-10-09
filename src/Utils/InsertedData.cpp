@@ -31,3 +31,18 @@ int & InsertedData::operator[](const size_t & index_)
     return this->data[index_];
 }
 
+void InsertedData::printData()
+{
+    auto tempSize = this->citiesNumber * this->citiesNumber;
+
+    for(int i = 0; i < tempSize; ++i)
+    {
+
+        if(i % this->citiesNumber == 0)
+            std::cout << "\n";
+
+        std::cout << this->data[i] << " ";
+    }
+
+    std::cout << "\n";
+}
