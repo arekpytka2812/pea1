@@ -16,6 +16,11 @@ public:
     {
         return this->next;
     }
+
+    int getValue() const
+    {
+        return this->value;
+    }
 };
 
 class LinkedList
@@ -27,6 +32,8 @@ public:
     LinkedList() = default;
     LinkedList(const size_t & listSize_);
     ~LinkedList();
+
+    ListElement & operator[](const int & index_);
 
     void addElement(const int & value_);
     void deleteElement();

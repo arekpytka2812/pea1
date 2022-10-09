@@ -10,11 +10,26 @@ int main() {
                   18,  21,  24,  -1,  19, 
                   75,  37,  14,  19,  -1};
 
-    auto fm = new FileManager();
+    auto stack = new Stack();
 
-    fm->readGraphFile();
+    int i = 1;
 
-    fm->printData();
+    while(i < 10)
+    {
+        stack->push(i);
+        ++i;
+    }
+
+    stack->printStack();
+
+    while(i > 5)
+    {
+        stack->pop();
+        --i;
+    }
+
+    stack->printStack();
+
 
     return 0;
 }

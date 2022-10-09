@@ -32,6 +32,11 @@ LinkedList::~LinkedList()
     this->listSize = 0;
 }
 
+ListElement & LinkedList::operator[](const int & index_)
+{
+    return *(this->list + (index_ * sizeof(ListElement)));
+}
+
 void LinkedList::addElement(const int & value_)
 {
     this->list = new ListElement(value_, this->list);
