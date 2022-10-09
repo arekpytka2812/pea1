@@ -1,5 +1,10 @@
 #include "../inc/Stack.h"
 
+Stack::Stack()
+{
+    stack = new LinkedList();
+}
+
 Stack::~Stack()
 {
     while(this->stackSize > 0)

@@ -9,7 +9,7 @@ class Stack
 
 public:
 
-    Stack() = default;
+    Stack();
     explicit Stack(const size_t & stackSize_);
     ~Stack();
 

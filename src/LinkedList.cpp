@@ -34,12 +34,18 @@ LinkedList::~LinkedList()
 
 ListElement & LinkedList::operator[](const int & index_)
 {
-    return *(this->list + (index_ * sizeof(ListElement)));
+    auto tempPointer = this->list;
+
+    for(int i = 0; i < index_; ++i)
+        tempPointer = tempPointer->getNext();
+
+    return *tempPointer;
 }
 
 void LinkedList::addElement(const int & value_)
 {
     this->list = new ListElement(value_, this->list);
+
     this->listSize++;
 }
 
