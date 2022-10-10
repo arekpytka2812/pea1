@@ -10,25 +10,13 @@ int main() {
                   18,  21,  24,  -1,  19, 
                   75,  37,  14,  19,  -1};
 
-    auto stack = new Stack();
+    auto array = new Array<int>(5);
 
-    int i = 1;
+    (*array)[2] = 5;
 
-    while(i < 7)
-    {
-        stack->push(i);
-        ++i;
-    }
+    array->printArray();
 
-    stack->printStack();
 
-    while(i > 5)
-    {
-        stack->pop();
-        --i;
-    }
-
-    stack->printStack();
 
 
     return 0;

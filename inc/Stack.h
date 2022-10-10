@@ -16,5 +16,10 @@ public:
     void push(const int & value_);
     void pop();
 
+    size_t size() const
+    {
+        return this->stackSize;
+    }
+
     void printStack();
 };

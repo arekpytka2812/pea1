@@ -2,7 +2,7 @@
 
 Stack::Stack()
 {
-    stack = new LinkedList();
+    this->stack = new LinkedList();
 }
 
 Stack::~Stack()
