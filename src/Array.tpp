@@ -74,6 +74,12 @@ T& Array<T>::operator[](const size_t & index_)
 }
 
 template<typename T>
+void Array<T>::operator-(const T & value_)
+{
+    this->erase(value_);
+}
+
+template<typename T>
 void Array<T>::add(const T & value_, const size_t & pos_)
 {
     if(this->size == 0)

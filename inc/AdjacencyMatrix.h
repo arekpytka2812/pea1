@@ -15,5 +15,15 @@ public:
     AdjacencyMatrix(const size_t & citiesNumber_, const int* data_);
     ~AdjacencyMatrix();
 
+    int getDistance(const size_t & source_, const size_t & destination_) const
+    {
+        return this->matrix[source_][destination_];
+    }
+
+    size_t getCitiesNumber() const
+    {
+        return this->citiesNumber;
+    }
+
     void printMatrix();
 };

@@ -16,7 +16,9 @@ int main() {
 
     array->printArray();
 
+    auto matrix = new AdjacencyMatrix(5, data);
 
+    std::cout << matrix->getDistance(0, 3);
 
 
     return 0;

@@ -25,6 +25,8 @@ public:
     Array<T> & operator=(const Array<T> & origin_);
     T & operator[](const size_t & index_);
 
+    void operator-(const T & value_);
+
     size_t size() const
     {
         return this->tableSize;
