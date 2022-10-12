@@ -7,7 +7,7 @@ class AdjacencyMatrix
 
     void allocateMemory();
     void insertValues(const int* data_);
-    void copyValues(const int** dataFromOrigin_);
+    void copyValues(int** dataFromOrigin_);
 
     void deallocateMemory();
 

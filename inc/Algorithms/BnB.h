@@ -14,8 +14,8 @@ class BnB
 
     bool isZeroInRow(const size_t & row_);
 
-    size_t findMinInColumn(const size_t & column_);
-    size_t findMinInRow(const size_t & row_);
+    int findMinInColumn(const size_t & column_);
+    int findMinInRow(const size_t & row_);
 
 
 public:

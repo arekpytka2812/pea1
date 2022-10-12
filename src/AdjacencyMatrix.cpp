@@ -25,7 +25,7 @@ void AdjacencyMatrix::insertValues(const int* data_)
     }
 }
 
-void AdjacencyMatrix::copyValues(const int** dataFromOrigin_)
+void AdjacencyMatrix::copyValues(int** dataFromOrigin_)
 {
     for(int i = 0; i < this->citiesNumber; ++i)
     {
