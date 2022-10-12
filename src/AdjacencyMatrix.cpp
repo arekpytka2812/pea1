@@ -25,6 +25,17 @@ void AdjacencyMatrix::insertValues(const int* data_)
     }
 }
 
+void AdjacencyMatrix::copyValues(const int** dataFromOrigin_)
+{
+    for(int i = 0; i < this->citiesNumber; ++i)
+    {
+        for(int j = 0; j < this->citiesNumber; ++j)
+        {
+            this->matrix[i][j] = dataFromOrigin_[i][j];
+        }
+    }
+}
+
 void AdjacencyMatrix::deallocateMemory()
 {
     for(int i = 0; i < this->citiesNumber; ++i)
@@ -42,6 +53,12 @@ AdjacencyMatrix::AdjacencyMatrix(const size_t & citiesNumber_, const int* data_)
 {
     this->allocateMemory();
     this->insertValues(data_);
+}
+
+AdjacencyMatrix::AdjacencyMatrix(const AdjacencyMatrix & origin_)
+{
+    this->allocateMemory();
+    this->copyValues(origin_.matrix);
 }
 
 AdjacencyMatrix::~AdjacencyMatrix()

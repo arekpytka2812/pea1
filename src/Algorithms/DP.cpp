@@ -1,7 +1,7 @@
 #include "../../inc/Algorithms/DP.h"
 
-size_t sourceCity = 0;
-size_t currentCity = 1;
+size_t DP::sourceCity = 0;
+size_t DP::currentCity = 1;
 AdjacencyMatrix * DP::matrix = nullptr;
 Path * DP::resultPath = nullptr;
 size_t DP::citiesNumber = 0;
