@@ -14,6 +14,8 @@ int main() {
 
     auto bnb = new BnB();
 
+    
+
     bnb->solveTSP(matrix);
 
 

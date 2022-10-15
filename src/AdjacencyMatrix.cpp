@@ -57,6 +57,8 @@ AdjacencyMatrix::AdjacencyMatrix(const size_t & citiesNumber_, const int* data_)
 
 AdjacencyMatrix::AdjacencyMatrix(const AdjacencyMatrix & origin_)
 {
+    this->citiesNumber = origin_.citiesNumber;
+
     this->allocateMemory();
     this->copyValues(origin_.matrix);
 }

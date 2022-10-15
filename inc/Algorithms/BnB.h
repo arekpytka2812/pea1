@@ -11,8 +11,9 @@ class BnB
     void setupVariables(AdjacencyMatrix* matrix_);
     void reduceMatrix();
     void reduceRows();
+    void reduceColumns();
 
-    bool isZeroInRow(const size_t & row_);
+    bool isZeroInColumn(const size_t & column_);
 
     int findMinInColumn(const size_t & column_);
     int findMinInRow(const size_t & row_);
