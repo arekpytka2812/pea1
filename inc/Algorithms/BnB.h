@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../AdjacencyMatrix.h"
 #include "../Path.h"
 

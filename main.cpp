@@ -12,12 +12,9 @@ int main() {
 
     auto matrix = new AdjacencyMatrix(5, data);
 
-    auto bnb = new BnB();
+    auto bf = new BruteForce(5, 0);
 
-    
-
-    bnb->solveTSP(matrix);
-
+    bf->solveTSP(matrix)->printPathInfo();
 
     return 0;
 
