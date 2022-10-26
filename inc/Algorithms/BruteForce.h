@@ -8,8 +8,7 @@
 
 class BruteForce
 {
-
-    size_t citiesNumber{0};
+    const size_t citiesNumber{0};
     size_t startCity{0};
 
     std::vector<int> permutations;
@@ -32,8 +31,8 @@ class BruteForce
 
 public:
 
-    BruteForce(const size_t & citiesNumber_, const size_t & startCity_);
+    BruteForce(size_t citiesNumber_);
     ~BruteForce();
 
-    Path* solveTSP(const AdjacencyMatrix * matrix_);
+    Path* solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_ = 0);
 };

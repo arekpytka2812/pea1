@@ -11,7 +11,7 @@ class GraphGenerator
 
 public:
     
-    explicit GraphGenerator(const size_t & citiesNumber_);
+    explicit GraphGenerator(size_t citiesNumber_);
     ~GraphGenerator();
 
     void generateData();

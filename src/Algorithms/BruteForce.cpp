@@ -1,18 +1,34 @@
 #include "../../inc/Algorithms/BruteForce.h"
 
-BruteForce::BruteForce(const size_t & citiesNumber_, const size_t & startCity_)
-    : citiesNumber(citiesNumber_), startCity(startCity_)
+BruteForce::BruteForce(size_t citiesNumber_)
+    : citiesNumber(citiesNumber_)
 {
     this->setupVariables();
 }
 
 void BruteForce::setupVariables()
 {    
-    this->fillupPermutationsVector();
-
     this->optimalPath.reserve(this->citiesNumber - 1);
 
     this->returnPath = new Path(this->citiesNumber);
+}
+
+Path* BruteForce::solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_)
+{
+    this->startCity = startCity_;
+
+    this->fillupPermutationsVector();
+
+    do
+    {
+        this->calculateCost(matrix_);
+        this->compareCosts();
+
+    } while (std::next_permutation(permutations.begin(), permutations.end()));
+
+    this->createAndFillReturnPath();
+
+    return returnPath;
 }
 
 void BruteForce::fillupPermutationsVector()
@@ -27,19 +43,6 @@ void BruteForce::fillupPermutationsVector()
         
 }
 
-Path* BruteForce::solveTSP(const AdjacencyMatrix * matrix_)
-{
-    do
-    {
-        this->calculateCost(matrix_);
-        this->compareCosts();
-    } while (std::next_permutation(permutations.begin(), permutations.end()));
-
-    this->createAndFillReturnPath();
-
-    return returnPath;
-}
-
 void BruteForce::calculateCost(const AdjacencyMatrix * matrix_)
 {
     this->currentCost = 0;
@@ -49,7 +52,7 @@ void BruteForce::calculateCost(const AdjacencyMatrix * matrix_)
 
     for(int i = 0; i < this->permutations.size() - 1; ++i)
     {
-        this->currentCost += matrix_->getValue(permutations[i], permutations[i + 1]);
+        this->currentCost += matrix_->getValue(this->permutations[i], this->permutations[i + 1]);
     }
 
     // adding cost from last visited city to start city

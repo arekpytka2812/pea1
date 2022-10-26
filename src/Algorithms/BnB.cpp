@@ -11,7 +11,7 @@ void BnB::setupVariables(AdjacencyMatrix* matrix_)
 {
     this->copiedMatrix = new AdjacencyMatrix(*matrix_);
     
-    this->citiesNumber = copiedMatrix->getCitiesNumber();
+    this->citiesNumber = copiedMatrix->citiesNumber;
 }
 
 void BnB::reduceMatrix()
@@ -28,7 +28,7 @@ void BnB::reduceRows()
 
         for(int j = 0; j < this->citiesNumber; ++j)
         {
-            if(this->copiedMatrix->getMatrix()[i][j] != -1)
+            if(i != j)
                 this->copiedMatrix->getMatrix()[i][j] -= minValue;
         }
 
@@ -47,7 +47,7 @@ void BnB::reduceColumns()
 
         for(int j = 0; j < this->citiesNumber; ++j)
         {
-            if(this->copiedMatrix->getMatrix()[j][i] != -1)
+            if(i != j)
                 this->copiedMatrix->getMatrix()[j][i] -= minValue;
         }
 
@@ -56,7 +56,7 @@ void BnB::reduceColumns()
     }
 }
 
-bool BnB::isZeroInColumn(const size_t & column_)
+bool BnB::isZeroInColumn(size_t column_)
 {
     for(int i = 0; i < this->citiesNumber; ++i)
     {
@@ -67,7 +67,7 @@ bool BnB::isZeroInColumn(const size_t & column_)
     return false;
 }
 
-int BnB::findMinInColumn(const size_t & column_)
+int BnB::findMinInColumn(size_t column_)
 {
     int minValue = INT_MAX;
 
@@ -84,7 +84,7 @@ int BnB::findMinInColumn(const size_t & column_)
     return minValue;
 }
 
-int BnB::findMinInRow(const size_t & row_)
+int BnB::findMinInRow(size_t row_)
 {
     int minValue = INT_MAX;
 

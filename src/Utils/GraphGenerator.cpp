@@ -18,7 +18,7 @@ void GraphGenerator::generateValues()
     }
 }
 
-GraphGenerator::GraphGenerator(const size_t & citiesNumber_)
+GraphGenerator::GraphGenerator(size_t citiesNumber_)
 {
     data = new InsertedData(citiesNumber_);
 }

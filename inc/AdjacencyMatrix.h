@@ -4,9 +4,9 @@
 
 class AdjacencyMatrix
 {
-    size_t citiesNumber;
+    
     int **matrix = nullptr;
-
+    
     void allocateMemory();
     void insertValues(const int* data_);
     void copyValues(int** dataFromOrigin_);
@@ -15,7 +15,9 @@ class AdjacencyMatrix
 
 public:
 
-    AdjacencyMatrix(const size_t & citiesNumber_, const int* data_);
+    const size_t citiesNumber;
+
+    AdjacencyMatrix(size_t citiesNumber_, const int* data_);
     AdjacencyMatrix(const AdjacencyMatrix & origin_);
     ~AdjacencyMatrix();
 
@@ -27,11 +29,6 @@ public:
     int getValue(const size_t & source_, const size_t & destination_) const
     {
         return this->matrix[source_][destination_];
-    }
-
-    size_t getCitiesNumber() const
-    {
-        return this->citiesNumber;
     }
 
     void printMatrix();

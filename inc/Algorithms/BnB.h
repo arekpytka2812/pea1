@@ -15,10 +15,10 @@ class BnB
     void reduceRows();
     void reduceColumns();
 
-    bool isZeroInColumn(const size_t & column_);
+    bool isZeroInColumn(size_t column_);
 
-    int findMinInColumn(const size_t & column_);
-    int findMinInRow(const size_t & row_);
+    int findMinInColumn(size_t column_);
+    int findMinInRow(size_t row_);
 
 
 public:

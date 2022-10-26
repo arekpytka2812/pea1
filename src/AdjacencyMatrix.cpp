@@ -48,7 +48,7 @@ void AdjacencyMatrix::deallocateMemory()
     this->matrix = nullptr;
 }
 
-AdjacencyMatrix::AdjacencyMatrix(const size_t & citiesNumber_, const int* data_)
+AdjacencyMatrix::AdjacencyMatrix(size_t citiesNumber_, const int* data_)
     : citiesNumber(citiesNumber_)
 {
     this->allocateMemory();
@@ -56,9 +56,8 @@ AdjacencyMatrix::AdjacencyMatrix(const size_t & citiesNumber_, const int* data_)
 }
 
 AdjacencyMatrix::AdjacencyMatrix(const AdjacencyMatrix & origin_)
+    : citiesNumber(origin_.citiesNumber)
 {
-    this->citiesNumber = origin_.citiesNumber;
-
     this->allocateMemory();
     this->copyValues(origin_.matrix);
 }
