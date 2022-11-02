@@ -1,7 +1,7 @@
 #include "../inc/Array.hpp"
 
 template<typename T>
-void Array<T>::allocateMemory(const size_t & newSize_)
+void Array<T>::allocateMemory(size_t newSize_)
 {
     if(this->isMemoryAllocated)
         return;
@@ -26,7 +26,7 @@ void Array<T>::deallocateMemory()
 }
 
 template<typename T>
-bool Array<T>::isInBounds(const size_t & pos_)
+bool Array<T>::isInBounds(size_t pos_)
 {
     if(pos_ >= 0 && pos_ < this->tableSize)
         return true;
@@ -42,14 +42,14 @@ void Array<T>::fillUpWithZeros()
 }
 
 template<typename T>
-Array<T>::Array(const size_t & size_)
+Array<T>::Array(size_t size_)
 {
     this->allocateMemory(size_);
     this->fillUpWithZeros();
 }
 
 template<typename T>
-Array<T>::Array(const Array & origin_)
+Array<T>::Array(const Array<T> & origin_)
 {
 
 }
@@ -61,13 +61,24 @@ Array<T>::~Array()
 }
 
 template<typename T>
+void Array<T>::reserve(size_t size_)
+{
+    this->tableSize = size_;
+
+    this->deallocateMemory();
+    this->allocateMemory(size_);
+
+    this->fillUpWithZeros();
+}
+
+template<typename T>
 Array<T> & Array<T>::operator=(const Array<T> & origin_)
 {
 
 }
 
 template<typename T>
-T& Array<T>::operator[](const size_t & index_)
+T& Array<T>::operator[](size_t index_)
 {
     if(this->isInBounds(index_))
         return *(this->table + index_);
@@ -80,7 +91,7 @@ void Array<T>::operator-(const T & value_)
 }
 
 template<typename T>
-void Array<T>::add(const T & value_, const size_t & pos_)
+void Array<T>::add(const T & value_, size_t pos_)
 {
     if(this->size == 0)
     {
@@ -128,7 +139,7 @@ void Array<T>::erase(const T & value_)
 }
 
 template<typename T>
-void Array<T>::erase(const size_t & pos_)
+void Array<T>::erase(size_t pos_)
 {
     if(!this->isInBounds(pos_))
         return;

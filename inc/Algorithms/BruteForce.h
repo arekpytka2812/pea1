@@ -2,6 +2,8 @@
 
 #include "../Path.h"
 #include "../AdjacencyMatrix.h"
+#include "../Array.hpp"
+#include "../../src/Array.tpp"
 
 #include<vector>
 #include<algorithm>
@@ -15,7 +17,7 @@ class BruteForce
     size_t currentCost{0};
     
     size_t minimalCost{INT_MAX};
-    std::vector<int> optimalPath;
+    Array<size_t> optimalPath;
 
     Path * returnPath {nullptr};
 
@@ -28,6 +30,8 @@ class BruteForce
     void setupNewOptimalPath();
 
     void createAndFillReturnPath();
+
+    void permutate(Array<size_t> permutations_);
 
 public:
 

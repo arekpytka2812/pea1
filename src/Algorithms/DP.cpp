@@ -33,7 +33,7 @@ void DP::deallocateOldVariables()
 
 void DP::allocateNewVariables()
 {
-    citiesNumber = matrix->getCitiesNumber();
+    citiesNumber = matrix->citiesNumber;
     visited = new bool[citiesNumber] {false};
     resultPath = new Path(citiesNumber);
     set = new Array<int>(citiesNumber);

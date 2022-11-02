@@ -39,15 +39,13 @@ void BruteForce::fillupPermutationsVector()
         {
             this->permutations.push_back(i);
         }
-    }
-        
+    }    
 }
 
 void BruteForce::calculateCost(const AdjacencyMatrix * matrix_)
 {
     this->currentCost = 0;
 
-    // adding cost from start city to first destination
     this->currentCost += matrix_->getValue(this->startCity, this->permutations[0]);
 
     for(int i = 0; i < this->permutations.size() - 1; ++i)
@@ -55,7 +53,6 @@ void BruteForce::calculateCost(const AdjacencyMatrix * matrix_)
         this->currentCost += matrix_->getValue(this->permutations[i], this->permutations[i + 1]);
     }
 
-    // adding cost from last visited city to start city
     this->currentCost += matrix_->getValue(this->permutations[this->permutations.size() - 1], this->startCity);
 }
 
@@ -73,6 +70,7 @@ void BruteForce::setupNewOptimalPath()
 
     for(int i = 0; i < this->permutations.size(); ++i)
     {
+
         this->optimalPath[i] = this->permutations[i];        
     }
 
@@ -80,18 +78,15 @@ void BruteForce::setupNewOptimalPath()
 
 void BruteForce::createAndFillReturnPath()
 {
-    // adding start city to path
+    
     this->returnPath->addCity(this->startCity);
 
-    // adding cities from optimal path
     for(int i = 0; i < this->citiesNumber - 1; ++i)
     {
         this->returnPath->addCity(this->optimalPath[i]);   
     }
 
-    // adding start city once again
     this->returnPath->addCity(this->startCity);
 
-    // setting up minimal cost
     this->returnPath->setTotalCost(this->minimalCost);
 }
