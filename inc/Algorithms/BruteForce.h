@@ -13,7 +13,7 @@ class BruteForce
     const size_t citiesNumber{0};
     size_t startCity{0};
 
-    std::vector<int> permutations;
+    Array<size_t> permutations;
     size_t currentCost{0};
     
     size_t minimalCost{INT_MAX};
@@ -31,7 +31,7 @@ class BruteForce
 
     void createAndFillReturnPath();
 
-    void permutate(Array<size_t> permutations_);
+    bool permutate();
 
 public:
 

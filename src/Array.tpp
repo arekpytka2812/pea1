@@ -93,31 +93,32 @@ void Array<T>::operator-(const T & value_)
 template<typename T>
 void Array<T>::add(const T & value_, size_t pos_)
 {
-    if(this->size == 0)
+    if(this->tableSize == 0)
     {
+        this->deallocateMemory();
         this->allocateMemory(1);
         this->table[0] = value_;
         return;
     }
 
-    if(!this->isInBounds(pos_))
-        return;
-
-    this->tableSize++;
-
-    auto tempTable = new T[this->tableSize];
+    auto tempSize = this->tableSize + 1;
+    auto tempTable = new T[tempSize];
 
     for(int i = 0; i < pos_; ++i)
         tempTable[i] = this->table[i];
 
     tempTable[pos_] = value_;
 
-    for(int i = pos_ + 1; i < this->tableSize; ++i)
+    for(int i = pos_ + 1; i < tempSize; ++i)
         tempTable[i] = this->table[i - 1];
 
     this->deallocateMemory();
+    this->allocateMemory(tempSize);
+    
+    for(int i = 0; i < this->tableSize; ++i)
+        this->table[i] = tempTable[i];
 
-    this->table = tempTable;
+    delete[] tempTable;
     tempTable = nullptr;
 }
 
@@ -159,6 +160,35 @@ int Array<T>::search(const T & value_)
     }    
 
     return index;
+    
+}
+
+template<typename T>
+void Array<T>::swap(size_t firstIndex_, size_t secondIndex_)
+{
+    auto temp = this->table[secondIndex_];
+    this->table[secondIndex_] = this->table[firstIndex_];
+    this->table[firstIndex_] = temp;
+}
+
+template<typename T>
+void Array<T>::reverse(size_t firstIndex_, size_t secondIndex_)
+{
+    auto diff = secondIndex_ - firstIndex_;
+
+    if(diff == 0)
+        return;
+
+    if(diff == 1)
+    {
+        this->swap(firstIndex_, secondIndex_);
+        return;
+    }   
+
+    for(size_t counter = 1; counter < diff; ++firstIndex_, --secondIndex_, ++counter)
+    {
+        this->swap(firstIndex_, secondIndex_);
+    }
     
 }
 

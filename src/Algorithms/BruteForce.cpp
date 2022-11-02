@@ -24,7 +24,7 @@ Path* BruteForce::solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_)
         this->calculateCost(matrix_);
         this->compareCosts();
 
-    } while (std::next_permutation(permutations.begin(), permutations.end()));
+    } while (permutate());
 
     this->createAndFillReturnPath();
 
@@ -36,10 +36,8 @@ void BruteForce::fillupPermutationsVector()
     for(int i = 0; i < this->citiesNumber; ++i)
     {
         if(i != this->startCity)
-        {
-            this->permutations.push_back(i);
-        }
-    }    
+            this->permutations.addEnd(i);
+    }   
 }
 
 void BruteForce::calculateCost(const AdjacencyMatrix * matrix_)
@@ -89,4 +87,29 @@ void BruteForce::createAndFillReturnPath()
     this->returnPath->addCity(this->startCity);
 
     this->returnPath->setTotalCost(this->minimalCost);
+}
+
+bool BruteForce::permutate()
+{
+    int size {this->permutations.size()}, k{0}, l{0};
+
+    for(k = size - 2; k > -1; --k)
+    {
+        if(this->permutations[k] < this->permutations[k + 1])
+            break;
+    }
+
+    if(k < 0)
+        return false;
+
+    for(l = size - 1; l > k; --l)
+    {
+        if(this->permutations[l] > this->permutations[k])
+            break;
+    }
+
+    this->permutations.swap(k, l);
+    this->permutations.reverse(k + 1, size - 1);
+
+    return true;
 }

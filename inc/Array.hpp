@@ -42,5 +42,8 @@
 
         int search(const T & value_);
 
+        void swap(size_t firstIndex_, size_t secondIndex_);
+        void reverse(size_t firstIndex_, size_t secondIndex_);
+
         void printArray();
     };
