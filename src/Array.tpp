@@ -136,14 +136,33 @@ void Array<T>::erase(const T & value_)
     if(tempIndex == -1)
         return;
 
-    this->erase(tempIndex);
+    this->eraseAt(tempIndex);
 }
 
 template<typename T>
-void Array<T>::erase(size_t pos_)
+void Array<T>::eraseAt(size_t pos_)
 {
     if(!this->isInBounds(pos_))
         return;
+
+    auto newSize = this->tableSize - 1;
+
+    auto tempTable = new T[newSize];
+
+    for(int i = 0; i < pos_; ++i)
+        tempTable[i] = this->table[i];
+
+    for(int i = pos_; i < newSize; ++i)
+        tempTable[i] = this->table[i + 1];
+
+    this->deallocateMemory();
+    this->allocateMemory(newSize);
+
+    for(int i = 0; i < this->tableSize; ++i)
+        this->table[i] = tempTable[i];
+
+    delete[] tempTable;
+    tempTable = nullptr;
 }
 
 template<typename T>

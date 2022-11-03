@@ -1,34 +1,32 @@
 #include "../../inc/Algorithms/BruteForce.h"
 
-BruteForce::BruteForce(size_t citiesNumber_)
-    : citiesNumber(citiesNumber_)
-{
-    this->setupVariables();
-}
-
-void BruteForce::setupVariables()
-{    
-    this->optimalPath.reserve(this->citiesNumber - 1);
-
-    this->returnPath = new Path(this->citiesNumber);
-}
 
 Path* BruteForce::solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_)
 {
-    this->startCity = startCity_;
-
+    this->setupVariables(matrix_, startCity_);
+    
     this->fillupPermutationsVector();
 
     do
     {
         this->calculateCost(matrix_);
-        this->compareCosts();
+        this->compareCostsAndChangeOptimalPathIfNeeded();
 
     } while (permutate());
 
     this->createAndFillReturnPath();
 
     return returnPath;
+}
+
+void BruteForce::setupVariables(const AdjacencyMatrix * matrix_, size_t startCity_)
+{    
+    this->citiesNumber = matrix_->citiesNumber;
+    this->startCity = startCity_;
+
+    this->optimalPath.reserve(this->citiesNumber - 1);
+
+    this->returnPath = new Path(this->citiesNumber);
 }
 
 void BruteForce::fillupPermutationsVector()
@@ -54,7 +52,7 @@ void BruteForce::calculateCost(const AdjacencyMatrix * matrix_)
     this->currentCost += matrix_->getValue(this->permutations[this->permutations.size() - 1], this->startCity);
 }
 
-void BruteForce::compareCosts()
+void BruteForce::compareCostsAndChangeOptimalPathIfNeeded()
 {
     if(this->currentCost >= this->minimalCost)
         return;
@@ -68,25 +66,9 @@ void BruteForce::setupNewOptimalPath()
 
     for(int i = 0; i < this->permutations.size(); ++i)
     {
-
         this->optimalPath[i] = this->permutations[i];        
     }
 
-}
-
-void BruteForce::createAndFillReturnPath()
-{
-    
-    this->returnPath->addCity(this->startCity);
-
-    for(int i = 0; i < this->citiesNumber - 1; ++i)
-    {
-        this->returnPath->addCity(this->optimalPath[i]);   
-    }
-
-    this->returnPath->addCity(this->startCity);
-
-    this->returnPath->setTotalCost(this->minimalCost);
 }
 
 bool BruteForce::permutate()
@@ -113,3 +95,20 @@ bool BruteForce::permutate()
 
     return true;
 }
+
+void BruteForce::createAndFillReturnPath()
+{
+    
+    this->returnPath->addCity(this->startCity);
+
+    for(int i = 0; i < this->citiesNumber - 1; ++i)
+    {
+        this->returnPath->addCity(this->optimalPath[i]);   
+    }
+
+    this->returnPath->addCity(this->startCity);
+
+    this->returnPath->setTotalCost(this->minimalCost);
+}
+
+

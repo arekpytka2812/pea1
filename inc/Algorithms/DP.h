@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Path.h"
-
 #include "../AdjacencyMatrix.h"
 
 #include "../Array.hpp"
@@ -9,25 +8,17 @@
 
 class DP
 {
-    static size_t sourceCity;
-    static size_t currentCity;
+    size_t sourceCity{0};
 
-    static AdjacencyMatrix * matrix;
-    static size_t citiesNumber; 
+    AdjacencyMatrix *copiedMatrix{nullptr};
+    size_t citesNumber{0};
 
-    static bool * visited;
-    static Path * resultPath;
-    static Array<int> * set;
-
-    static void setupVariables();
-    static void deallocateOldVariables();
-    static void allocateNewVariables();
-    static void initializeSet();
-
-    static void findSolution();
-    static void calculateCost(Array<int> set_, size_t currentCity_);
+    bool *visited{nullptr};
 
 public:
-    static Path * solveTSP(AdjacencyMatrix * matrix_);
+
+    DP() = default;
+
+    Path * solveTSP(AdjacencyMatrix * matrix_);
 
 };

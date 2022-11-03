@@ -10,7 +10,7 @@
 
 class BruteForce
 {
-    const size_t citiesNumber{0};
+    size_t citiesNumber{0};
     size_t startCity{0};
 
     Array<size_t> permutations;
@@ -21,21 +21,22 @@ class BruteForce
 
     Path * returnPath {nullptr};
 
-    void setupVariables();
+    void setupVariables(const AdjacencyMatrix * matrix_, size_t startCity_);
     void fillupPermutationsVector();    
 
     void calculateCost(const AdjacencyMatrix * matrix_);
-    void compareCosts();
+    void compareCostsAndChangeOptimalPathIfNeeded();
 
     void setupNewOptimalPath();
 
-    void createAndFillReturnPath();
-
     bool permutate();
+
+    void createAndFillReturnPath();
+    
 
 public:
 
-    BruteForce(size_t citiesNumber_);
+    BruteForce() = default;
     ~BruteForce();
 
     Path* solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_ = 0);

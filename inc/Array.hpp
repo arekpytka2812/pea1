@@ -38,7 +38,7 @@
         void add(const T & value_, size_t pos_);
         void addEnd(const T & value_);
         void erase(const T & value_);
-        void erase(size_t pos_);
+        void eraseAt(size_t pos_);
 
         int search(const T & value_);
 

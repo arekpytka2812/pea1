@@ -13,10 +13,6 @@ int main() {
 
     auto matrix = new AdjacencyMatrix(6, data);
 
-    auto bf = new BruteForce(matrix->citiesNumber);
-
-    bf->solveTSP(matrix)->printPathInfo();
-
     return 0;
 
 }
