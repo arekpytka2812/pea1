@@ -42,6 +42,15 @@ void Array<T>::fillUpWithZeros()
 }
 
 template<typename T>
+void Array<T>::copyValues(const Array<T> & origin_)
+{
+    for(int i = 0; i < origin_.size; ++i)
+    {
+        this->table[i] = origin_[i];
+    }
+}
+
+template<typename T>
 Array<T>::Array(size_t size_)
 {
     this->allocateMemory(size_);
@@ -51,7 +60,8 @@ Array<T>::Array(size_t size_)
 template<typename T>
 Array<T>::Array(const Array<T> & origin_)
 {
-
+    this->allocateMemory(origin_.size());
+    this->copyValues(origin_);
 }
 
 template<typename T>
@@ -218,4 +228,10 @@ void Array<T>::printArray()
     {
         std::cout << "[" << i << "] -> " << this->table[i] << "\n";
     }
+}
+
+template<typename T>
+void Array<T>::clear()
+{
+    this->deallocateMemory();
 }

@@ -1,10 +1,9 @@
 #pragma once
 
+#include <bitset>
+
 #include "../Path.h"
 #include "../AdjacencyMatrix.h"
-
-#include "../Array.hpp"
-#include "../../src/Array.tpp"
 
 class DP
 {
@@ -13,13 +12,16 @@ class DP
     AdjacencyMatrix *copiedMatrix{nullptr};
     size_t citiesNumber{0};
 
-    Array<size_t> set;
+    size_t finalMask{0};
+    size_t startMask{0};
 
-    bool *visited{nullptr};
+    int** memorizationMatrix{nullptr};
 
-    void setupVariables(const AdjacencyMatrix *matrix_, size_t sourceCity_);
-    void fillCitiesSet();
-    void executeTSP(Array<size_t> set_, size_t currentCity_);
+    Path*** subSolutions{nullptr};
+
+    void setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_);
+    Path* resolveSubproblem(int currentMask_, size_t currentCity_);
+
 public:
 
     DP() = default;

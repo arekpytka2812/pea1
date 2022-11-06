@@ -2,10 +2,7 @@
 
 #include "../Path.h"
 #include "../AdjacencyMatrix.h"
-#include "../Array.hpp"
-#include "../../src/Array.tpp"
 
-#include<algorithm>
 
 class BruteForce
 {
@@ -32,6 +29,7 @@ class BruteForce
 
     void createAndFillReturnPath();
     
+    void clearVariables();
 
 public:
 

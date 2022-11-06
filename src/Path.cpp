@@ -1,20 +1,15 @@
 #include "../inc/Path.h"
 
-void Path::allocateMemory()
-{
-    this->cities = new size_t[this->citiesNumber + 2];
-}
 
 void Path::deallocateMemory()
 {
-    delete[] this->cities;
-    this->cities = nullptr;
+    this->cities.clear();
 }
 
-Path::Path(const size_t & citiesNumber_)
-    : citiesNumber(citiesNumber_)
+Path::Path()
 {
-    this->allocateMemory();
+    if(this->cities.size() != 0)
+        this->cities.clear();
 }
 
 Path::~Path()
@@ -22,20 +17,21 @@ Path::~Path()
     this->deallocateMemory();
 }
 
-void Path::addCity(const size_t & city_)
+void Path::addCity(size_t city_, size_t cost_)
 {
-    this->cities[this->citiesCounter] = city_;
-    this->citiesCounter++;
+    this->cities.addEnd(city_);
+
+    this->totalCost += cost_;
 }
 
 void Path::printPathInfo()
 {
-    for(int i = 0; i < this->citiesNumber; ++i)
+    for(int i = 0; i < this->cities.size() - 1; ++i)
     {
         std::cout << "| " << this->cities[i] << " | -> ";
     }
 
-    std::cout << "| " << this->cities[this->citiesNumber] << " |\n";
+    std::cout << "| " << this->cities[this->cities.size() - 1] << " |\n";
 
     std::cout << "Total cost: " << this->totalCost << "\n";
 }

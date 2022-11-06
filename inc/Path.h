@@ -2,27 +2,26 @@
 
 #include <iostream>
 
+#include "Array.hpp"
+#include "../src/Array.tpp"
+
 class Path
 {
-    size_t citiesNumber{0};
     size_t totalCost{0};
-
-    size_t citiesCounter {0};
-
-    size_t* cities {nullptr};
+    Array<size_t> cities;
 
     void allocateMemory();
     void deallocateMemory();
 
 public:
 
-    explicit Path(const size_t & citiesNumber_);
+    Path();
     ~Path();
 
-    void addCity(const size_t & city_);
+    void addCity(size_t city_, size_t cost_ = 0);
     void printPathInfo();
     
-    void setTotalCost(const size_t & totalCost_)
+    void setTotalCost(size_t totalCost_)
     {
         this->totalCost = totalCost_;
     }

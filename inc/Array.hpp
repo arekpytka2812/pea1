@@ -15,6 +15,7 @@
         void deallocateMemory();
         bool isInBounds(size_t pos_);
         void fillUpWithZeros();
+        void copyValues(const Array<T> & origin_);
 
     public:
 
@@ -44,6 +45,7 @@
 
         void swap(size_t firstIndex_, size_t secondIndex_);
         void reverse(size_t firstIndex_, size_t secondIndex_);
+        void clear();
 
         void printArray();
     };

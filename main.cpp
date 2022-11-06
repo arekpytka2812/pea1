@@ -13,6 +13,14 @@ int main() {
 
     auto matrix = new AdjacencyMatrix(6, data);
 
+    // auto dp = new DP();
+
+    // dp->solveTSP(matrix);
+
+    auto bf = new BruteForce();
+
+    bf->solveTSP(matrix)->printPathInfo();
+
     return 0;
 
 }
