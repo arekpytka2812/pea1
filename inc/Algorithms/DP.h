@@ -11,14 +11,19 @@ class DP
     size_t sourceCity{0};
 
     AdjacencyMatrix *copiedMatrix{nullptr};
-    size_t citesNumber{0};
+    size_t citiesNumber{0};
+
+    Array<size_t> set;
 
     bool *visited{nullptr};
 
+    void setupVariables(const AdjacencyMatrix *matrix_, size_t sourceCity_);
+    void fillCitiesSet();
+    void executeTSP(Array<size_t> set_, size_t currentCity_);
 public:
 
     DP() = default;
 
-    Path * solveTSP(AdjacencyMatrix * matrix_);
+    Path * solveTSP(const AdjacencyMatrix * matrix_, size_t sourceCity_ = 0);
 
 };

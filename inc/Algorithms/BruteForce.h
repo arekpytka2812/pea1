@@ -5,7 +5,6 @@
 #include "../Array.hpp"
 #include "../../src/Array.tpp"
 
-#include<vector>
 #include<algorithm>
 
 class BruteForce
