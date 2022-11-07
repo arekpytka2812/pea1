@@ -15,7 +15,6 @@
         void deallocateMemory();
         bool isInBounds(size_t pos_);
         void fillUpWithZeros();
-        void copyValues(const Array<T> & origin_);
 
     public:
 
@@ -37,6 +36,7 @@
         }
 
         void add(const T & value_, size_t pos_);
+        void addFront(const T & value_);
         void addEnd(const T & value_);
         void erase(const T & value_);
         void eraseAt(size_t pos_);

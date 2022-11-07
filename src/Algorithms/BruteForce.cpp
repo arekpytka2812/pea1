@@ -106,14 +106,14 @@ bool BruteForce::permutate()
 void BruteForce::createAndFillReturnPath()
 {
     
-    this->returnPath->addCity(this->startCity);
+    this->returnPath->addCityAtEnd(this->startCity);
 
     for(int i = 0; i < this->citiesNumber - 1; ++i)
     {
-        this->returnPath->addCity(this->optimalPath[i]);   
+        this->returnPath->addCityAtEnd(this->optimalPath[i]);   
     }
 
-    this->returnPath->addCity(this->startCity);
+    this->returnPath->addCityAtEnd(this->startCity);
 
     this->returnPath->setTotalCost(this->minimalCost);
 }

@@ -3,9 +3,10 @@
 Path* DP::solveTSP(const AdjacencyMatrix *matrix_, size_t sourceCity_)
 {
     this->setupVariables(matrix_, sourceCity_);
+
     auto returnPath = this->resolveSubproblem(this->startMask, this->sourceCity);
 
-    return returnPath;
+    return new Path(*returnPath);
 
 }
 
@@ -31,10 +32,10 @@ void DP::setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_)
         }
     }
 
-    this->subSolutions = new Path**[(1 << this->citiesNumber)];
-    for(int i = 0; i < (1 << this->citiesNumber); ++i)
+    this->subSolutions = new Path**[this->citiesNumber];
+    for(int i = 0; i < this->citiesNumber; ++i)
     {
-        this->subSolutions[i] = new Path*[this->citiesNumber];
+        this->subSolutions[i] = new Path*[(1 << this->citiesNumber) - 1]{};
     }
 
 }
@@ -47,32 +48,42 @@ Path* DP::resolveSubproblem(int currentMask_, size_t currentCity_)
     if(currentMask_ == this->finalMask)
     {
         auto path = new Path();
-        path->addCity(currentCity_, this->copiedMatrix->getValue(currentCity_, 0));
-        path->addCity(0);
+        path->addCityAtFront(currentCity_, this->copiedMatrix->getValue(currentCity_, 0));
+        path->addCityAtEnd(0);
         return path;
     }
 
-    if(this->subSolutions[currentMask_][currentCity_] != nullptr)
-        return this->subSolutions[currentMask_][currentCity_];
+    Path* solutionToCheck = this->subSolutions[currentCity_][currentMask_];
 
-    
-    Path* solutionToCheck = new Path();
-    
-    // for(int i = 0; i < this->citiesNumber; ++i)
-    // {
-    //     if(currentMask_ & (1 << i))
-    //         continue;
-        
+    if(solutionToCheck != nullptr)
+        return new Path(*solutionToCheck);
 
+    solutionToCheck = new Path();
+    solutionToCheck->addCityAtFront(INT_MAX, INT_MAX);
 
-    //     int newAnswer = this->copiedMatrix->getValue(currentCity_, i) 
-    //         + resolveSubproblem(currentMask_ | (1 << i), i);
+    for(size_t i = 0; i < this->citiesNumber; ++i)
+    {
+        if(currentMask_ & (1 << i))
+            continue;
 
-    //     answer = std::min(answer, newAnswer);
+        auto path = resolveSubproblem(currentMask_ | (1 << i), i);
 
-    //     this->memorizationMatrix[currentMask_][currentCity_] = answer;
-    // }
+        auto cost = this->copiedMatrix->getValue(currentCity_, i);
 
-    // return this->memorizationMatrix[currentMask_][currentCity_];
+        if(cost + path->getTotalCost() < solutionToCheck->getTotalCost())
+        {
+            delete solutionToCheck;
+            solutionToCheck = path;
+            solutionToCheck->addCityAtFront(currentCity_, cost);
+        } 
+        else
+        {
+            delete path;
+        }
+    }
+
+    this->subSolutions[currentCity_][currentMask_] = solutionToCheck;
+
+    return new Path(*solutionToCheck);
 
 }

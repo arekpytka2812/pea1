@@ -18,12 +18,18 @@ public:
     Path();
     ~Path();
 
-    void addCity(size_t city_, size_t cost_ = 0);
+    void addCityAtFront(size_t city_, size_t cost_ = 0);
+    void addCityAtEnd(size_t city_, size_t cost_ = 0);
     void printPathInfo();
     
     void setTotalCost(size_t totalCost_)
     {
         this->totalCost = totalCost_;
+    }
+
+    size_t getTotalCost() const 
+    {
+        return this->totalCost;
     }
     
 

@@ -13,9 +13,9 @@ int main() {
 
     auto matrix = new AdjacencyMatrix(6, data);
 
-    // auto dp = new DP();
+    auto dp = new DP();
 
-    // dp->solveTSP(matrix);
+    dp->solveTSP(matrix)->printPathInfo();
 
     auto bf = new BruteForce();
 

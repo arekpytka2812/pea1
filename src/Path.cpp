@@ -17,9 +17,16 @@ Path::~Path()
     this->deallocateMemory();
 }
 
-void Path::addCity(size_t city_, size_t cost_)
+void Path::addCityAtEnd(size_t city_, size_t cost_)
 {
     this->cities.addEnd(city_);
+
+    this->totalCost += cost_;
+}
+
+void Path::addCityAtFront(size_t city_, size_t cost_)
+{
+    this->cities.addFront(city_);
 
     this->totalCost += cost_;
 }
