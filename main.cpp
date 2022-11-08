@@ -1,6 +1,7 @@
 #include "main.h"
 
-int main() {
+int main() 
+{
 
     srand(time(nullptr));
 
@@ -11,7 +12,13 @@ int main() {
                   38,  30,  32,   4,  -1, 28,
                   50,   4,  60,  52,  38, -1};
 
-    auto matrix = new AdjacencyMatrix(6, data);
+
+    auto fm = new FileManager();
+    fm->readGraphFile();
+
+    auto matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+
+    matrix->printMatrix();
 
     auto dp = new DP();
 

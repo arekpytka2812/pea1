@@ -15,8 +15,6 @@ class DP
     size_t finalMask{0};
     size_t startMask{0};
 
-    int** memorizationMatrix{nullptr};
-
     Path*** subSolutions{nullptr};
 
     void setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_);

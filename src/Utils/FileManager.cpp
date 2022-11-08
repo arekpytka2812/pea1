@@ -4,8 +4,8 @@ void FileManager::setPaths()
 {
     auto tempFileName = this->receiveGraphFileName();
 
-    graphPath = tempFileName + ".txt";
-    resultsPath = "out/results.csv";
+    this->graphPath = tempFileName + ".txt";
+    this->resultsPath = "out/results.csv";
 
 }
 
@@ -20,13 +20,13 @@ std::string FileManager::receiveGraphFileName()
 
 void FileManager::openStreams()
 {
-    graphFile.open(graphPath.c_str(), std::fstream::in);
-    resultsFile.open(resultsPath.c_str(), std::fstream::out | std::fstream::trunc);
+    this->graphFile.open(graphPath.c_str(), std::fstream::in);
+    this->resultsFile.open(resultsPath.c_str(), std::fstream::out | std::fstream::trunc);
 }
 
 bool FileManager::checkStreams()
 {
-    if(graphFile.good() && resultsFile.good())
+    if(this->graphFile.good() && this->resultsFile.good())
         return true;
     
     return false;
@@ -34,23 +34,23 @@ bool FileManager::checkStreams()
 
 void FileManager::setStreamsPointers()
 {
-    graphFile.clear();
-    graphFile.seekg(0);
+    this->graphFile.clear();
+    this->graphFile.seekg(0);
 
-    resultsFile.clear();
-    resultsFile.seekg(0);
+    this->resultsFile.clear();
+    this->resultsFile.seekg(0);
 }
 
 void FileManager::closeStreams()
 {
-    graphFile.close();
-    resultsFile.close();
+    this->graphFile.close();
+    this->resultsFile.close();
 }
 
 void FileManager::clearData()
 {
     if(this->data != nullptr)
-        delete this->data;
+        delete[] this->data;
 }
 
 size_t FileManager::receiveCitiesNumber()

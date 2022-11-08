@@ -1,3 +1,5 @@
+#pragma once
+
 #include "InsertedData.h"
 
 #include <cstdlib>

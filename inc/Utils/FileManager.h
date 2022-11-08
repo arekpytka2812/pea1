@@ -1,3 +1,5 @@
+#pragma once
+
 #include "InsertedData.h"
 
 #include <fstream>
@@ -6,7 +8,7 @@
 
 class FileManager
 {
-    InsertedData *data;
+    InsertedData *data{nullptr};
 
     std::string graphPath;
     std::fstream graphFile;
@@ -36,4 +38,14 @@ public:
     void writeIntoFile();
 
     void printData();
+
+    int* getData() const
+    {
+        return this->data->getData();
+    }
+
+    size_t getCitiesNumber() const 
+    {
+        return this->data->getCitiesNumber();
+    }
 };

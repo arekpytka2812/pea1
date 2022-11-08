@@ -19,18 +19,7 @@ void DP::setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_)
 
     this->finalMask = (1 << this->citiesNumber) - 1; // 1..1
     this->startMask = (1 << this->sourceCity); // 0..01
-    
-    this->memorizationMatrix = new int*[(1 << this->citiesNumber)];
 
-    for(int i = 0; i < (1 << this->citiesNumber); ++i)
-    {
-        this->memorizationMatrix[i] = new int[this->citiesNumber];
-
-        for(int j = 0; j < (this->citiesNumber); ++j)
-        {
-            this->memorizationMatrix[i][j] = -1;
-        }
-    }
 
     this->subSolutions = new Path**[this->citiesNumber];
     for(int i = 0; i < this->citiesNumber; ++i)
@@ -43,8 +32,6 @@ void DP::setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_)
 Path* DP::resolveSubproblem(int currentMask_, size_t currentCity_)
 {
 
-    int answer = INT_MAX;
-
     if(currentMask_ == this->finalMask)
     {
         auto path = new Path();
@@ -56,7 +43,7 @@ Path* DP::resolveSubproblem(int currentMask_, size_t currentCity_)
     Path* solutionToCheck = this->subSolutions[currentCity_][currentMask_];
 
     if(solutionToCheck != nullptr)
-        return new Path(*solutionToCheck);
+        return new Path (*solutionToCheck);
 
     solutionToCheck = new Path();
     solutionToCheck->addCityAtFront(INT_MAX, INT_MAX);
@@ -85,5 +72,4 @@ Path* DP::resolveSubproblem(int currentMask_, size_t currentCity_)
     this->subSolutions[currentCity_][currentMask_] = solutionToCheck;
 
     return new Path(*solutionToCheck);
-
 }
