@@ -50,7 +50,7 @@ void FileManager::closeStreams()
 void FileManager::clearData()
 {
     if(this->data != nullptr)
-        delete[] this->data;
+        delete this->data;
 }
 
 size_t FileManager::receiveCitiesNumber()

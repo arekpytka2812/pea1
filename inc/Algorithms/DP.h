@@ -19,6 +19,7 @@ class DP
 
     void setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_);
     Path* resolveSubproblem(int currentMask_, size_t currentCity_);
+    void clearVariables();
 
 public:
 

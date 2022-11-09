@@ -6,6 +6,7 @@ Path* DP::solveTSP(const AdjacencyMatrix *matrix_, size_t sourceCity_)
 
     auto returnPath = this->resolveSubproblem(this->startMask, this->sourceCity);
 
+    this->clearVariables();
     return new Path(*returnPath);
 
 }
@@ -32,31 +33,46 @@ void DP::setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_)
 Path* DP::resolveSubproblem(int currentMask_, size_t currentCity_)
 {
 
+    // base case, if we meet our final mask, we add cost from last to start city
     if(currentMask_ == this->finalMask)
     {
         auto path = new Path();
-        path->addCityAtFront(currentCity_, this->copiedMatrix->getValue(currentCity_, 0));
-        path->addCityAtEnd(0);
+        path->addCityAtFront(currentCity_, this->copiedMatrix->getValue(currentCity_, this->sourceCity));
+        path->addCityAtEnd(this->sourceCity);
         return path;
     }
 
     Path* solutionToCheck = this->subSolutions[currentCity_][currentMask_];
 
+    // if it isnt nullptr that means we have already resolved such problem
     if(solutionToCheck != nullptr)
         return new Path (*solutionToCheck);
 
+    // setting INT_MAX values at start of the loop
     solutionToCheck = new Path();
     solutionToCheck->addCityAtFront(INT_MAX, INT_MAX);
 
+    // ittering through cities
     for(size_t i = 0; i < this->citiesNumber; ++i)
     {
+        // if we have already been in such city, we skip this ietraion
+        //
+        // 01011
+        // 00001
+        //
+        // we have visited 0th city and we can skip this iteraion
         if(currentMask_ & (1 << i))
             continue;
 
+        // calling recursive function
         auto path = resolveSubproblem(currentMask_ | (1 << i), i);
 
+        // getting cost from currentCity to ith city
         auto cost = this->copiedMatrix->getValue(currentCity_, i);
 
+        // if cost + cost of currently resolved problem is smaller than our 
+        // "level" solution, we change "level" solution to currently
+        // resolved and adding currentCity to the path
         if(cost + path->getTotalCost() < solutionToCheck->getTotalCost())
         {
             delete solutionToCheck;
@@ -69,7 +85,24 @@ Path* DP::resolveSubproblem(int currentMask_, size_t currentCity_)
         }
     }
 
+    // memorising best solution in subSolutions 2d array
     this->subSolutions[currentCity_][currentMask_] = solutionToCheck;
 
     return new Path(*solutionToCheck);
+}
+
+void DP::clearVariables()
+{
+    delete this->copiedMatrix;
+
+    for(int i = 0; i < this->citiesNumber; ++i)
+    {
+        delete[] this->subSolutions[i];
+
+    }
+    delete[] this->subSolutions;
+
+    this->citiesNumber = 0;
+    this->finalMask = 0;
+    this->startMask = 0;
 }

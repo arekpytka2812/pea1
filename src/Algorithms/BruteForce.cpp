@@ -80,25 +80,36 @@ void BruteForce::setupNewOptimalPath()
 
 bool BruteForce::permutate()
 {
-    int size {this->permutations.size()}, k{0}, l{0};
+    int size {this->permutations.size()}, firstSmaller{0}, firstBigger{0};
 
-    for(k = size - 2; k > -1; --k)
+    // itering from backward to find first ith element smaller
+    // than (i + 1)th
+    for(firstSmaller = size - 2; firstSmaller > -1; --firstSmaller)
     {
-        if(this->permutations[k] < this->permutations[k + 1])
+        if(this->permutations[firstSmaller] < this->permutations[firstSmaller + 1])
             break;
     }
 
-    if(k < 0)
+    // this means that we have last permutations 
+    if(firstSmaller < 0)
+    {
+        this->permutations.reverse(0, size - 1);
         return false;
-
-    for(l = size - 1; l > k; --l)
+    }
+        
+    // itering from backward to find first element that is bigger
+    // than firstSmaller element
+    for(firstBigger = size - 1; firstBigger > firstSmaller; --firstBigger)
     {
-        if(this->permutations[l] > this->permutations[k])
+        if(this->permutations[firstBigger] > this->permutations[firstSmaller])
             break;
     }
 
-    this->permutations.swap(k, l);
-    this->permutations.reverse(k + 1, size - 1);
+    // swapping two found elements
+    this->permutations.swap(firstSmaller, firstBigger);
+    
+    // reversing substring after the first smaller element
+    this->permutations.reverse(firstSmaller + 1, size - 1);
 
     return true;
 }
