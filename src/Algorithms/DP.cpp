@@ -7,6 +7,7 @@ Path* DP::solveTSP(const AdjacencyMatrix *matrix_, size_t sourceCity_)
     auto returnPath = this->resolveSubproblem(this->startMask, this->sourceCity);
 
     this->clearVariables();
+
     return new Path(*returnPath);
 
 }
@@ -20,7 +21,6 @@ void DP::setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_)
 
     this->finalMask = (1 << this->citiesNumber) - 1; // 1..1
     this->startMask = (1 << this->sourceCity); // 0..01
-
 
     this->subSolutions = new Path**[this->citiesNumber];
     for(int i = 0; i < this->citiesNumber; ++i)
@@ -98,8 +98,8 @@ void DP::clearVariables()
     for(int i = 0; i < this->citiesNumber; ++i)
     {
         delete[] this->subSolutions[i];
-
     }
+
     delete[] this->subSolutions;
 
     this->citiesNumber = 0;

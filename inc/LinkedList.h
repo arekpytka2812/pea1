@@ -1,18 +1,25 @@
 #pragma once
 
 #include <cstddef>
+#include <cmath>
 
 class ListElement
 {
     int value {0};
+    ListElement* previous {nullptr};
     ListElement* next {nullptr};
 
 public:
     ListElement() = delete;
-    explicit ListElement(const int & value_);
-    ListElement(const int & value_, ListElement * next_);
+    explicit ListElement(int value_);
+    ListElement(int value_, ListElement* previous_, ListElement * next_);
 
     ~ListElement();
+
+    ListElement* getPrevious() const
+    {
+        return this->previous;
+    }
 
     ListElement* getNext() const
     {
@@ -23,20 +30,35 @@ public:
     {
         return this->value;
     }
+
+    void setPrevious(ListElement* previous_)
+    {
+        this->previous = previous_;
+    }
+
+    void setNext(ListElement* next_)
+    {
+        this->next = next_;
+    }
 };
 
 class LinkedList
 {
     size_t listSize{0};
-    ListElement* list{nullptr}; 
+    ListElement* head{nullptr};
+    ListElement* tail{nullptr}; 
 
 public:
     LinkedList() = default;
-    LinkedList(const size_t & listSize_);
     ~LinkedList();
 
-    ListElement & operator[](const int & index_);
+    ListElement & operator[](size_t index_);
 
-    void addElement(const int & value_);
-    void deleteElement();
+    void addElement(int value_, size_t index_);
+    void addEnd(int value_);
+
+    void deleteFront();
+    void deleteElement(size_t index_);
+    void deleteEnd();
+
 };

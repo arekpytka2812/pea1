@@ -9,6 +9,7 @@
     BruteForce* bf = nullptr;
     DP* dp = nullptr;
     Path* result = nullptr;
+    BnBSecond* bnb = nullptr;
 
 void menuActions();
 
@@ -24,26 +25,37 @@ int main()
                   38,  30,  32,   4,  -1, 28,
                   50,   4,  60,  52,  38, -1};
 
+    int data2[] = {-1, 1, 12, 10,
+                    1, -1, 13, 4,
+                    12, 13, -1, 5,
+                    10, 4, 5, -1};
+
     bf = new BruteForce();
     dp = new DP();
+    bnb = new BnBSecond();
 
     
 
-    while(choice != 5)
-    {
-        std::cout << "1. Read From File\n";
-        std::cout << "2. Generate Graph\n"; 
-        std::cout << "3. Solve BruteForce\n";
-        std::cout << "4. Solve DP\n";
-        std::cout << "5. Exit\n";
+    // while(choice != 5)
+    // {
+    //     std::cout << "1. Read From File\n";
+    //     std::cout << "2. Generate Graph\n"; 
+    //     std::cout << "3. Solve BruteForce\n";
+    //     std::cout << "4. Solve DP\n";
+    //     std::cout << "5. Exit\n";
         
-        std::cin >> choice;
+    //     std::cin >> choice;
 
-        menuActions();
+    //     menuActions();
 
-    }
+    // }
 
+    fm = new FileManager();
+    fm->readGraphFile();
 
+    matrix =  new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+
+    bnb->solveTSP(matrix);
 
 
     return 0;

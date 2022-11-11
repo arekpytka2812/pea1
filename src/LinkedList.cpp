@@ -1,58 +1,103 @@
 #include "../inc/LinkedList.h"
 
-ListElement::ListElement(const int & value_)
+ListElement::ListElement(int value_)
     : value(value_)
 {
 
 }
 
-ListElement::ListElement(const int & value_, ListElement * next_)
-    : value(value_), next(next_)
+ListElement::ListElement(int value_, ListElement* previous_, ListElement * next_)
+    :  value(value_), previous(previous_), next(next_)
 {
+    if(next_ != nullptr)
+        next_ ->setPrevious(this);
 
+    if(previous_ != nullptr)
+        previous_ ->setNext(this);
 }
 
 ListElement::~ListElement()
 {
     this->value = 0;
+    this->previous = nullptr;
     this->next = nullptr;
 }
 
 
 
-LinkedList::LinkedList(const size_t & listSize_)
-{
-
-}
-
 LinkedList::~LinkedList()
 {
-    delete[] this->list;
-    this->list = nullptr;
-    this->listSize = 0;
+    while(this->listSize > 0)
+    {
+        this->listSize--;
+
+        if(this->listSize == 0)
+        {
+            delete this->tail;
+
+            this->head = nullptr;
+            this->tail = nullptr;
+
+            return;
+        }
+
+        delete this->tail->getPrevious()->getNext();
+        
+    }
 }
 
-ListElement & LinkedList::operator[](const int & index_)
+ListElement & LinkedList::operator[](size_t index_)
 {
-    auto tempPointer = this->list;
+    auto middle = ceil((this->listSize + 1) / 2);
 
-    for(int i = 0; i < index_; ++i)
-        tempPointer = tempPointer->getNext();
+    ListElement* tempPointer = nullptr;
+
+    if(index_ > middle)
+    {
+        tempPointer = this->tail;
+
+        for(int i = this->listSize - 1; i > index_; --i)
+        {
+            tempPointer = tempPointer->getPrevious();
+        }
+    }
+    else
+    {
+        tempPointer = this->head;
+
+        for(int i = 0; i < index_; ++i)
+        {
+            tempPointer = tempPointer->getNext();
+        }
+    }
 
     return *tempPointer;
+
 }
 
-void LinkedList::addElement(const int & value_)
+void LinkedList::addEnd(int value_)
 {
-    this->list = new ListElement(value_, this->list);
+    if(this->listSize)
+    {
+        this->tail = new ListElement(value_, nullptr, nullptr);
+        this->head = this->tail;
+    }
+    else
+    {
+        this->tail = new ListElement(value_, this->tail, nullptr);
+    }
 
     this->listSize++;
 }
 
-void LinkedList::deleteElement()
+void LinkedList::deleteFront()
 {
-    auto tempPointer = this->list;
-    this->list = this->list->getNext();
+    auto tempPointer = this->head;
+
+    this->head = this->head->getNext();
+    this->head->setPrevious(nullptr);
+
+    tempPointer->setNext(nullptr);
     delete tempPointer;
 
     this->listSize--;

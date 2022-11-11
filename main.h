@@ -9,3 +9,4 @@
 #include "inc/Algorithms/BnB.h"
 #include "inc/Algorithms/BruteForce.h"
 #include "inc/Algorithms/DP.h"
+#include "inc/Algorithms/BnBsecond.h"
