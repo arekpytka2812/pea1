@@ -1,5 +1,7 @@
 #include "main.h"
 
+#include <queue>
+
     int choice = 0;
     size_t howMany = 0;
 
@@ -50,13 +52,13 @@ int main()
 
     // }
 
-    fm = new FileManager();
-    fm->readGraphFile();
+    // fm = new FileManager();
+    // fm->readGraphFile();
 
-    matrix =  new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+    matrix =  new AdjacencyMatrix(4, data2);
 
     bnb->solveTSP(matrix);
-
+     
 
     return 0;
 

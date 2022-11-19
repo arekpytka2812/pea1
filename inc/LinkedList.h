@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cmath>
+#include <iostream>
 
 class ListElement
 {
@@ -60,5 +61,7 @@ public:
     void deleteFront();
     void deleteElement(size_t index_);
     void deleteEnd();
+
+    void printList();
 
 };

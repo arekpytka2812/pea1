@@ -1,19 +1,26 @@
-#include "LinkedList.h"
+#pragma once
+
+#include "QueueNode.h"
+
 
 class PriorityQueue
 {
-    LinkedList* list{nullptr};
+    QueueNode* nodes{nullptr};
+    size_t size{0};
 
 public:
 
-    PriorityQueue();
+    PriorityQueue() = default;
     ~PriorityQueue();
 
-    void addElement(size_t value_);
-    void deleteElement(size_t index_);
+    void push(size_t city_, int cost_);
+    QueueNode& top();
+    void pop();
 
-    int getFirst() const
+    bool isEmpty() const
     {
-        return this->list->operator[](0).getValue();
+        return this->size ? false : true;
     }
+
+    void printQueue();
 };

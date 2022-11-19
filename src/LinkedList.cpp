@@ -75,9 +75,19 @@ ListElement & LinkedList::operator[](size_t index_)
 
 }
 
+void LinkedList::addElement(int value_, size_t index_)
+{
+    auto tempPrevious = &(*this)[index_ -1];
+    auto tempNext = &(*this)[index_];
+
+    auto newElement = new ListElement(value_, tempPrevious, tempNext);
+
+    this->listSize++; 
+}
+
 void LinkedList::addEnd(int value_)
 {
-    if(this->listSize)
+    if(this->listSize == 0)
     {
         this->tail = new ListElement(value_, nullptr, nullptr);
         this->head = this->tail;
@@ -101,4 +111,21 @@ void LinkedList::deleteFront()
     delete tempPointer;
 
     this->listSize--;
+}
+
+void LinkedList::printList()
+{
+    auto current = head;
+
+    for(int i = 0; i < this->listSize; ++i)
+    {
+        std::cout << current->getValue() << std::endl;
+
+        if(i == this->listSize - 1)
+            break; 
+
+        current = current->getNext();
+    }
+
+    
 }
