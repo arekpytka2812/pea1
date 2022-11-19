@@ -73,6 +73,24 @@ void PriorityQueue::pop()
     delete oldHead;
 }
 
+void PriorityQueue::clear()
+{
+    auto current = this->nodes;
+    QueueNode* next = nullptr;
+    
+
+    while(current != nullptr)
+    {
+        next = current->getNext();
+        delete current;
+        current = next;
+    }
+
+    this->size = 0;
+
+    this->nodes = nullptr;
+}
+
 void PriorityQueue::printQueue()
 {
     auto current = this->nodes;

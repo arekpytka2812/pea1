@@ -22,5 +22,7 @@ public:
         return this->size ? false : true;
     }
 
+    void clear();
+
     void printQueue();
 };

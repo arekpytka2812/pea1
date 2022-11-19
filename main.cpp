@@ -65,19 +65,14 @@ int main()
     matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
 
     start = std::clock();
-        bnb->solveTSP(matrix);
+        bnb->solveTSP(matrix)->printPathInfo();
     duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
-    std::cout << duration << std::endl;
-
-    start = std::clock();
-        bf->solveTSP(matrix)->printPathInfo();
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-     
     std::cout << duration << std::endl;
 
     start = std::clock();
         dp->solveTSP(matrix)->printPathInfo();
+
     duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
     std::cout << duration << std::endl;

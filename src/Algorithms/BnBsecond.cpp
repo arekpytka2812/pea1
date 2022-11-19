@@ -4,13 +4,13 @@ Path* BnBSecond::solveTSP(AdjacencyMatrix* matrix_, size_t sourceCity_)
 {
     this->setupVariables(matrix_, sourceCity_);
 
-    
-
     this->examineLevel(this->sourceCity, this->startMask, 0, 0);
 
-    std::cout << this->upperBound << std::endl;
+    auto returnPath = this->createReturnPath();
 
-    return nullptr;
+    this->clearVariables();
+
+    return returnPath;
 }
 
 void BnBSecond::setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_)
@@ -18,6 +18,9 @@ void BnBSecond::setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_)
     this->sourceCity = sourceCity_;
     this->copiedMatrix = new AdjacencyMatrix(*matrix_);
     this->citiesNumber = copiedMatrix->citiesNumber;
+
+    this->optimalPath.reserve(this->citiesNumber + 1);
+    this->currentPath.reserve(this->citiesNumber + 1);
 
     this->finalMask = (1 << this->citiesNumber) - 1;
     this->startMask = (1 << this->sourceCity);
@@ -76,10 +79,14 @@ void BnBSecond::examineLevel(size_t currentCity_, int currentMask_, int lowerBou
 {
     if(currentMask_ == this->finalMask)
     {
-
         if(lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity) < this->upperBound)
         {
-            this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity);  
+            this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity); 
+            
+            this->currentPath[level] = currentCity_; 
+            this->currentPath[level + 1] = this->sourceCity;
+
+            this->setNewOptimalPath();
         }
 
         return;
@@ -87,6 +94,8 @@ void BnBSecond::examineLevel(size_t currentCity_, int currentMask_, int lowerBou
     
     PriorityQueue queue;
     this->fillQueue(queue, currentCity_, currentMask_);
+
+    this->currentPath[level] = currentCity_;
 
     while(!queue.isEmpty())
     {
@@ -99,7 +108,8 @@ void BnBSecond::examineLevel(size_t currentCity_, int currentMask_, int lowerBou
         
         if(lowerBound_ + cost >= upperBound)
         {
-            continue;
+            queue.clear();
+            return;
         }
             
         this->examineLevel(currentCity, currentMask_ | (1 << currentCity), lowerBound_ + cost, level + 1);
@@ -118,4 +128,35 @@ void BnBSecond::fillQueue(PriorityQueue & queue_, size_t currentCity_, int curre
 
         queue_.push(i, this->copiedMatrix->getValue(currentCity_, i));
     }
+}
+
+void BnBSecond::setNewOptimalPath()
+{
+    for(int i = 0; i < this->citiesNumber + 1; ++i)
+        this->optimalPath[i] = this->currentPath[i];
+}
+
+Path* BnBSecond::createReturnPath()
+{
+    Path* returnPath = new Path();
+
+    for(int i = 0; i < this->citiesNumber + 1; ++i)
+        returnPath->addCityAtEnd(this->optimalPath[i]);
+
+    returnPath->setTotalCost(upperBound);
+
+    return returnPath;
+}
+
+void BnBSecond::clearVariables()
+{
+    delete this->copiedMatrix;
+
+    this->citiesNumber = 0;
+    this->finalMask = 0;
+    this->startMask = 0;
+
+    this->upperBound = INT_MAX;
+    this->optimalPath.clear();
+    this->currentPath.clear();
 }
