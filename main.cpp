@@ -52,13 +52,15 @@ int main()
 
     // }
 
-    // fm = new FileManager();
-    // fm->readGraphFile();
+    fm = new FileManager();
+    fm->readGraphFile();
 
-    matrix =  new AdjacencyMatrix(4, data2);
+     matrix =  new AdjacencyMatrix(4, data2);
+    //matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
 
     bnb->solveTSP(matrix);
      
+    std::cout << "chuja";
 
     return 0;
 

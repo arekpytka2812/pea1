@@ -5,11 +5,11 @@ Path* BnBSecond::solveTSP(AdjacencyMatrix* matrix_, size_t sourceCity_)
     this->setupVariables(matrix_, sourceCity_);
 
     this->calculateUpperBound();
-
-    this->optimalPath.printArray();
     
 
-    this->examineLevel(this->sourceCity, this->startMask, 0);
+    this->examineLevel(this->sourceCity, this->startMask, 0, 0);
+
+    return nullptr;
 }
 
 void BnBSecond::setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_)
@@ -71,35 +71,57 @@ int BnBSecond::findClosestNeighbour(size_t row_, bool *visited_)
     return indexOfMin;
 }
 
-void BnBSecond::examineLevel(size_t sourceCity_, int currentMask_, int lowerBound_)
+void BnBSecond::examineLevel(size_t currentCity_, int currentMask_, int lowerBound_, int level)
 {
     if(currentMask_ == this->finalMask)
     {
-        if(lowerBound_ + sourceCity_ < this->upperBound)
-        {
-            this->upperBound = lowerBound_ + sourceCity_;
+        std::cout << "hmm";
 
+        if(lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity) < this->upperBound)
+        {
+            this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity);
+            std::cout << this->upperBound;
+            
         }
+
+        std::cout << level  << "kest;" << std::endl;
+        return;
     }
     
     PriorityQueue queue;
 
-    this->fillQueue(queue, sourceCity_, currentMask_);
+    this->fillQueue(queue, currentCity_, currentMask_);
+
+    std::cout << std::bitset<8>(currentMask_) << std::endl;
 
     while(!queue.isEmpty())
     {
-        auto nodeToExamine = queue.top();
+        queue.printQueue();
 
-        auto currentCity = nodeToExamine.getCity();
-        auto cost = nodeToExamine.getCost();
+        auto nodeToExamine = &queue.top();
         
+        auto currentCity = nodeToExamine->getCity();
+        auto cost = nodeToExamine->getCost();
+
+        std::cout << currentCity << std::endl;
+        
+    
+        if(lowerBound_ + cost >= upperBound)
+        {
+            std::cout << "pomijam " << currentCity << std::endl;
+            continue;
+        }
+            
+
+        this->examineLevel(currentCity, currentMask_ | (1 << currentCity), lowerBound_ + cost, level + 1);
         queue.pop();
 
-        if(lowerBound_ + cost >= upperBound)
-            continue;
-
-        this->examineLevel(currentCity, currentMask_ | (1 << currentCity), lowerBound_ + cost);
+        queue.printQueue();
     }
+
+    std::cout << level << "smrodek" << std::endl;
+
+    return;
     
 }
 
