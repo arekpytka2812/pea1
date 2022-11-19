@@ -4,10 +4,11 @@ Path* BnBSecond::solveTSP(AdjacencyMatrix* matrix_, size_t sourceCity_)
 {
     this->setupVariables(matrix_, sourceCity_);
 
-    this->calculateUpperBound();
     
 
     this->examineLevel(this->sourceCity, this->startMask, 0, 0);
+
+    std::cout << this->upperBound << std::endl;
 
     return nullptr;
 }
@@ -75,51 +76,34 @@ void BnBSecond::examineLevel(size_t currentCity_, int currentMask_, int lowerBou
 {
     if(currentMask_ == this->finalMask)
     {
-        std::cout << "hmm";
 
         if(lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity) < this->upperBound)
         {
-            this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity);
-            std::cout << this->upperBound;
-            
+            this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity);  
         }
 
-        std::cout << level  << "kest;" << std::endl;
         return;
     }
     
     PriorityQueue queue;
-
     this->fillQueue(queue, currentCity_, currentMask_);
-
-    std::cout << std::bitset<8>(currentMask_) << std::endl;
 
     while(!queue.isEmpty())
     {
-        queue.printQueue();
-
-        auto nodeToExamine = &queue.top();
+        auto nodeToExamine = queue.top();
         
-        auto currentCity = nodeToExamine->getCity();
-        auto cost = nodeToExamine->getCost();
+        auto currentCity = nodeToExamine.getCity();
+        auto cost = nodeToExamine.getCost();
 
-        std::cout << currentCity << std::endl;
+        queue.pop();
         
-    
         if(lowerBound_ + cost >= upperBound)
         {
-            std::cout << "pomijam " << currentCity << std::endl;
             continue;
         }
             
-
         this->examineLevel(currentCity, currentMask_ | (1 << currentCity), lowerBound_ + cost, level + 1);
-        queue.pop();
-
-        queue.printQueue();
     }
-
-    std::cout << level << "smrodek" << std::endl;
 
     return;
     

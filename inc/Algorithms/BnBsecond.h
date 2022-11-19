@@ -15,7 +15,7 @@ class BnBSecond
     int finalMask{0};
     int startMask{0};
 
-    size_t upperBound{0};
+    size_t upperBound{INT_MAX};
     Array<size_t> optimalPath;
     Array<size_t> currentPath;
 

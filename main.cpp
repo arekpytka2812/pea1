@@ -1,6 +1,7 @@
 #include "main.h"
 
-#include <queue>
+#include <cstdio>
+#include <ctime>
 
     int choice = 0;
     size_t howMany = 0;
@@ -17,6 +18,11 @@ void menuActions();
 
 int main() 
 {
+
+    std::clock_t start;
+    double duration;
+
+
 
     srand(time(nullptr));
 
@@ -55,12 +61,26 @@ int main()
     fm = new FileManager();
     fm->readGraphFile();
 
-     matrix =  new AdjacencyMatrix(4, data2);
-    //matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+    // matrix =  new AdjacencyMatrix(4, data2);
+    matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
 
-    bnb->solveTSP(matrix);
+    start = std::clock();
+        bnb->solveTSP(matrix);
+    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+    std::cout << duration << std::endl;
+
+    start = std::clock();
+        bf->solveTSP(matrix)->printPathInfo();
+    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
      
-    std::cout << "chuja";
+    std::cout << duration << std::endl;
+
+    start = std::clock();
+        dp->solveTSP(matrix)->printPathInfo();
+    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+    std::cout << duration << std::endl;
 
     return 0;
 

@@ -68,6 +68,8 @@ void PriorityQueue::pop()
 
     this->nodes = this->nodes->getNext();
 
+    this->size--;
+
     delete oldHead;
 }
 
