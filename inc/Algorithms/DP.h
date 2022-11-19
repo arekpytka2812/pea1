@@ -1,9 +1,7 @@
 #pragma once
 
-#include <bitset>
-
-#include "../Path.h"
-#include "../AdjacencyMatrix.h"
+#include "../Structures/Path.h"
+#include "../Structures/AdjacencyMatrix.h"
 
 class DP
 {

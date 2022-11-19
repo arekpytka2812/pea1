@@ -1,4 +1,4 @@
-#include "../inc/Array.hpp"
+#include "../../inc/Structures/Array.hpp"
 
 template<typename T>
 void Array<T>::allocateMemory(size_t newSize_)

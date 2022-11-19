@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "Array.hpp"
-#include "../src/Array.tpp"
+#include "../../src/Structures/Array.tpp"
 
 class Path
 {

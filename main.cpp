@@ -12,7 +12,7 @@
     BruteForce* bf = nullptr;
     DP* dp = nullptr;
     Path* result = nullptr;
-    BnBSecond* bnb = nullptr;
+    BnB* bnb = nullptr;
 
 void menuActions();
 
@@ -40,7 +40,7 @@ int main()
 
     bf = new BruteForce();
     dp = new DP();
-    bnb = new BnBSecond();
+    bnb = new BnB();
 
     
 

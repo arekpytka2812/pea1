@@ -1,4 +1,4 @@
-#include "../inc/PriorityQueue.h"
+#include "../../inc/Structures/PriorityQueue.h"
 
 PriorityQueue::~PriorityQueue()
 {

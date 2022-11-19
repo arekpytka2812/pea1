@@ -1,4 +1,4 @@
-#include "../inc/Path.h"
+#include "../../inc/Structures/Path.h"
 
 
 void Path::deallocateMemory()

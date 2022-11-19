@@ -1,4 +1,4 @@
-#include "../inc/AdjacencyMatrix.h"
+#include "../../inc/Structures/AdjacencyMatrix.h"
 
 void AdjacencyMatrix::allocateMemory()
 {

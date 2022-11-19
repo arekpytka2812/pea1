@@ -1,27 +1,37 @@
 #pragma once
 
-#include "../AdjacencyMatrix.h"
-#include "../Path.h"
+#include "../Structures/AdjacencyMatrix.h"
+#include "../Structures/Path.h"
+#include "../Structures/PriorityQueue.h"
+
 
 class BnB
 {
-    AdjacencyMatrix *copiedMatrix {nullptr};
+    AdjacencyMatrix* copiedMatrix{nullptr};
     size_t citiesNumber{0};
+    size_t sourceCity{0};
 
-    size_t minimumCost{0};
+    int finalMask{0};
+    int startMask{0};
 
-    void setupVariables(AdjacencyMatrix* matrix_);
-    void reduceMatrix();
-    void reduceRows();
-    void reduceColumns();
+    size_t upperBound{INT_MAX};
+    Array<size_t> optimalPath;
+    Array<size_t> currentPath;
 
-    bool isZeroInColumn(size_t column_);
-
-    int findMinInColumn(size_t column_);
-    int findMinInRow(size_t row_);
-
+    void setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_);
+    void calculateUpperBound();
+    int findClosestNeighbour(size_t row_, bool *visited_);
+    
+    void examineLevel(size_t currentCity_, int currentMask_, int lowerBound_, int level);
+    
+    void fillQueue(PriorityQueue & queue_, size_t currentCity_, int  currentMask_);
+    void setNewOptimalPath();
+    
+    Path* createReturnPath();
+    void clearVariables();
 
 public:
 
-    Path* solveTSP(AdjacencyMatrix* matrix_);
+    BnB() = default;
+    Path* solveTSP(AdjacencyMatrix* matrix_, size_t sourceCity_ = 0);
 };
