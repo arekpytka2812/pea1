@@ -18,9 +18,6 @@ class FileManager
 
     void openStreams();
     std::string receiveGraphFileName();
-    void setPaths();
-    void setStreamsPointers();
-    bool checkStreams();
     
     void closeStreams();
     void clearData();
@@ -36,8 +33,6 @@ public:
 
     void readGraphFile();
     void writeIntoFile();
-
-    void printData();
 
     int* getData() const
     {

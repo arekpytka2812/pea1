@@ -38,10 +38,6 @@ int main()
                     12, 13, -1, 5,
                     10, 4, 5, -1};
 
-    bf = new BruteForce();
-    dp = new DP();
-    bnb = new BnB();
-
     
 
     // while(choice != 5)
@@ -58,24 +54,9 @@ int main()
 
     // }
 
-    fm = new FileManager();
-    fm->readGraphFile();
+    Tests tests;
 
-    // matrix =  new AdjacencyMatrix(4, data2);
-    matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
-
-    start = std::clock();
-        bnb->solveTSP(matrix)->printPathInfo();
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-
-    std::cout << duration << std::endl;
-
-    start = std::clock();
-        dp->solveTSP(matrix)->printPathInfo();
-
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-
-    std::cout << duration << std::endl;
+    tests.performAutoTests();
 
     return 0;
 

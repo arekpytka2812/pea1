@@ -1,44 +1,25 @@
 #include "../../inc/Utils/FileManager.h" 
 
-void FileManager::setPaths()
+FileManager::FileManager()
 {
-    auto tempFileName = this->receiveGraphFileName();
-
-    this->graphPath = tempFileName + ".txt";
     this->resultsPath = "out/results.csv";
-
-}
-
-std::string FileManager::receiveGraphFileName()
-{
-    std::string tempFileName;
-    std::cout << "Type file name: \n";
-    std::cin >> tempFileName;
-
-    return tempFileName;
-}
-
-void FileManager::openStreams()
-{
-    this->graphFile.open(graphPath.c_str(), std::fstream::in);
     this->resultsFile.open(resultsPath.c_str(), std::fstream::out | std::fstream::trunc);
-}
 
-bool FileManager::checkStreams()
-{
-    if(this->graphFile.good() && this->resultsFile.good())
-        return true;
-    
-    return false;
-}
-
-void FileManager::setStreamsPointers()
-{
-    this->graphFile.clear();
-    this->graphFile.seekg(0);
+    if(!this->resultsFile.good())
+    {
+        std::cout << "Something went wrong with file\n";
+        return;
+    } 
 
     this->resultsFile.clear();
     this->resultsFile.seekg(0);
+
+}
+
+FileManager::~FileManager()
+{
+    this->closeStreams();
+    this->clearData();
 }
 
 void FileManager::closeStreams()
@@ -51,6 +32,39 @@ void FileManager::clearData()
 {
     if(this->data != nullptr)
         delete this->data;
+}
+
+void FileManager::readGraphFile()
+{
+    auto tempFileName = this->receiveGraphFileName();
+    this->graphPath = tempFileName + ".txt";
+
+    this->graphFile.open(graphPath.c_str(), std::fstream::in);
+
+    if(!this->graphFile.good())
+    {
+        std::cout << "Something went wrong with file\n";
+        return;
+    }
+
+    this->graphFile.clear();
+    this->graphFile.seekg(0);
+        
+    auto tempCitiesNumber = this->receiveCitiesNumber();
+    this->clearData();
+
+    this->data = new InsertedData(tempCitiesNumber);
+
+    this->insertValues();
+}
+
+std::string FileManager::receiveGraphFileName()
+{
+    std::string tempFileName;
+    std::cout << "Type file name: \n";
+    std::cin >> tempFileName;
+
+    return tempFileName;
 }
 
 size_t FileManager::receiveCitiesNumber()
@@ -74,38 +88,7 @@ void FileManager::insertValues()
     }
 }
 
-FileManager::FileManager()
-{
-    this->setPaths();
-    this->openStreams();
-
-    if(this->checkStreams())
-        this->setStreamsPointers();
-
-}
-
-FileManager::~FileManager()
-{
-    this->closeStreams();
-    this->clearData();
-}
-
-void FileManager::readGraphFile()
-{
-    auto tempCitiesNumber = this->receiveCitiesNumber();
-    this->clearData();
-
-    this->data = new InsertedData(tempCitiesNumber);
-
-    this->insertValues();
-}
-
 void FileManager::writeIntoFile()
 {
 
-}
-
-void FileManager::printData()
-{
-    this->data->printData();
 }
