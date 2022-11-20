@@ -15,7 +15,6 @@ class BruteForce
     size_t minimalCost{INT_MAX};
     Array<size_t> optimalPath;
 
-    Path * returnPath {nullptr};
 
     void setupVariables(const AdjacencyMatrix * matrix_, size_t startCity_);
     void fillupPermutationsVector();    
@@ -27,7 +26,7 @@ class BruteForce
 
     bool permutate();
 
-    void createAndFillReturnPath();
+    Path* createAndFillReturnPath();
     
     void clearVariables();
 

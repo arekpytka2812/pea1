@@ -11,16 +11,18 @@ Tests::Tests()
 
 void Tests::performAutoTests()
 {
-    for(int i = 0; i < 2; ++i)
+    for(int i = 0; i < 7; ++i)
     {
+        std::cout << this->instanceSize[this->testCounter] << std::endl;
         for(int j = 0; j < 100; ++j)
         {
+
             this->generateInstance();
 
-            if(this->returnPath != nullptr)
-                delete this->returnPath;
+            // if(this->returnPath != nullptr)
+            //     delete this->returnPath;
 
-            this->testBF();
+            // this->testBF();
             
             if(this->returnPath != nullptr)
                 delete this->returnPath;
@@ -42,6 +44,9 @@ void Tests::performAutoTests()
         
         this->testCounter++;
 
+        this->bfDuration = 0;
+        this->bnbDuration = 0;
+        this->dpDuration = 0;
     }
 
 }
@@ -63,21 +68,21 @@ void Tests::generateInstance()
 void Tests::testBF()
 {
     timer.startTimer();         
-    this->returnPath = this->bf->solveTSP(this->matrix);        
+    this->returnPath = bf->solveTSP(matrix);        
     this->bfDuration += timer.stopTimer();
 }
 
 void Tests::testBnB()
 {
     timer.startTimer();         
-    this->returnPath = this->bnb->solveTSP(this->matrix);        
+    this->returnPath = bnb->solveTSP(matrix);        
     this->bnbDuration += timer.stopTimer();
 }
 
 void Tests::testDP()
 {
     timer.startTimer();         
-    this->returnPath = this->dp->solveTSP(this->matrix);        
+    this->returnPath = dp->solveTSP(matrix);        
     this->dpDuration += timer.stopTimer();
 }
 

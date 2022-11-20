@@ -54,9 +54,30 @@ int main()
 
     // }
 
-    Tests tests;
+    // Tests tests;
 
-    tests.performAutoTests();
+    // tests.performAutoTests();
+
+    bnb = new BnB();
+    dp = new DP();
+
+    fm = new FileManager();
+    fm->readGraphFile();
+
+    matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+
+    start = std::clock();
+        dp->solveTSP(matrix)->printPathInfo();
+    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+    std::cout << duration << std::endl;
+
+    start = std::clock();
+        bnb->solveTSP(matrix)->printPathInfo();
+    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+
+    std::cout << duration << std::endl;
 
     return 0;
 

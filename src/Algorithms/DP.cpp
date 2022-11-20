@@ -32,7 +32,6 @@ void DP::setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_)
 
 Path* DP::resolveSubproblem(int currentMask_, size_t currentCity_)
 {
-
     // base case, if we meet our final mask, we add cost from last to start city
     if(currentMask_ == this->finalMask)
     {
