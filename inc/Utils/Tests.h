@@ -1,3 +1,5 @@
+#pragma once
+
 #include "GraphGenerator.h"
 #include "FileManager.h"
 #include "Timer.h"
@@ -27,7 +29,7 @@ class Tests
     double executionTime{0};
     double maxTime{3};
 
-    size_t instanceSize[7] = {9, 10, 11, 12, 13, 14, 15};
+    const size_t instanceSize[7] = {9, 10, 11, 12, 13, 14, 15};
     size_t testCounter{0};
 
     void generateInstance();
@@ -41,6 +43,7 @@ class Tests
 public:
 
     Tests();
+    ~Tests();
 
     void performAutoTests();
 

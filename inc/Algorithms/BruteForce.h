@@ -33,7 +33,6 @@ class BruteForce
 public:
 
     BruteForce() = default;
-    ~BruteForce();
 
     Path* solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_ = 0);
 };

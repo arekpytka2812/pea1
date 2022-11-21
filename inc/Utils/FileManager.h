@@ -32,7 +32,7 @@ public:
     ~FileManager();
 
     void readGraphFile();
-    void writeIntoFile();
+    void writeIntoFile(std::string algorithm_, size_t instanceSize_, double time_);
 
     int* getData() const
     {

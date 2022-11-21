@@ -88,7 +88,8 @@ void FileManager::insertValues()
     }
 }
 
-void FileManager::writeIntoFile()
+void FileManager::writeIntoFile(std::string algorithm_, size_t instanceSize_, double time_)
 {
-
+    this->resultsFile << algorithm_ << ";" << instanceSize_ << ";" << time_ << "\n";
+    this->resultsFile.flush();
 }

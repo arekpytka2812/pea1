@@ -1,29 +1,7 @@
 #include "main.h"
 
-#include <cstdio>
-#include <ctime>
-
-    int choice = 0;
-    size_t howMany = 0;
-
-    FileManager* fm = nullptr;
-    GraphGenerator* gg = nullptr;
-    AdjacencyMatrix* matrix = nullptr;
-    BruteForce* bf = nullptr;
-    DP* dp = nullptr;
-    Path* result = nullptr;
-    BnB* bnb = nullptr;
-
-void menuActions();
-
 int main() 
 {
-
-    std::clock_t start;
-    double duration;
-
-
-
     srand(time(nullptr));
 
     int data[] = {-1,  20,  30,  31,  28,  4,
@@ -38,111 +16,31 @@ int main()
                     12, 13, -1, 5,
                     10, 4, 5, -1};
 
-    
+    Menu menu;
+    menu.chooseTestsType();
 
-    // while(choice != 5)
-    // {
-    //     std::cout << "1. Read From File\n";
-    //     std::cout << "2. Generate Graph\n"; 
-    //     std::cout << "3. Solve BruteForce\n";
-    //     std::cout << "4. Solve DP\n";
-    //     std::cout << "5. Exit\n";
-        
-    //     std::cin >> choice;
+    // bnb = new BnB();
+    // dp = new DP();
 
-    //     menuActions();
+    // fm = new FileManager();
+    // fm->readGraphFile();
 
-    // }
+    // matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
 
-    // Tests tests;
+    // start = std::clock();
+    //     dp->solveTSP(matrix)->printPathInfo();
+    // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
-    // tests.performAutoTests();
+    // std::cout << duration << std::endl;
 
-    bnb = new BnB();
-    dp = new DP();
-
-    fm = new FileManager();
-    fm->readGraphFile();
-
-    matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
-
-    start = std::clock();
-        dp->solveTSP(matrix)->printPathInfo();
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-
-    std::cout << duration << std::endl;
-
-    start = std::clock();
-        bnb->solveTSP(matrix)->printPathInfo();
-    duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+    // start = std::clock();
+    //     bnb->solveTSP(matrix)->printPathInfo();
+    // duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 
 
-    std::cout << duration << std::endl;
+    // std::cout << duration << std::endl;
 
     return 0;
 
 }
 
-void menuActions()
-{
-    switch (choice)
-    {
-        case 1:
-            if(fm != nullptr)
-                delete fm;
-            
-            if(matrix != nullptr)
-                delete matrix;
-            
-            fm = new FileManager();
-            fm->readGraphFile(); 
-
-            matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
-
-            break;
-        
-        case 2:
-            if(gg != nullptr)
-                delete gg;
-            
-            if(matrix != nullptr)
-                delete matrix;
-
-            std::cout << "How many cities?\n";
-            std::cin >> howMany;
-
-            gg = new GraphGenerator(howMany);
-            gg->generateData();
-
-            matrix = new AdjacencyMatrix(gg->getCitiesNumber(), gg->getData());
-
-            break;
-
-        case 3:
-            if(matrix == nullptr)
-                break;
-
-            if(result != nullptr)
-                delete result;
-
-            result = bf->solveTSP(matrix);
-            result->printPathInfo();
-
-            break;
-
-        case 4: 
-            if(matrix == nullptr)
-                break;
-
-            if(result != nullptr)
-                delete result;
-
-            result = dp->solveTSP(matrix);
-            result->printPathInfo();
-
-            break;
-            
-        case 5:
-            exit(0);
-        }
-}

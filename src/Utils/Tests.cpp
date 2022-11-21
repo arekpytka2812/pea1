@@ -9,20 +9,38 @@ Tests::Tests()
     this->dp = new DP();
 }
 
+Tests::~Tests()
+{
+    delete this->fm;
+
+    delete this->bf;
+    delete this->bnb;
+    delete this->dp;
+
+    if(this->gg != nullptr)
+        delete this->gg;
+
+    if(this->matrix != nullptr)
+        delete this->matrix;
+
+    if(this->returnPath != nullptr)
+        delete this->returnPath;
+}
+
 void Tests::performAutoTests()
 {
+    std::cout << "Processing auto tests...\n";
+
     for(int i = 0; i < 7; ++i)
     {
-        std::cout << this->instanceSize[this->testCounter] << std::endl;
         for(int j = 0; j < 100; ++j)
         {
-
             this->generateInstance();
 
-            // if(this->returnPath != nullptr)
-            //     delete this->returnPath;
+            if(this->returnPath != nullptr)
+                delete this->returnPath;
 
-            // this->testBF();
+            this->testBF();
             
             if(this->returnPath != nullptr)
                 delete this->returnPath;
@@ -37,10 +55,10 @@ void Tests::performAutoTests()
         }
 
         this->getAverageDurations();
-        
-        std::cout << "BF: " << this->bfDuration << std::endl;
-        std::cout << "BnB: " << this->bnbDuration << std::endl;
-        std::cout << "DP: " << this->dpDuration << std::endl;
+
+        this->fm->writeIntoFile("BF", this->instanceSize[this->testCounter], bfDuration);
+        this->fm->writeIntoFile("BnB", this->instanceSize[this->testCounter], bnbDuration);
+        this->fm->writeIntoFile("DP", this->instanceSize[this->testCounter], dpDuration);
         
         this->testCounter++;
 
@@ -49,6 +67,7 @@ void Tests::performAutoTests()
         this->dpDuration = 0;
     }
 
+    std::cout << "Auto tests done!\n";
 }
 
 void Tests::generateInstance()
