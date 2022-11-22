@@ -51,6 +51,10 @@ public:
         if(this->costToCity < node_.costToCity)
             return true;
         
+        if(this->costToCity == node_.costToCity)
+            if(this->city < node_.city)
+                return true;
+        
         return false;
     }
 

@@ -5,9 +5,11 @@
 class Menu
 {
     Tests autoTests;
+    Timer timer;
 
     int choice {0};
     size_t howMany {0};
+    double duration{0};
 
     FileManager* fm {nullptr};
     GraphGenerator* gg {nullptr};

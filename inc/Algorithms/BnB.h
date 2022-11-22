@@ -19,9 +19,7 @@ class BnB
     Array<size_t> currentPath;
 
     void setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_);
-    void calculateUpperBound();
-    int findClosestNeighbour(size_t row_, bool *visited_);
-    
+  
     void examineLevel(size_t currentCity_, int currentMask_, int lowerBound_, int level);
     
     void fillQueue(PriorityQueue & queue_, size_t currentCity_, int  currentMask_);

@@ -31,7 +31,7 @@ void Tests::performAutoTests()
 {
     std::cout << "Processing auto tests...\n";
 
-    for(int i = 0; i < 7; ++i)
+    for(int i = 0; i < 10; ++i)
     {
         for(int j = 0; j < 100; ++j)
         {
@@ -40,7 +40,8 @@ void Tests::performAutoTests()
             if(this->returnPath != nullptr)
                 delete this->returnPath;
 
-            this->testBF();
+            if(this->instanceSize[this->testCounter] < 13)
+                this->testBF();
             
             if(this->returnPath != nullptr)
                 delete this->returnPath;
@@ -61,6 +62,8 @@ void Tests::performAutoTests()
         this->fm->writeIntoFile("DP", this->instanceSize[this->testCounter], dpDuration);
         
         this->testCounter++;
+
+        std::cout << "Test: " << testCounter << "/" << 10 << "\n";
 
         this->bfDuration = 0;
         this->bnbDuration = 0;

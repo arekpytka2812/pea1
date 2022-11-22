@@ -115,8 +115,13 @@ void Menu::manualTests()
             if(result != nullptr)
                 delete result;
 
+            timer.startTimer();
             result = bf->solveTSP(matrix);
+            duration = timer.stopTimer();
+
             result->printPathInfo();
+            
+            std::cout << "Duration: " << duration / 1000.0 << " s\n";
 
             break;
 
@@ -127,8 +132,13 @@ void Menu::manualTests()
             if(result != nullptr)
                 delete result;
 
+            timer.startTimer();
             result = bnb->solveTSP(matrix);
+            duration = timer.stopTimer();
+
             result->printPathInfo();
+            
+            std::cout << "Duration: " << duration / 1000.0 << " s\n";
 
             break;
 
@@ -139,8 +149,13 @@ void Menu::manualTests()
             if(result != nullptr)
                 delete result;
 
+            timer.startTimer();
             result = dp->solveTSP(matrix);
+            duration = timer.stopTimer();
+
             result->printPathInfo();
+            
+            std::cout << "Duration: " << duration / 1000.0 << " s\n";
 
             break;
             

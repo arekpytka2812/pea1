@@ -26,92 +26,52 @@ void BnB::setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_)
     this->startMask = (1 << this->sourceCity);
 }
 
-void BnB::calculateUpperBound()
-{
-    bool *visited = new bool[this->citiesNumber]{false};
-
-    visited[this->sourceCity] = true;
-
-    size_t currentCity = this->sourceCity;
-    this->optimalPath.addEnd(this->sourceCity);
-
-    for(int i = 0; i < this->citiesNumber - 1; ++i)
-    {
-        auto nextNeighbour = this->findClosestNeighbour(currentCity, visited);
-
-        if(nextNeighbour == -1)
-            break;
-        
-        this->upperBound += this->copiedMatrix->getValue(currentCity, nextNeighbour);
-        this->optimalPath.addEnd(nextNeighbour);
-
-        visited[nextNeighbour] = true;
-        currentCity = nextNeighbour;
-    }
-
-    this->upperBound += this->copiedMatrix->getValue(currentCity, this->sourceCity);
-    this->optimalPath.addEnd(this->sourceCity);
-
-    delete[] visited;
-}
-
-int BnB::findClosestNeighbour(size_t row_, bool *visited_)
-{
-    auto min{INT_MAX};
-    auto indexOfMin{-1};
-
-    for(size_t i = 0; i < this->citiesNumber; ++i)
-    {
-        if(visited_[i])
-            continue;
-
-        if(this->copiedMatrix->getValue(row_, i) < min && this->copiedMatrix->getValue(row_, i) != -1)
-        {
-            indexOfMin = i;
-            min = this->copiedMatrix->getValue(row_, i);
-        }
-    }
-
-    return indexOfMin;
-}
-
 void BnB::examineLevel(size_t currentCity_, int currentMask_, int lowerBound_, int level)
 {
+    // base case, if true then we check cost from last city to source city
+    // and if it's smaller, we change upperBound and optimal path
     if(currentMask_ == this->finalMask)
     {
-        if(lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity) < this->upperBound)
-        {
-            this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity); 
+        if(lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity) >= this->upperBound)
+            return;
+        
+        this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity); 
             
-            this->currentPath[level] = currentCity_; 
-            this->currentPath[level + 1] = this->sourceCity;
+        this->currentPath[level] = currentCity_; 
+        this->currentPath[level + 1] = this->sourceCity;
 
-            this->setNewOptimalPath();
-        }
-
-        return;
+        this->setNewOptimalPath();
+        
     }
     
+    // creating priority queue and filling with unvisited cities 
     PriorityQueue queue;
     this->fillQueue(queue, currentCity_, currentMask_);
 
+    // setting up pathtracking
     this->currentPath[level] = currentCity_;
 
+    // main loop, will work until there are still cities in queue
     while(!queue.isEmpty())
     {
+        // getting first element from queue
         auto nodeToExamine = queue.top();
         
+        // getting city and cost
         auto currentCity = nodeToExamine.getCity();
         auto cost = nodeToExamine.getCost();
 
+        // poping first element
         queue.pop();
         
+        // checking if the path is still promising
         if(lowerBound_ + cost >= upperBound)
         {
             queue.clear();
             return;
         }
             
+        // executing recursive method
         this->examineLevel(currentCity, currentMask_ | (1 << currentCity), lowerBound_ + cost, level + 1);
     }
 
