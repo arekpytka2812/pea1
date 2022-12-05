@@ -1,10 +1,10 @@
 #include "../../inc/Algorithms/BnB.h"
 
-Path* BnB::solveTSP(AdjacencyMatrix* matrix_, size_t sourceCity_)
+Path* BnB::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
 {
     this->setupVariables(matrix_, sourceCity_);
 
-    this->examineLevel(this->sourceCity, this->startMask, 0, 0);
+    this->examineLevel(matrix_, this->sourceCity, this->startMask, 0, 0);
 
     auto returnPath = this->createReturnPath();
 
@@ -13,11 +13,10 @@ Path* BnB::solveTSP(AdjacencyMatrix* matrix_, size_t sourceCity_)
     return returnPath;
 }
 
-void BnB::setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_)
+void BnB::setupVariables(const AdjacencyMatrix& matrix_, size_t sourceCity_)
 {
     this->sourceCity = sourceCity_;
-    this->copiedMatrix = new AdjacencyMatrix(*matrix_);
-    this->citiesNumber = copiedMatrix->citiesNumber;
+    this->citiesNumber = matrix_.citiesNumber;
 
     this->optimalPath.reserve(this->citiesNumber + 1);
     this->currentPath.reserve(this->citiesNumber + 1);
@@ -26,16 +25,16 @@ void BnB::setupVariables(AdjacencyMatrix* matrix_, size_t sourceCity_)
     this->startMask = (1 << this->sourceCity);
 }
 
-void BnB::examineLevel(size_t currentCity_, int currentMask_, int lowerBound_, int level)
+void BnB::examineLevel(const AdjacencyMatrix& matrix_, size_t currentCity_, int currentMask_, int lowerBound_, int level)
 {
     // base case, if true then we check cost from last city to source city
     // and if it's smaller, we change upperBound and optimal path
     if(currentMask_ == this->finalMask)
     {
-        if(lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity) >= this->upperBound)
+        if(lowerBound_ + matrix_.getValue(currentCity_, this->sourceCity) >= this->upperBound)
             return;
         
-        this->upperBound = lowerBound_ + this->copiedMatrix->getValue(currentCity_, this->sourceCity); 
+        this->upperBound = lowerBound_ + matrix_.getValue(currentCity_, this->sourceCity); 
             
         this->currentPath[level] = currentCity_; 
         this->currentPath[level + 1] = this->sourceCity;
@@ -46,7 +45,7 @@ void BnB::examineLevel(size_t currentCity_, int currentMask_, int lowerBound_, i
     
     // creating priority queue and filling with unvisited cities 
     PriorityQueue queue;
-    this->fillQueue(queue, currentCity_, currentMask_);
+    this->fillQueue(matrix_, queue, currentCity_, currentMask_);
 
     // setting up pathtracking
     this->currentPath[level] = currentCity_;
@@ -72,21 +71,21 @@ void BnB::examineLevel(size_t currentCity_, int currentMask_, int lowerBound_, i
         }
             
         // executing recursive method
-        this->examineLevel(currentCity, currentMask_ | (1 << currentCity), lowerBound_ + cost, level + 1);
+        this->examineLevel(matrix_, currentCity, currentMask_ | (1 << currentCity), lowerBound_ + cost, level + 1);
     }
 
     return;
     
 }
 
-void BnB::fillQueue(PriorityQueue & queue_, size_t currentCity_, int currentMask_)
+void BnB::fillQueue(const AdjacencyMatrix & matrix_, PriorityQueue & queue_, size_t currentCity_, int currentMask_)
 {
     for(int i = 0; i < this->citiesNumber; ++i)
     {
         if(currentMask_ & (1 << i))
             continue;
 
-        queue_.push(i, this->copiedMatrix->getValue(currentCity_, i));
+        queue_.push(i, matrix_.getValue(currentCity_, i));
     }
 }
 
@@ -110,8 +109,6 @@ Path* BnB::createReturnPath()
 
 void BnB::clearVariables()
 {
-    delete this->copiedMatrix;
-
     this->citiesNumber = 0;
     this->finalMask = 0;
     this->startMask = 0;

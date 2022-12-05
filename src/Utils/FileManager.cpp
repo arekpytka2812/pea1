@@ -37,7 +37,7 @@ void FileManager::clearData()
 void FileManager::readGraphFile()
 {
     auto tempFileName = this->receiveGraphFileName();
-    this->graphPath = tempFileName + ".txt";
+    this->graphPath = tempFileName;
 
     this->graphFile.open(graphPath.c_str(), std::fstream::in);
 
@@ -50,10 +50,44 @@ void FileManager::readGraphFile()
     this->graphFile.clear();
     this->graphFile.seekg(0);
         
+    if(this->graphPath[this->graphPath.size() - 4] == 'a')
+        this->readATSP();
+    else    
+        this->readTSP();
+
+}
+
+void FileManager::readTSP()
+{
     auto tempCitiesNumber = this->receiveCitiesNumber();
     this->clearData();
 
     this->data = new InsertedData(tempCitiesNumber);
+
+    this->insertValues();
+}
+
+void FileManager::readATSP()
+{
+    this->graphFile.seekg(4);
+
+    std::string buffer;
+
+    this->graphFile >> buffer;
+
+    std::cout << buffer << "\n";
+
+    size_t citiesNumber {0};
+
+    this->graphFile >> citiesNumber;
+
+    this->clearData();
+
+    std::cout << citiesNumber;
+
+    this->data = new InsertedData(citiesNumber);
+
+    this->graphFile.seekg(8);
 
     this->insertValues();
 }

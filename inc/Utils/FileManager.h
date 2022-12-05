@@ -25,6 +25,8 @@ class FileManager
     size_t receiveCitiesNumber();
     void insertValues();
 
+    void readTSP();
+    void readATSP();
 
 public:
 

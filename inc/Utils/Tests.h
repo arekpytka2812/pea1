@@ -29,7 +29,7 @@ class Tests
     double executionTime{0};
     double maxTime{120000};
 
-    const size_t instanceSize[10] = {6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+    const size_t instanceSize[10] = {12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
     size_t testCounter{0};
 
     void generateInstance();

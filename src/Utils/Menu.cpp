@@ -116,7 +116,7 @@ void Menu::manualTests()
                 delete result;
 
             timer.startTimer();
-            result = bf->solveTSP(matrix);
+            result = bf->solveTSP(*matrix);
             duration = timer.stopTimer();
 
             result->printPathInfo();
@@ -133,7 +133,7 @@ void Menu::manualTests()
                 delete result;
 
             timer.startTimer();
-            result = bnb->solveTSP(matrix);
+            result = bnb->solveTSP(*matrix);
             duration = timer.stopTimer();
 
             result->printPathInfo();
@@ -150,7 +150,7 @@ void Menu::manualTests()
                 delete result;
 
             timer.startTimer();
-            result = dp->solveTSP(matrix);
+            result = dp->solveTSP(*matrix);
             duration = timer.stopTimer();
 
             result->printPathInfo();

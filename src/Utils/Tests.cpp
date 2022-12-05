@@ -90,21 +90,21 @@ void Tests::generateInstance()
 void Tests::testBF()
 {
     timer.startTimer();         
-    this->returnPath = bf->solveTSP(matrix);        
+    this->returnPath = bf->solveTSP(*matrix);        
     this->bfDuration += timer.stopTimer();
 }
 
 void Tests::testBnB()
 {
     timer.startTimer();         
-    this->returnPath = bnb->solveTSP(matrix);        
+    this->returnPath = bnb->solveTSP(*matrix);        
     this->bnbDuration += timer.stopTimer();
 }
 
 void Tests::testDP()
 {
     timer.startTimer();         
-    this->returnPath = dp->solveTSP(matrix);        
+    this->returnPath = dp->solveTSP(*matrix);        
     this->dpDuration += timer.stopTimer();
 }
 

@@ -1,7 +1,7 @@
 #include "../../inc/Algorithms/BruteForce.h"
 
 
-Path* BruteForce::solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_)
+Path* BruteForce::solveTSP(const AdjacencyMatrix & matrix_, size_t startCity_)
 {
     this->setupVariables(matrix_, startCity_);
     
@@ -20,12 +20,12 @@ Path* BruteForce::solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_)
     return returnPath;
 }
 
-void BruteForce::setupVariables(const AdjacencyMatrix * matrix_, size_t startCity_)
+void BruteForce::setupVariables(const AdjacencyMatrix & matrix_, size_t startCity_)
 {    
     this->minimalCost = INT_MAX;
     this->currentCost = 0;
 
-    this->citiesNumber = matrix_->citiesNumber;
+    this->citiesNumber = matrix_.citiesNumber;
     this->startCity = startCity_;
 
     this->optimalPath.reserve(this->citiesNumber - 1);
@@ -41,18 +41,18 @@ void BruteForce::fillupPermutationsVector()
     }   
 }
 
-void BruteForce::calculateCost(const AdjacencyMatrix * matrix_)
+void BruteForce::calculateCost(const AdjacencyMatrix & matrix_)
 {
     this->currentCost = 0;
 
-    this->currentCost += matrix_->getValue(this->startCity, this->permutations[0]);
+    this->currentCost += matrix_.getValue(this->startCity, this->permutations[0]);
 
     for(int i = 0; i < this->permutations.size() - 1; ++i)
     {
-        this->currentCost += matrix_->getValue(this->permutations[i], this->permutations[i + 1]);
+        this->currentCost += matrix_.getValue(this->permutations[i], this->permutations[i + 1]);
     }
 
-    this->currentCost += matrix_->getValue(this->permutations[this->permutations.size() - 1], this->startCity);
+    this->currentCost += matrix_.getValue(this->permutations[this->permutations.size() - 1], this->startCity);
 }
 
 void BruteForce::compareCostsAndChangeOptimalPathIfNeeded()

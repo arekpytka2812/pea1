@@ -1,13 +1,11 @@
 #pragma once
 
-#include "../Structures/Path.h"
-#include "../Structures/AdjacencyMatrix.h"
+#include "TSPSolver.h"
 
-class DP
+class DP : public TSPSolver
 {
     size_t sourceCity{0};
 
-    AdjacencyMatrix *copiedMatrix{nullptr};
     size_t citiesNumber{0};
 
     size_t finalMask{0};
@@ -15,14 +13,14 @@ class DP
 
     Path*** subSolutions{nullptr};
 
-    void setupVariables(const AdjacencyMatrix * matrix_, size_t sourceCity_);
-    Path* resolveSubproblem(int currentMask_, size_t currentCity_);
+    void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity_);
+    Path* resolveSubproblem(const AdjacencyMatrix & matrix_, int currentMask_, size_t currentCity_);
     void clearVariables();
 
 public:
 
     DP() = default;
 
-    Path * solveTSP(const AdjacencyMatrix * matrix_, size_t sourceCity_ = 0);
+    Path * solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity_ = 0) override;
 
 };

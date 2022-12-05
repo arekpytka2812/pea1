@@ -1,10 +1,8 @@
 #pragma once
 
-#include "../Structures/Path.h"
-#include "../Structures/AdjacencyMatrix.h"
+#include "TSPSolver.h"
 
-
-class BruteForce
+class BruteForce : public TSPSolver
 {
     size_t citiesNumber{0};
     size_t startCity{0};
@@ -16,10 +14,10 @@ class BruteForce
     Array<size_t> optimalPath;
 
 
-    void setupVariables(const AdjacencyMatrix * matrix_, size_t startCity_);
+    void setupVariables(const AdjacencyMatrix & matrix_, size_t startCity_);
     void fillupPermutationsVector();    
 
-    void calculateCost(const AdjacencyMatrix * matrix_);
+    void calculateCost(const AdjacencyMatrix & matrix_);
     void compareCostsAndChangeOptimalPathIfNeeded();
 
     void setupNewOptimalPath();
@@ -34,5 +32,5 @@ public:
 
     BruteForce() = default;
 
-    Path* solveTSP(const AdjacencyMatrix * matrix_, size_t startCity_ = 0);
+    Path* solveTSP(const AdjacencyMatrix & matrix_, size_t startCity_ = 0) override;
 };
