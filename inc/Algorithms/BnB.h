@@ -16,7 +16,7 @@ class BnB : TSPSolver
     Array<size_t> optimalPath;
     Array<size_t> currentPath;
 
-    void setupVariables(const AdjacencyMatrix& matrix_, size_t sourceCity_);
+    void setupVariables(const AdjacencyMatrix& matrix_, size_t sourceCity_) override;
   
     void examineLevel(const AdjacencyMatrix& matrix_, size_t currentCity_, int currentMask_, int lowerBound_, int level);
     
@@ -24,7 +24,7 @@ class BnB : TSPSolver
     void setNewOptimalPath();
     
     Path* createReturnPath();
-    void clearVariables();
+    void clearVariables() override;
 
 public:
 

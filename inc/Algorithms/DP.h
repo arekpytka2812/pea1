@@ -13,9 +13,9 @@ class DP : public TSPSolver
 
     Path*** subSolutions{nullptr};
 
-    void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity_);
+    void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity_) override;
     Path* resolveSubproblem(const AdjacencyMatrix & matrix_, int currentMask_, size_t currentCity_);
-    void clearVariables();
+    void clearVariables() override;
 
 public:
 

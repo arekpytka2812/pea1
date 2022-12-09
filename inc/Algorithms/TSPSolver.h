@@ -5,9 +5,12 @@
 
 class TSPSolver
 {
-
+protected:
+    virtual void setupVariables(const AdjacencyMatrix& matrix_, size_t sourceCity_) = 0;
+    virtual void clearVariables() = 0;
 public:
 
     virtual Path* solveTSP(const AdjacencyMatrix & matrix_, size_t startCity_ = 0) = 0;
+
 
 };

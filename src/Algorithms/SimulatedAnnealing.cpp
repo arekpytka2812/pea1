@@ -8,7 +8,7 @@ double SimulatedAnnealing::stopTime {120};
 
 Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity_)
 {
-    this->setupVariables(matrix_, sourceCity_);
+    setupVariables(matrix_, sourceCity_);
 
     size_t cost = this->optimalCost;
     double temperature = startTemperature;
@@ -48,7 +48,7 @@ Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourc
     returnPath->addCityAtEnd(this->sourceCity);
     returnPath->addCityAtFront(this->sourceCity);
 
-    this->clearVariables();
+    clearVariables();
 
     return returnPath;
 } 
@@ -60,7 +60,7 @@ void SimulatedAnnealing::setupVariables(const AdjacencyMatrix & matrix_, size_t 
 
     randomiseSolution();
 
-    this->optimalCost = this->calculateCost(matrix_, this->cities);
+    this->optimalCost = calculateCost(matrix_, this->cities);
 
     this->optimalPath = this->cities;
 }
@@ -81,17 +81,26 @@ void SimulatedAnnealing::randomiseSolution()
 
 void SimulatedAnnealing::changeOrder(Array<size_t> & cities_)
 {
-    auto firstIndex = getRandom(0, cities_.size() - 1);
-    auto secondIndex = getRandom(0, cities_.size() - 1);
+    auto firstIndex = getRandomSizeT(0, cities_.size() - 1);
+    auto secondIndex = getRandomSizeT(0, cities_.size() - 1);
 
     cities_.swap(firstIndex, secondIndex);
 }
 
-int SimulatedAnnealing::getRandom(int min, int max)
+size_t SimulatedAnnealing::getRandomSizeT(int min, int max)
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(min, max);
+    std::uniform_int_distribution<size_t> dist(min, max);
+
+    return dist(gen);
+}
+
+double SimulatedAnnealing::getRandomDouble(double min, double max)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<double> dist(min, max);
 
     return dist(gen);
 }
@@ -114,7 +123,7 @@ size_t SimulatedAnnealing::calculateCost(const AdjacencyMatrix & matrix_, Array<
 
 bool SimulatedAnnealing::makeDecision(const size_t delta_, const double temperature_)
 {
-    double randPropability = this->getRandom(0, 1);
+    double randPropability = getRandomDouble(0, 1);
     double calculatedPropability = exp(delta_ / temperature_);
 
     return randPropability < calculatedPropability;

@@ -40,12 +40,19 @@ void TabuList::deallocateMemory()
 TabuList::TabuList(const size_t size_)
     :size(size_)
 {
-    this->allocateMemory();   
+    allocateMemory();   
 }
 
 TabuList::~TabuList()
 {
-    this->deallocateMemory();
+    deallocateMemory();
+}
+
+void TabuList::changeSize(const size_t size_)
+{
+    deallocateMemory();
+    this->size = size_;
+    allocateMemory();
 }
 
 void TabuList::insertNewTabu(size_t source_, size_t destination_)

@@ -3,7 +3,7 @@
 #include "TSPSolver.h"
 #include "../Utils/Timer.h"
 
-class SimulatedAnnealing
+class SimulatedAnnealing : public TSPSolver
 {
     static double coolingRatio;
     static double stopTime;
@@ -22,20 +22,21 @@ class SimulatedAnnealing
 
     Timer timer;
 
-    void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity);
+    void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity) override;
     void randomiseSolution();
     void changeOrder(Array<size_t> & cities_);
-    int getRandom(int min, int max);
+    size_t getRandomSizeT(int min, int max);
+    double getRandomDouble(double min, double max);
 
     size_t calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> & cities_);
 
     bool makeDecision(const size_t delta_, const double temperature_);
 
-    void clearVariables();
+    void clearVariables() override;
 
 public:
 
-    Path* solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity = 0);
+    Path* solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity = 0) override;
 
     static void setCoolingRatio(double coolingRatio_)
     {

@@ -14,7 +14,7 @@ class BruteForce : public TSPSolver
     Array<size_t> optimalPath;
 
 
-    void setupVariables(const AdjacencyMatrix & matrix_, size_t startCity_);
+    void setupVariables(const AdjacencyMatrix & matrix_, size_t startCity_) override;
     void fillupPermutationsVector();    
 
     void calculateCost(const AdjacencyMatrix & matrix_);
@@ -26,7 +26,7 @@ class BruteForce : public TSPSolver
 
     Path* createAndFillReturnPath();
     
-    void clearVariables();
+    void clearVariables() override;
 
 public:
 
