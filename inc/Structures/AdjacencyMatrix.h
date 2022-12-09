@@ -26,7 +26,7 @@ public:
         return this->matrix;
     }
 
-    int getValue(const size_t & source_, const size_t & destination_) const
+    int getValue(size_t source_, size_t destination_) const
     {
         return this->matrix[source_][destination_];
     }

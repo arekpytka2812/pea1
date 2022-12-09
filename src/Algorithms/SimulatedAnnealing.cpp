@@ -24,7 +24,7 @@ Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourc
 
         size_t delta = newCost - cost;
 
-        if(delta > 0 && !makeDecision(delta, temperature))
+        if(delta >= 0 && !makeDecision(delta, temperature))
         {
             temperature *= coolingRatio;
             this->time += this->timer.stopTimer();
