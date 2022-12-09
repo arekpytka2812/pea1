@@ -2,12 +2,11 @@
 
 #include "GraphGenerator.h"
 #include "FileManager.h"
-#include "Timer.h"
 
 #include "../Algorithms/BruteForce.h"
 #include "../Algorithms/DP.h"
 #include "../Algorithms/BnB.h"
-
+#include "../Algorithms/SimulatedAnnealing.h"
 
 class Tests
 {

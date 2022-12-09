@@ -1,34 +1,41 @@
 #pragma once
 
-#include <random>
-
-#include "../Structures/Path.h"
-#include "../Structures/AdjacencyMatrix.h"
+#include "TSPSolver.h"
+#include "../Utils/Timer.h"
 
 class SimulatedAnnealing
 {
     static double coolingRatio;
     static double stopTime;
 
-    static size_t startTemperature;
+    size_t startTemperature{1000};
 
-    static size_t sourceCity;
-    static size_t citiesNumber;
+    size_t sourceCity{0};
+    size_t citiesNumber{0};
 
-    static Array<size_t> cities;
+    size_t optimalCost{INT_MAX}; 
+    Array<size_t> optimalPath;
 
-    static void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity);
-    static void randomiseSolution();
-    static void changeOrder();
-    static int getRandom(int min, int max);
+    Array<size_t> cities;
 
-    static int calculateCost(Array<size_t> cities_);
+    double time{0};
 
-    static void clearVariables();
+    Timer timer;
+
+    void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity);
+    void randomiseSolution();
+    void changeOrder(Array<size_t> & cities_);
+    int getRandom(int min, int max);
+
+    size_t calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> & cities_);
+
+    bool makeDecision(const size_t delta_, const double temperature_);
+
+    void clearVariables();
 
 public:
 
-    static Path* solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity = 0);
+    Path* solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity = 0);
 
     static void setCoolingRatio(double coolingRatio_)
     {
@@ -37,6 +44,6 @@ public:
 
     static void setStopTime(double stopTime_)
     {
-        stoptime = stoptime_;
+        stopTime = stopTime_;
     }
 };

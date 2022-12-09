@@ -25,7 +25,7 @@
 
         void reserve(size_t size_);
 
-        Array<T> & operator=(const Array<T> & origin_);
+        void operator=(const Array<T> & origin_);
         T & operator[](size_t index_);
 
         void operator-(const T & value_);

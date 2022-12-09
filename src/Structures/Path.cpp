@@ -12,6 +12,12 @@ Path::Path()
         this->cities.clear();
 }
 
+Path::Path(size_t totalCost_, const Array<size_t> & cities_)
+    : totalCost(totalCost_), cities(cities_)
+{
+
+}
+
 Path::~Path()
 {
     this->deallocateMemory();

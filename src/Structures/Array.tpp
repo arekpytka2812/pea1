@@ -51,6 +51,7 @@ Array<T>::Array(size_t size_)
 template<typename T>
 Array<T>::Array(const Array<T> & origin_)
 {
+    this->deallocateMemory();
     this->allocateMemory(origin_.size());
 
     for(int i = 0; i < origin_.size(); ++i)
@@ -77,9 +78,15 @@ void Array<T>::reserve(size_t size_)
 }
 
 template<typename T>
-Array<T> & Array<T>::operator=(const Array<T> & origin_)
+void Array<T>::operator=(const Array<T> & origin_)
 {
-
+    this->deallocateMemory();
+    this->allocateMemory(origin_.size());
+    
+    for(size_t i = 0; i < origin_.size(); ++i)
+    {
+        this->table[i] = origin_.table[i]; 
+    }
 }
 
 template<typename T>

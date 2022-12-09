@@ -13,7 +13,9 @@ int main()
 
     AdjacencyMatrix matrix(gg.getCitiesNumber(), gg.getData());
 
-    SimulatedAnnealing::solveTSP(matrix);
+    auto sa = new SimulatedAnnealing();
+
+    sa->solveTSP(matrix)->printPathInfo();
 
     return 0;
 
