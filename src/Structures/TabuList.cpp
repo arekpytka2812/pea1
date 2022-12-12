@@ -62,7 +62,7 @@ void TabuList::insertNewTabu(size_t source_, size_t destination_)
 
 bool TabuList::isTimedOut(size_t source_, size_t destination_)
 {
-    return this->tabuList[source_][destination_] != 0;
+    return this->tabuList[source_][destination_] != 0 || this->tabuList[destination_][source_] != 0;
 }
 
 void TabuList::refreshTimeOut()

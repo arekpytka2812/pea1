@@ -25,8 +25,6 @@ class SimulatedAnnealing : public TSPSolver
     void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity) override;
     void randomiseSolution();
     void changeOrder(Array<size_t> & cities_);
-    size_t getRandomSizeT(int min, int max);
-    double getRandomDouble(double min, double max);
 
     size_t calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> & cities_);
 

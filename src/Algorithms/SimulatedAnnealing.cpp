@@ -81,28 +81,10 @@ void SimulatedAnnealing::randomiseSolution()
 
 void SimulatedAnnealing::changeOrder(Array<size_t> & cities_)
 {
-    auto firstIndex = getRandomSizeT(0, cities_.size() - 1);
-    auto secondIndex = getRandomSizeT(0, cities_.size() - 1);
+    auto firstIndex = RandomGenerator::getInt(0, cities_.size() - 1);
+    auto secondIndex = RandomGenerator::getInt(0, cities_.size() - 1);
 
     cities_.swap(firstIndex, secondIndex);
-}
-
-size_t SimulatedAnnealing::getRandomSizeT(int min, int max)
-{
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<size_t> dist(min, max);
-
-    return dist(gen);
-}
-
-double SimulatedAnnealing::getRandomDouble(double min, double max)
-{
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<double> dist(min, max);
-
-    return dist(gen);
 }
 
 size_t SimulatedAnnealing::calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> & cities_)
@@ -123,7 +105,7 @@ size_t SimulatedAnnealing::calculateCost(const AdjacencyMatrix & matrix_, Array<
 
 bool SimulatedAnnealing::makeDecision(const size_t delta_, const double temperature_)
 {
-    double randPropability = getRandomDouble(0, 1);
+    double randPropability = RandomGenerator::getDouble(0.0, 1.0);
     double calculatedPropability = exp(delta_ / temperature_);
 
     return randPropability < calculatedPropability;

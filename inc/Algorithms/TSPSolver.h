@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../Utils/RandomGenerator.h"
+
 #include "../Structures/Path.h"
 #include "../Structures/AdjacencyMatrix.h"
 

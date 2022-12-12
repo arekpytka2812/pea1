@@ -3,6 +3,7 @@
 #include <random>
 
 double TabuSearch::stopTime{120};
+NeighbourType neighbourType {NeighbourType::Swap};
 
 Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
 {
@@ -14,24 +15,9 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
     {
         this->timer.startTimer();
 
-        Array<size_t> newCities(this->cities);
-        makeMove(newCities);
+      //  Array<size_t> newCities = makeMove(newCities, cost);
 
-        int newCost = calculateCost(matrix_, newCities);
-
-        int delta = newCost - cost;
-
-        if(delta < 0)
-        {
-            cost = newCost;
-            this->cities = newCities;
-        }
-
-        if(cost < this->optimalCost)
-        {
-            this->optimalCost = cost;
-            this->optimalPath = this->cities;
-        }
+        
 
         this->time += timer.stopTimer();
     }
@@ -70,31 +56,39 @@ void TabuSearch::randomiseSolution()
 
 void TabuSearch::changeOrder(Array<size_t> & cities_)
 {
-    auto firstIndex = getRandomInt(0, cities_.size() - 1);
-    auto secondIndex = getRandomInt(0, cities_.size() - 1);
+    auto firstIndex = RandomGenerator::getInt(0, cities_.size() - 1);
+    auto secondIndex = RandomGenerator::getInt(0, cities_.size() - 1);
 
     cities_.swap(firstIndex, secondIndex);
 }
 
-int TabuSearch::getRandomInt(int min, int max)
+size_t TabuSearch::calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> & cities_)
 {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<size_t> dist(min, max);
 
-    return dist(gen);
 }
     
-void TabuSearch::makeMove(Array<size_t> & cities_)
+void TabuSearch::makeMove(const Array<size_t> & cities_, size_t cost_)
 {
-    int firstIndex{0}, secondIndex{0};
+    int firstIndex{0}, secondIndex{0}, newCost{0};
+    Array<size_t> newCities = cities_;
 
-    do{
-        firstIndex = getRandomInt(0, cities_.size() - 1);
-        secondIndex = getRandomInt(0, cities_.size() - 1);
+    while(firstIndex == secondIndex)
+    {
+        firstIndex = RandomGenerator::getInt(0, newCities.size() - 1);
+        secondIndex = RandomGenerator::getInt(0, newCities.size() - 1);
+    }
 
-    }while(this->tabuList.isTimedOut(firstIndex, secondIndex));
+    newCities.swap(firstIndex, secondIndex);
 
-    cities_.swap(firstIndex, secondIndex);
+    if(this->tabuList.isTimedOut(firstIndex, secondIndex))
+    {
+
+    }
+    
+}
+
+void TabuSearch::clearVariables()
+{
+
 }
 

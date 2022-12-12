@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 class TabuList
 {
     static size_t startTimeOut;

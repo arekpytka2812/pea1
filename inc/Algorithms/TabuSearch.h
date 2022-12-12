@@ -1,6 +1,9 @@
 #pragma once
 
+#include <cstddef>
+
 #include "TSPSolver.h"
+#include "../Structures/TSEnum.h"
 #include "../Structures/TabuList.h"
 #include "../Utils/Timer.h"
 
@@ -9,6 +12,7 @@ class TabuSearch : public TSPSolver
 {
     static double stopTime;
 
+    static NeighbourType neighbourType;
     TabuList tabuList;
 
     size_t citiesNumber{0};
@@ -25,10 +29,9 @@ class TabuSearch : public TSPSolver
     void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity_) override;
     void randomiseSolution();
     void changeOrder(Array<size_t> & cities_);
-    int getRandomInt(int min, int max);
     size_t calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> & cities_);
 
-    void makeMove(Array<size_t> & cities_);
+    void makeMove(const Array<size_t> & cities_, size_t cost_);
     
     void clearVariables() override;
 
@@ -43,5 +46,10 @@ public:
     void setStopTime(double stopTime_)
     {
         stopTime = stopTime_;
+    }
+
+    void setNeighbourType(enum NeighbourType type_)
+    {
+        neighbourType = type_;
     }
 };
