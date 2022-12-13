@@ -45,6 +45,8 @@
 
         void swap(size_t firstIndex_, size_t secondIndex_);
         void reverse(size_t firstIndex_, size_t secondIndex_);
+        void insert(size_t firstIndex_, size_t secondIndex_);
+        
         void clear();
 
         void printArray();

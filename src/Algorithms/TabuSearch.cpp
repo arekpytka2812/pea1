@@ -15,7 +15,8 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
     {
         this->timer.startTimer();
 
-      //  Array<size_t> newCities = makeMove(newCities, cost);
+        
+
 
         
 
@@ -72,18 +73,31 @@ void TabuSearch::makeMove(const Array<size_t> & cities_, size_t cost_)
     int firstIndex{0}, secondIndex{0}, newCost{0};
     Array<size_t> newCities = cities_;
 
-    while(firstIndex == secondIndex)
+    while(firstIndex == secondIndex || this->tabuList.isTimedOut(firstIndex, secondIndex))
     {
         firstIndex = RandomGenerator::getInt(0, newCities.size() - 1);
         secondIndex = RandomGenerator::getInt(0, newCities.size() - 1);
     }
 
-    newCities.swap(firstIndex, secondIndex);
+    if(firstIndex > secondIndex)
+        std::swap(firstIndex, secondIndex);
 
-    if(this->tabuList.isTimedOut(firstIndex, secondIndex))
+    switch(neighbourType)
     {
+        case NeighbourType::Swap:
+            newCities.swap(firstIndex, secondIndex);
+            break;
 
+        case NeighbourType::Insert:
+            newCities.insert(firstIndex, secondIndex);
+            break;
+
+        case NeighbourType::Invert:
+            newCities.reverse(firstIndex, secondIndex);
+            break;
     }
+
+    
     
 }
 
