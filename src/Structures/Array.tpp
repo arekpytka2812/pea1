@@ -234,13 +234,12 @@ void Array<T>::insert(size_t firstIndex_, size_t secondIndex_)
 {
     T temp = this->table[secondIndex_];
 
-    for(int i = secondIndex_; i > firstIndex_ + 1; ++i)
+    for(int i = secondIndex_; i > firstIndex_; --i)
     {
         this->table[i] = this->table[i - 1];
     }
 
     this->table[firstIndex_] = temp;
-
 }
 
 template<typename T>

@@ -27,7 +27,6 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
             this->optimalCost = cost;
             noBetterSolution = 0;
 
-            std::cout << "cipa\n";
             continue;
         }
 
@@ -42,17 +41,13 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
 
         this->time += timer.stopTimer();
 
-        std::cout << this->time << " " << stopTime<< "\n";
     }
 
-std::cout <<"debil\n"; 
-std::cout << this->optimalPath.size() << "\n";
 
     auto returnPath = new Path(this->optimalCost, this->optimalPath);
 
-    
-
-    this->optimalPath.printArray();
+    returnPath->addCityAtEnd(0);
+    returnPath->addCityAtFront(0);
 
     clearVariables();
 
@@ -65,6 +60,7 @@ void TabuSearch::setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCi
 
     this->tabuList.changeSize(this->citiesNumber);
 
+
     randomiseSolution();
 
     this->optimalCost = this->calculateCost(matrix_, this->cities);
@@ -74,13 +70,17 @@ void TabuSearch::setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCi
 
 void TabuSearch::randomiseSolution()
 {
-    for(int i = 0; i < this->citiesNumber; ++i)
+    if(this->cities.size() == 0)
     {
-        if(i == this->sourceCity)
-            continue;
+        for(int i = 0; i < this->citiesNumber; ++i)
+        {
+            if(i == this->sourceCity)
+                continue;
 
-        this->cities.addEnd(i);
+            this->cities.addEnd(i);
+        }
     }
+
 
     for(int i = 0; i < this->citiesNumber; ++i)
         changeOrder(this->cities);
@@ -156,8 +156,6 @@ void TabuSearch::makeMove(const AdjacencyMatrix & matrix_, size_t & cost_)
         
         noBetterSolutions++;
     }
-
-    std::cout << "first: " << firstIndex << " scond: " << secondIndex << "\n";
     
 }
 

@@ -7,7 +7,7 @@ int main()
     // Menu menu;
     // menu.chooseTestsType();
 
-    GraphGenerator gg(9);
+    GraphGenerator gg(12);
 
     gg.generateData();
 
@@ -20,6 +20,10 @@ int main()
     auto sa = new TabuSearch();
 
     sa->solveTSP(matrix)->printPathInfo();
+
+
+
+
 
     return 0;
 
