@@ -35,6 +35,9 @@ public:
 
     void readGraphFile();
     void writeIntoFile(std::string algorithm_, size_t instanceSize_, double time_);
+    void writeSAIntoFile();
+    void writeTBSIntoFile();
+
 
     int* getData() const
     {

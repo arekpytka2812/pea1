@@ -3,7 +3,7 @@
 
 #include "../../inc/Algorithms/SimulatedAnnealing.h"
 
-double SimulatedAnnealing::coolingRatio {0.999};
+double SimulatedAnnealing::coolingRatio {0.999999};
 double SimulatedAnnealing::stopTime {120};
 
 Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity_)
@@ -57,6 +57,8 @@ void SimulatedAnnealing::setupVariables(const AdjacencyMatrix & matrix_, size_t 
 {
     this->sourceCity = sourceCity_;
     this->citiesNumber = matrix_.citiesNumber;
+
+    this->startTemperature = pow(2, this->citiesNumber);
 
     randomiseSolution();
 

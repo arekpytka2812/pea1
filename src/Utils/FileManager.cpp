@@ -69,25 +69,20 @@ void FileManager::readTSP()
 
 void FileManager::readATSP()
 {
-    this->graphFile.seekg(4);
-
     std::string buffer;
 
-    this->graphFile >> buffer;
+    for(int i = 0; i < 4; ++i)
+        std::getline(this->graphFile, buffer);
 
-    std::cout << buffer << "\n";
+    int pos = buffer.find(":");
 
-    size_t citiesNumber {0};
-
-    this->graphFile >> citiesNumber;
+    size_t citiesNumber = std::stoi(buffer.substr(pos + 1));    
 
     this->clearData();
-
-    std::cout << citiesNumber;
-
     this->data = new InsertedData(citiesNumber);
 
-    this->graphFile.seekg(8);
+    for(int i = 3; i < 6; ++i)
+        std::getline(this->graphFile, buffer);   
 
     this->insertValues();
 }

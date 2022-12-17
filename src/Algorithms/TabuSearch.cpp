@@ -2,12 +2,11 @@
 
 #include <random>
 
-double TabuSearch::stopTime{10};
+double TabuSearch::stopTime{120};
 NeighbourType TabuSearch::neighbourType {NeighbourType::Swap};
 
 Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
 {
-
     setupVariables(matrix_, sourceCity_);
 
     size_t cost = this->optimalCost;
@@ -40,7 +39,6 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
         noBetterSolution++;
 
         this->time += timer.stopTimer();
-
     }
 
 
@@ -59,7 +57,6 @@ void TabuSearch::setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCi
     this->citiesNumber = matrix_.citiesNumber;
 
     this->tabuList.changeSize(this->citiesNumber);
-
 
     randomiseSolution();
 
@@ -80,7 +77,6 @@ void TabuSearch::randomiseSolution()
             this->cities.addEnd(i);
         }
     }
-
 
     for(int i = 0; i < this->citiesNumber; ++i)
         changeOrder(this->cities);
@@ -113,7 +109,7 @@ size_t TabuSearch::calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> 
 void TabuSearch::makeMove(const AdjacencyMatrix & matrix_, size_t & cost_)
 {
     int firstIndex{0}, secondIndex{0}, newCost{0};
-    Array<size_t> newCities = this->cities;
+    Array<size_t> newCities {this->cities};
     bool better {false};
     size_t noBetterSolutions {0};
 

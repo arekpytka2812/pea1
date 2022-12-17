@@ -7,19 +7,23 @@ int main()
     // Menu menu;
     // menu.chooseTestsType();
 
+
+    FileManager fm;
+    fm.readGraphFile();
+
     GraphGenerator gg(12);
 
     gg.generateData();
 
-    AdjacencyMatrix matrix(gg.getCitiesNumber(), gg.getData());
+    AdjacencyMatrix matrix(fm.getCitiesNumber(), fm.getData());
 
-    auto dp = new DP();
-
-    dp->solveTSP(matrix)->printPathInfo();
-
-    auto sa = new TabuSearch();
+    auto sa = new SimulatedAnnealing();
 
     sa->solveTSP(matrix)->printPathInfo();
+
+    auto ts = new TabuSearch();
+
+    ts->solveTSP(matrix)->printPathInfo();
 
 
 
