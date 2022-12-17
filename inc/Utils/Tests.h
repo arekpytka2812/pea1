@@ -7,6 +7,7 @@
 #include "../Algorithms/DP.h"
 #include "../Algorithms/BnB.h"
 #include "../Algorithms/SimulatedAnnealing.h"
+#include "../Algorithms/TabuSearch.h"
 
 class Tests
 {

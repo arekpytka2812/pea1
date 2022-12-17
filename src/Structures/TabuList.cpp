@@ -78,3 +78,8 @@ void TabuList::refreshTimeOut()
         }
     }
 }
+
+void TabuList::clear()
+{
+    this->deallocateMemory();
+}

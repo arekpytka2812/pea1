@@ -3,13 +3,15 @@
 #include <cstddef>
 
 #include "TSPSolver.h"
-#include "../Structures/TSEnum.h"
+// #include "../Structures/TSEnum.h"
 #include "../Structures/TabuList.h"
-#include "../Utils/Timer.h"
 
+enum class NeighbourType {Swap, Insert, Invert};
 
 class TabuSearch : public TSPSolver
 {
+    
+
     static double stopTime;
 
     static NeighbourType neighbourType;
@@ -31,13 +33,13 @@ class TabuSearch : public TSPSolver
     void changeOrder(Array<size_t> & cities_);
     size_t calculateCost(const AdjacencyMatrix & matrix_, Array<size_t> & cities_);
 
-    void makeMove(const Array<size_t> & cities_, size_t cost_);
+    void makeMove(const AdjacencyMatrix & matrix_, size_t & cost_);
     
     void clearVariables() override;
 
-
-
 public:
+
+    
     
     TabuSearch() = default;
     

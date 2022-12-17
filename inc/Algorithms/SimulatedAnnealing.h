@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TSPSolver.h"
-#include "../Utils/Timer.h"
 
 class SimulatedAnnealing : public TSPSolver
 {

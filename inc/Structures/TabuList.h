@@ -16,6 +16,7 @@ class TabuList
 
 public:
 
+    TabuList() = default;
     explicit TabuList(const size_t size_);
     ~TabuList();
 
@@ -24,6 +25,7 @@ public:
     void insertNewTabu(size_t source_, size_t destination_);
     bool isTimedOut(size_t source_, size_t destination_);
     void refreshTimeOut();
+    void clear();
 
     static void setTimeOut(size_t timeOut_)
     {

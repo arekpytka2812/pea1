@@ -13,7 +13,11 @@ int main()
 
     AdjacencyMatrix matrix(gg.getCitiesNumber(), gg.getData());
 
-    auto sa = new SimulatedAnnealing();
+    auto dp = new DP();
+
+    dp->solveTSP(matrix)->printPathInfo();
+
+    auto sa = new TabuSearch();
 
     sa->solveTSP(matrix)->printPathInfo();
 
