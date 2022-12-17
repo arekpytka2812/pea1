@@ -22,6 +22,9 @@ class Tests
     BnB* bnb {nullptr};
     DP* dp {nullptr};
 
+    SimulatedAnnealing* sa {nullptr};
+    TabuSearch* ts {nullptr};
+
     double bfDuration{0};
     double bnbDuration{0};
     double dpDuration{0};
@@ -37,6 +40,8 @@ class Tests
     void testBF();
     void testBnB();
     void testDP();
+
+    void testLocalSearch();
 
     void getAverageDurations();
 

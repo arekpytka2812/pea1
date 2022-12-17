@@ -34,6 +34,7 @@ public:
     ~FileManager();
 
     void readGraphFile();
+    void readGraphFile(std::string filePath_);
     void writeIntoFile(std::string algorithm_, size_t instanceSize_, double time_);
     void writeSAIntoFile();
     void writeTBSIntoFile();

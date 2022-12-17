@@ -7,6 +7,8 @@ Tests::Tests()
     this->bf = new BruteForce();
     this->bnb = new BnB();
     this->dp = new DP();
+    this->sa = new SimulatedAnnealing();
+    this->ts = new TabuSearch();
 }
 
 Tests::~Tests()
@@ -16,6 +18,8 @@ Tests::~Tests()
     delete this->bf;
     delete this->bnb;
     delete this->dp;
+    delete this->sa;
+    delete this->ts;
 
     if(this->gg != nullptr)
         delete this->gg;
@@ -106,6 +110,54 @@ void Tests::testDP()
     timer.startTimer();         
     this->returnPath = dp->solveTSP(*matrix);        
     this->dpDuration += timer.stopTimer();
+}
+
+void Tests::testLocalSearch()
+{
+    std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rgb403.atsp"};
+    double stopTimes[] = {120.0, 240.0, 360.0};
+    double coolingRatios[] = {0.99999, 0.95, 0.9};
+    NeighbourType types[] = {NeighbourType::Swap, NeighbourType::Insert, NeighbourType::Invert};
+
+    for(int i = 0; i < 3; ++i)
+    {
+        if(this->fm != nullptr)
+            delete this->fm;
+
+        if(this->matrix != nullptr)
+            delete this->matrix;
+
+        this->fm = new FileManager();
+
+        fm->readGraphFile(fileNames[i]);
+
+        this->matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+
+        SimulatedAnnealing::setStopTime(stopTimes[i]);
+        TabuSearch::setStopTime(stopTimes[i]);
+
+
+        for(int j = 0; j < 3; ++j)
+        {
+            SimulatedAnnealing::setCoolingRatio(coolingRatios[j]);
+            TabuSearch::setNeighbourType(types[j]);
+
+            for(int k = 0; k < 10; ++k)
+            {
+                if(this->returnPath != nullptr)
+                    delete this->returnPath;
+                
+                this->returnPath = this->sa->solveTSP(*matrix);
+
+                
+
+            }
+        }
+
+        
+
+
+    }
 }
 
 void Tests::getAverageDurations()

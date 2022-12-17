@@ -117,6 +117,24 @@ void FileManager::insertValues()
     }
 }
 
+void FileManager::readGraphFile(std::string filePath_)
+{
+    this->graphPath = filePath_;
+
+    this->graphFile.open(graphPath.c_str(), std::fstream::in);
+
+    if(!this->graphFile.good())
+    {
+        std::cout << "Something went wrong with file\n";
+        return;
+    }
+
+    this->graphFile.clear();
+    this->graphFile.seekg(0);
+
+    readATSP();
+}
+
 void FileManager::writeIntoFile(std::string algorithm_, size_t instanceSize_, double time_)
 {
     this->resultsFile << algorithm_ << ";" << instanceSize_ << ";" << time_ << "\n";

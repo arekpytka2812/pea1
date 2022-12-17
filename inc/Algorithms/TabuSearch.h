@@ -45,12 +45,12 @@ public:
     
     Path* solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_ = 0) override;
 
-    void setStopTime(double stopTime_)
+    static void setStopTime(double stopTime_)
     {
         stopTime = stopTime_;
     }
 
-    void setNeighbourType(enum NeighbourType type_)
+    static void setNeighbourType(enum NeighbourType type_)
     {
         neighbourType = type_;
     }
