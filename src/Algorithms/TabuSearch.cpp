@@ -26,6 +26,8 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
             this->optimalCost = cost;
             noBetterSolution = 0;
 
+            this->time += timer.stopTimer();
+
             continue;
         }
 
@@ -33,6 +35,9 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
         {
             randomiseSolution();
             noBetterSolution = 0;
+            
+            this->time += timer.stopTimer();
+            
             continue;
         } 
 
@@ -46,6 +51,8 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
 
     returnPath->addCityAtEnd(this->sourceCity);
     returnPath->addCityAtFront(this->sourceCity);
+
+    std::cout << this->time/1000.0 << "\n";
 
     clearVariables();
 

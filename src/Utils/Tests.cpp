@@ -147,7 +147,7 @@ void Tests::testLocalSearch()
             SimulatedAnnealing::setCoolingRatio(coolingRatios[j]);
             TabuSearch::setNeighbourType(types[j]);
 
-            for(int k = 0; k < 1; ++k)
+            for(int k = 0; k < 10; ++k)
             {
                 if(this->returnPath != nullptr)
                     delete this->returnPath;
@@ -185,8 +185,8 @@ void Tests::testLocalSearch()
 
             }
 
-            // saTime /= 10;
-            // tsTime /= 10;
+            saTime /= 10;
+            tsTime /= 10;
 
             saValue /= 10;
             tsValue /= 10;
@@ -194,9 +194,6 @@ void Tests::testLocalSearch()
             fm->writeSAIntoFile(fileNames[i], stopTimes[i], coolingRatios[j], saTime, saValue, bestKnownValues[i]);
             fm->writeTBSIntoFile(fileNames[i], stopTimes[i], types[j], tsTime, tsValue, bestKnownValues[i]);
         }
-
-        
-
 
     }
 }
