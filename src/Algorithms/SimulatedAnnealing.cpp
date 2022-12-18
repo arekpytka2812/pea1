@@ -115,7 +115,6 @@ bool SimulatedAnnealing::makeDecision(const size_t delta_, const double temperat
 
 void SimulatedAnnealing::clearVariables()
 {
-    this->startTemperature = 1000;
     this->citiesNumber = 0;
     optimalCost = INT_MAX;
 

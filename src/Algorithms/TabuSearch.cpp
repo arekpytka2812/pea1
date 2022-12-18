@@ -44,8 +44,8 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
 
     auto returnPath = new Path(this->optimalCost, this->optimalPath);
 
-    returnPath->addCityAtEnd(0);
-    returnPath->addCityAtFront(0);
+    returnPath->addCityAtEnd(this->sourceCity);
+    returnPath->addCityAtFront(this->sourceCity);
 
     clearVariables();
 
@@ -157,8 +157,13 @@ void TabuSearch::makeMove(const AdjacencyMatrix & matrix_, size_t & cost_)
 
 void TabuSearch::clearVariables()
 {
+    this->citiesNumber = 0;
+    optimalCost = INT_MAX;
+
     this->tabuList.clear();
     this->optimalPath.clear();
     this->cities.clear();
+
+    this->time = 0;
 }
 

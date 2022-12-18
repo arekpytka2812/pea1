@@ -33,5 +33,9 @@ public:
         return this->totalCost;
     }
     
+    Array<size_t>& getCities()
+    {
+        return this->cities;
+    }
 
 };

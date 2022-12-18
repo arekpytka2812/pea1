@@ -1,5 +1,6 @@
 #include "../../inc/Utils/FileManager.h" 
 
+
 FileManager::FileManager()
 {
     this->resultsPath = "out/results.csv";
@@ -139,4 +140,31 @@ void FileManager::writeIntoFile(std::string algorithm_, size_t instanceSize_, do
 {
     this->resultsFile << algorithm_ << ";" << instanceSize_ << ";" << time_ << "\n";
     this->resultsFile.flush();
+}
+
+void FileManager::writeSAIntoFile(std::string fileName_, double stopTime_, double coolingRatio_, double time_, size_t saValue_, size_t bestKnownValue_)
+{
+    this->resultsFile << fileName_ << ";" << stopTime_ << ";" << coolingRatio_ << ";" << time_ << saValue_<< ";" << bestKnownValue_ << "\n";
+    this->resultsFile.flush();
+}
+
+void FileManager::writeTBSIntoFile(std::string fileName_, double stopTime_, NeighbourType type_, double time_, size_t tsValue_, size_t bestKnownValue_)
+{
+    this->resultsFile << fileName_ << ";" << stopTime_ << ";" << castToString(type_) << ";" << time_ << tsValue_<< ";" << bestKnownValue_ << "\n";
+    this->resultsFile.flush();
+}
+
+std::string FileManager::castToString(NeighbourType type_)
+{
+    switch(type_)
+    {
+        case NeighbourType::Swap:
+            return "swap";
+        
+        case NeighbourType::Insert:
+            return "insert";
+
+        case NeighbourType::Invert:
+            return "invert";
+    }
 }

@@ -3,10 +3,10 @@
 #include <cstddef>
 
 #include "TSPSolver.h"
-// #include "../Structures/TSEnum.h"
+#include "../Structures/TSEnum.h"
 #include "../Structures/TabuList.h"
 
-enum class NeighbourType {Swap, Insert, Invert};
+
 
 class TabuSearch : public TSPSolver
 {

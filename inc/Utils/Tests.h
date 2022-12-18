@@ -41,7 +41,7 @@ class Tests
     void testBnB();
     void testDP();
 
-    void testLocalSearch();
+    
 
     void getAverageDurations();
 
@@ -51,6 +51,8 @@ public:
     ~Tests();
 
     void performAutoTests();
+
+    void testLocalSearch();
 
 
 };

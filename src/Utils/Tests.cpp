@@ -115,9 +115,15 @@ void Tests::testDP()
 void Tests::testLocalSearch()
 {
     std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rgb403.atsp"};
+    int bestKnownValues[] = {1776, 2755, 2465};
     double stopTimes[] = {120.0, 240.0, 360.0};
     double coolingRatios[] = {0.99999, 0.95, 0.9};
     NeighbourType types[] = {NeighbourType::Swap, NeighbourType::Insert, NeighbourType::Invert};
+
+    double saTime {0}, tsTime{0}, saValue{0}, tsValue{0};
+
+    size_t saBestCost {INT_MAX}, tsBestCost{INT_MAX};
+    Array<size_t> saBestPath, tsBestPath;
 
     for(int i = 0; i < 3; ++i)
     {
@@ -136,22 +142,57 @@ void Tests::testLocalSearch()
         SimulatedAnnealing::setStopTime(stopTimes[i]);
         TabuSearch::setStopTime(stopTimes[i]);
 
-
         for(int j = 0; j < 3; ++j)
         {
             SimulatedAnnealing::setCoolingRatio(coolingRatios[j]);
             TabuSearch::setNeighbourType(types[j]);
 
-            for(int k = 0; k < 10; ++k)
+            for(int k = 0; k < 1; ++k)
             {
                 if(this->returnPath != nullptr)
                     delete this->returnPath;
                 
+                this->timer.startTimer();
+                
                 this->returnPath = this->sa->solveTSP(*matrix);
 
+                saTime += this->timer.stopTimer();
+
+                if(this->returnPath->getTotalCost() < saBestCost)
+                {
+                    saBestPath = this->returnPath->getCities();
+                    saBestCost = this->returnPath->getTotalCost();
+                }
+
+                saValue += this->returnPath->getTotalCost();
+
+                if(this->returnPath != nullptr)
+                    delete this->returnPath;
                 
+                this->timer.startTimer();
+                
+                this->returnPath = this->ts->solveTSP(*matrix);
+
+                tsTime += this->timer.stopTimer();
+
+                if(this->returnPath->getTotalCost() < tsBestCost)
+                {
+                    tsBestPath = this->returnPath->getCities();
+                    tsBestCost = this->returnPath->getTotalCost();
+                }
+
+                tsValue += this->returnPath->getTotalCost();
 
             }
+
+            // saTime /= 10;
+            // tsTime /= 10;
+
+            saValue /= 10;
+            tsValue /= 10;
+
+            fm->writeSAIntoFile(fileNames[i], stopTimes[i], coolingRatios[j], saTime, saValue, bestKnownValues[i]);
+            fm->writeTBSIntoFile(fileNames[i], stopTimes[i], types[j], tsTime, tsValue, bestKnownValues[i]);
         }
 
         
