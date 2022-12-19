@@ -8,27 +8,27 @@ int main()
     // menu.chooseTestsType();
 
 
-    FileManager fm;
-    fm.readGraphFile();
+    // FileManager fm;
+    // fm.readGraphFile();
 
-    GraphGenerator gg(12);
+    // GraphGenerator gg(12);
 
-    gg.generateData();
+    // gg.generateData();
 
-    AdjacencyMatrix matrix(fm.getCitiesNumber(), fm.getData());
+    // AdjacencyMatrix matrix(fm.getCitiesNumber(), fm.getData());
 
-    // auto sa = new SimulatedAnnealing();
+    // // auto sa = new SimulatedAnnealing();
 
-    // sa->solveTSP(matrix)->printPathInfo();
+    // // sa->solveTSP(matrix)->printPathInfo();
 
-    auto ts = new TabuSearch();
+    // auto ts = new TabuSearch();
 
-    ts->solveTSP(matrix)->printPathInfo();
+    // ts->solveTSP(matrix)->printPathInfo();
 
 
-    // Tests tests;
+    Tests tests;
 
-    // tests.testLocalSearch();
+    tests.testLocalSearch();
 
 
     return 0;

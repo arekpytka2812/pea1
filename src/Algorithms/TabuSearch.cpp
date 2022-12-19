@@ -52,8 +52,6 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
     returnPath->addCityAtEnd(this->sourceCity);
     returnPath->addCityAtFront(this->sourceCity);
 
-    std::cout << this->time/1000.0 << "\n";
-
     clearVariables();
 
     return returnPath;

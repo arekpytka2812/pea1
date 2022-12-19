@@ -114,7 +114,7 @@ void Tests::testDP()
 
 void Tests::testLocalSearch()
 {
-    std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rgb403.atsp"};
+    std::string fileNames[] = {"br17.atsp", "ftv170.atsp", "rgb403.atsp"};
     int bestKnownValues[] = {1776, 2755, 2465};
     double stopTimes[] = {120.0, 240.0, 360.0};
     double coolingRatios[] = {0.99999, 0.95, 0.9};
@@ -147,7 +147,7 @@ void Tests::testLocalSearch()
             SimulatedAnnealing::setCoolingRatio(coolingRatios[j]);
             TabuSearch::setNeighbourType(types[j]);
 
-            for(int k = 0; k < 10; ++k)
+            for(int k = 0; k < 1; ++k)
             {
                 if(this->returnPath != nullptr)
                     delete this->returnPath;
@@ -185,14 +185,16 @@ void Tests::testLocalSearch()
 
             }
 
-            saTime /= 10;
-            tsTime /= 10;
+            // saTime /= 10;
+            // tsTime /= 10;
 
-            saValue /= 10;
-            tsValue /= 10;
+            // saValue /= 10;
+            // tsValue /= 10;
 
             fm->writeSAIntoFile(fileNames[i], stopTimes[i], coolingRatios[j], saTime, saValue, bestKnownValues[i]);
             fm->writeTBSIntoFile(fileNames[i], stopTimes[i], types[j], tsTime, tsValue, bestKnownValues[i]);
+
+            std::cout << "done\n";
         }
 
     }
