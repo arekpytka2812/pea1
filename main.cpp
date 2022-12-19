@@ -9,17 +9,19 @@ int main()
 
 
     // FileManager fm;
-    // fm.readGraphFile();
+    // fm.readGraphFile("ftv47.atsp");
 
-    // GraphGenerator gg(12);
+    // // GraphGenerator gg(12);
 
-    // gg.generateData();
+    // // gg.generateData();
 
     // AdjacencyMatrix matrix(fm.getCitiesNumber(), fm.getData());
 
-    // // auto sa = new SimulatedAnnealing();
 
-    // // sa->solveTSP(matrix)->printPathInfo();
+
+    // auto sa = new SimulatedAnnealing();
+
+    // sa->solveTSP(matrix)->printPathInfo();
 
     // auto ts = new TabuSearch();
 

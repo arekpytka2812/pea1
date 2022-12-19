@@ -120,6 +120,10 @@ void FileManager::insertValues()
 
 void FileManager::readGraphFile(std::string filePath_)
 {
+
+    if(this->graphFile.is_open())
+        this->graphFile.close();
+
     this->graphPath = filePath_;
 
     this->graphFile.open(graphPath.c_str(), std::fstream::in);

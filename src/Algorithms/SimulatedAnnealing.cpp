@@ -4,7 +4,7 @@
 #include "../../inc/Algorithms/SimulatedAnnealing.h"
 
 double SimulatedAnnealing::coolingRatio {0.999999};
-double SimulatedAnnealing::stopTime {120};
+double SimulatedAnnealing::stopTime {10};
 
 Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity_)
 {
