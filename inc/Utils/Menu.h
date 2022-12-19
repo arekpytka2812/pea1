@@ -14,13 +14,20 @@ class Menu
     FileManager* fm {nullptr};
     GraphGenerator* gg {nullptr};
     AdjacencyMatrix* matrix {nullptr};
+
     BruteForce* bf {nullptr};
     DP* dp {nullptr};
     Path* result {nullptr};
     BnB* bnb {nullptr};
 
+    SimulatedAnnealing* sa {nullptr};
+    TabuSearch* ts {nullptr};
+
     void manualTests();
     void manualMainMenu();
+
+    void setNeighbourType();
+    void setCoolingRatio();
 
 public:
 

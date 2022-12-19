@@ -182,6 +182,8 @@ void Tests::testLocalSearch()
 
                 tsValue += this->returnPath->getTotalCost();
 
+                std::cout << "File: " << i << ", params: " << j << ", test: " << k << "\n";
+
             }
 
             saTime /= 10;
