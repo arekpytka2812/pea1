@@ -1,7 +1,8 @@
 #pragma once
 
 #include "GraphGenerator.h"
-#include "FileManager.h"
+#include "FileWritter.h"
+#include "FileReader.h"
 
 #include "../Algorithms/BruteForce.h"
 #include "../Algorithms/DP.h"
@@ -15,7 +16,8 @@ class Tests
     Path* returnPath {nullptr};
 
     GraphGenerator* gg {nullptr};
-    FileManager *fm{nullptr};
+    FileWritter fileWritter;
+    FileReader fileReader;
     Timer timer;
 
     BruteForce* bf {nullptr};

@@ -2,19 +2,17 @@
 
 Tests::Tests()
 {
-    this->fm = new FileManager();
-
     this->bf = new BruteForce();
     this->bnb = new BnB();
     this->dp = new DP();
     this->sa = new SimulatedAnnealing();
     this->ts = new TabuSearch();
+
+    this->fileWritter.openFile("out/results.csv");
 }
 
 Tests::~Tests()
 {
-    delete this->fm;
-
     delete this->bf;
     delete this->bnb;
     delete this->dp;
@@ -29,6 +27,8 @@ Tests::~Tests()
 
     if(this->returnPath != nullptr)
         delete this->returnPath;
+
+    
 }
 
 void Tests::performAutoTests()
@@ -61,9 +61,9 @@ void Tests::performAutoTests()
 
         this->getAverageDurations();
 
-        this->fm->writeIntoFile("BF", this->instanceSize[this->testCounter], bfDuration);
-        this->fm->writeIntoFile("BnB", this->instanceSize[this->testCounter], bnbDuration);
-        this->fm->writeIntoFile("DP", this->instanceSize[this->testCounter], dpDuration);
+        this->fileWritter.writeIntoFile("BF", this->instanceSize[this->testCounter], bfDuration);
+        this->fileWritter.writeIntoFile("BnB", this->instanceSize[this->testCounter], bnbDuration);
+        this->fileWritter.writeIntoFile("DP", this->instanceSize[this->testCounter], dpDuration);
         
         this->testCounter++;
 
@@ -134,9 +134,9 @@ void Tests::testLocalSearch()
         if(this->matrix != nullptr)
             delete this->matrix;
 
-        fm->readGraphFile(fileNames[i]);
+        fileReader.readFromFile(fileNames[i]);
 
-        this->matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+        this->matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData());
 
         SimulatedAnnealing::setStopTime(stopTimes[i]);
         TabuSearch::setStopTime(stopTimes[i]);
@@ -192,8 +192,8 @@ void Tests::testLocalSearch()
             saValue /= 10;
             tsValue /= 10;
 
-            fm->writeSAIntoFile(fileNames[i], stopTimes[i], coolingRatios[j], saTime, saValue, bestKnownValues[i]);
-            fm->writeTBSIntoFile(fileNames[i], stopTimes[i], types[j], tsTime, tsValue, bestKnownValues[i]);
+            fileWritter.writeSAIntoFile(fileNames[i], stopTimes[i], coolingRatios[j], saTime, saValue, bestKnownValues[i]);
+            fileWritter.writeTBSIntoFile(fileNames[i], stopTimes[i], types[j], tsTime, tsValue, bestKnownValues[i]);
 
             saTime = 0;
             tsTime = 0;

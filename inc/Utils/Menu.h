@@ -11,7 +11,7 @@ class Menu
     size_t howMany {0};
     double duration{0};
 
-    FileManager* fm {nullptr};
+    FileReader fileReader;
     GraphGenerator* gg {nullptr};
     AdjacencyMatrix* matrix {nullptr};
 

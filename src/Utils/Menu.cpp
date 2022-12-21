@@ -11,8 +11,6 @@ Menu::Menu()
 
 Menu::~Menu()
 {
-    delete this->fm;
-
     delete this->bf;
     delete this->bnb;
     delete this->dp;
@@ -87,20 +85,21 @@ void Menu::manualMainMenu()
 void Menu::manualTests()
 {
     double stopTime{0};
+    std::string filePath;
 
     switch (choice)
     {
         case 1:
-            if(fm != nullptr)
-                delete fm;
             
             if(matrix != nullptr)
                 delete matrix;
-            
-            fm = new FileManager();
-            fm->readGraphFile(); 
 
-            matrix = new AdjacencyMatrix(fm->getCitiesNumber(), fm->getData());
+            std::cout << "Type file name:\n";
+            std::cin >> filePath;
+
+            fileReader.readFromFile(filePath); 
+
+            matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData());
 
             break;
         

@@ -8,22 +8,34 @@ double SimulatedAnnealing::stopTime {10};
 
 Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity_)
 {
+    // setuping up all needed variables
     setupVariables(matrix_, sourceCity_);
 
+    // cost is a cost of current path
     size_t cost = this->optimalCost;
+
+    // temerature that changes during algorithm
     double temperature = startTemperature;
 
+    // main loop
     while((this->time / 1000.0) < stopTime)
     {
         this->timer.startTimer();
 
+        // creating newCities vector based on current path
         Array<size_t> newCities(cities);
+        // making move on newCities vector
         changeOrder(newCities);
 
+        // calculating cost of new solution
         size_t newCost = this->calculateCost(matrix_, newCities);
 
-        size_t delta = newCost - cost;
+        // calculating delta
+        int delta = newCost - cost;
 
+        // if delta is bigger than 0 then
+        // algorithm is making decicsion whether 
+        // to take solution or not
         if(delta >= 0 && !makeDecision(delta, temperature))
         {
             temperature *= coolingRatio;
@@ -31,25 +43,33 @@ Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourc
             continue;
         }
 
+        // changing values
         cost = newCost;
         this->cities = newCities;
 
+        // checking if new cost is better than optimal
         if(cost < this->optimalCost)
         {
             this->optimalCost = cost;
             this->optimalPath = cities;
         }
 
+        // cooling temperature
         temperature *= coolingRatio;
         this->time += this->timer.stopTimer();
     }
 
+    // creating path object
     auto returnPath = new Path(optimalCost, optimalPath);
+    
+    // adding source city since its not in the cities vector
     returnPath->addCityAtEnd(this->sourceCity);
     returnPath->addCityAtFront(this->sourceCity);
 
+    // clearing variables 
     clearVariables();
 
+    // returning path
     return returnPath;
 } 
 
