@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Structures/TSEnum.h"
+#include "../Enums/TSEnum.h"
 
 #include <fstream>
 #include <iostream>

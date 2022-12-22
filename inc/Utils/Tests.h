@@ -9,6 +9,7 @@
 #include "../Algorithms/BnB.h"
 #include "../Algorithms/SimulatedAnnealing.h"
 #include "../Algorithms/TabuSearch.h"
+#include "../Algorithms/GeneticAlgorithm.h"
 
 class Tests
 {

@@ -3,7 +3,7 @@
 #include <cstddef>
 
 #include "TSPSolver.h"
-#include "../Structures/TSEnum.h"
+#include "../Enums/TSEnum.h"
 #include "../Structures/TabuList.h"
 
 
