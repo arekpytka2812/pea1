@@ -4,7 +4,7 @@ double GeneticAlgorithm::mutationPropability{0.1};
 double GeneticAlgorithm::crossoverPropability{0.1};
 size_t GeneticAlgorithm::populationSize{10};
 
-MutationType GeneticAlgorithm::mutationType{MutationType::Insert};
+MutationType GeneticAlgorithm::mutationType{MutationType::Swap};
 CrossoverType GeneticAlgorithm::crossoverType{CrossoverType::PMX};
 double GeneticAlgorithm::stopTime{10};
 

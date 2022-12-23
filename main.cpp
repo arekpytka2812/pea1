@@ -7,7 +7,6 @@ int main()
     // Menu menu;
     // menu.chooseTestsType();
 
-
     FileReader fr;
 
     fr.readFromFile("tsp_6_2.txt");
