@@ -38,15 +38,17 @@ class Tests
     const size_t instanceSize[10] = {12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
     size_t testCounter{0};
 
+    void task1Tests();
     void generateInstance();
-
     void testBF();
     void testBnB();
     void testDP();
-
-    
-
     void getAverageDurations();
+
+    void task2Tests();
+
+
+    void task3Tests();
 
 public:
 
@@ -54,8 +56,4 @@ public:
     ~Tests();
 
     void performAutoTests();
-
-    void testLocalSearch();
-
-
 };

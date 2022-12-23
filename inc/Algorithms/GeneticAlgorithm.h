@@ -47,9 +47,10 @@ private:
     void generateNewPopulation(std::vector<Individual> & newPopulation_);
     void crossover(std::vector<Individual> & newPopulation_);
     void executeCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_);
-    
 
     void mutate(std::vector<Individual> & newPopulation_);
+
+    void calculatePopulationFitness(const AdjacencyMatrix& matrix_);
 
     void clearVariables();
 

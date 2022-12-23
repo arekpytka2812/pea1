@@ -91,6 +91,8 @@ void CrossoverGenerator::pmxCrossover(std::vector<int> & chromosome1_, std::vect
         j++;
     }
 
+    chromosome1_ = buffer1;
+    chromosome2_ = buffer2;
 }
 
 void CrossoverGenerator::copyGenomes(const std::vector<int> & source_, std::vector<int> & destination_, size_t firstIndex_, size_t secondIndex_)

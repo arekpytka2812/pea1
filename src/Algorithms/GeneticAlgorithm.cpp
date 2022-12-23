@@ -36,6 +36,8 @@ Path * GeneticAlgorithm::solveTSP(const AdjacencyMatrix & matrix_, size_t source
 
         this->population = newPopulation;
 
+        calculatePopulationFitness(matrix_);
+
         std::sort(this->population.begin(), this->population.end());
 
         if(this->optimalCost > this->population[0].getFitness())
@@ -108,6 +110,8 @@ void GeneticAlgorithm::generateNewPopulation(std::vector<Individual> & newPopula
     crossover(newPopulation_);
     
     mutate(newPopulation_);
+
+    
 }
 
 void GeneticAlgorithm::crossover(std::vector<Individual> & newPopulation_)
@@ -128,11 +132,11 @@ void GeneticAlgorithm::crossover(std::vector<Individual> & newPopulation_)
 
         executeCrossover(chromosome1, chromosome2);
 
-        Individual newInd1(chromosome1);
-        Individual newInd2(chromosome2);
+        // Individual newInd1(chromosome1);
+        // Individual newInd2(chromosome2);
 
-        newPopulation_.push_back(newInd1);
-        newPopulation_.push_back(newInd2);
+        newPopulation_.push_back(Individual(chromosome1));
+        newPopulation_.push_back(Individual(chromosome2));
     }
 }
 
@@ -155,8 +159,6 @@ void GeneticAlgorithm::executeCrossover(std::vector<int> & chromosome1_, std::ve
     }
 }
 
-
-
 void GeneticAlgorithm::mutate(std::vector<Individual> & newPopulation_)
 {
     for(int i = 0; i < populationSize; ++i)
@@ -168,7 +170,14 @@ void GeneticAlgorithm::mutate(std::vector<Individual> & newPopulation_)
 
         newPopulation_[i].mutate(mutationType);
 
+
     }
+}
+
+void GeneticAlgorithm::calculatePopulationFitness(const AdjacencyMatrix& matrix_)
+{
+    for(auto & individual : this->population)
+        individual.calculateFitness(matrix_, this->sourceCity);
 }
 
 void GeneticAlgorithm::clearVariables()

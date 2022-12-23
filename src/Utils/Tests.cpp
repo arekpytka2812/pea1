@@ -112,7 +112,7 @@ void Tests::testDP()
     this->dpDuration += timer.stopTimer();
 }
 
-void Tests::testLocalSearch()
+void Tests::task2Tests()
 {
     std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rbg403.atsp"};
     int bestKnownValues[] = {1776, 2755, 2465};
