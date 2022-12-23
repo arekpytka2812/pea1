@@ -17,6 +17,7 @@ public:
 
     Path();
     Path(size_t totalCost_, const Array<size_t> & cities_);
+    Path(size_t totalCost_, const std::string & cities_);
     ~Path();
 
     void addCityAtFront(size_t city_, size_t cost_ = 0);

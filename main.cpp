@@ -20,7 +20,7 @@ int main()
 
     GeneticAlgorithm ga;
 
-    ga.solveTSP(matrix);
+    ga.solveTSP(matrix)->printPathInfo();
 
     return 0;
 

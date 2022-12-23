@@ -6,6 +6,8 @@
 
 #include "../Structures/Individual.h"
 
+#include "../Utils/CrossoverGenerator.h"
+
 #include <vector>
 #include <algorithm>
 
@@ -22,7 +24,7 @@ private:
     size_t sourceCity{0};
     size_t citiesNumber{0};
 
-    Array<size_t> optimalPath;
+    std::string optimalPath;
     size_t optimalCost{INT_MAX};
 
     std::vector<Individual> population;
@@ -42,7 +44,12 @@ private:
     void generateFirstPopulation(const AdjacencyMatrix & matrix_);
     std::string shuffleChromosome(std::string cities_);
 
-    void crossoverAndMutate(std::vector<Individual> & newPopulation_);
+    void generateNewPopulation(std::vector<Individual> & newPopulation_);
+    void crossover(std::vector<Individual> & newPopulation_);
+    void executeCrossover(std::string & chromosome1_, std::string & chromosome2_);
+    
+
+    void mutate(std::vector<Individual> & newPopulation_);
 
     void clearVariables();
 
