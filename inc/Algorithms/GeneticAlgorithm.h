@@ -24,7 +24,7 @@ private:
     size_t sourceCity{0};
     size_t citiesNumber{0};
 
-    std::string optimalPath;
+    std::vector<int> optimalPath;
     size_t optimalCost{INT_MAX};
 
     std::vector<Individual> population;
@@ -42,11 +42,11 @@ private:
     void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity_) override;
 
     void generateFirstPopulation(const AdjacencyMatrix & matrix_);
-    std::string shuffleChromosome(std::string cities_);
+    std::vector<int> shuffleChromosome(const std::vector<int> & cities_);
 
     void generateNewPopulation(std::vector<Individual> & newPopulation_);
     void crossover(std::vector<Individual> & newPopulation_);
-    void executeCrossover(std::string & chromosome1_, std::string & chromosome2_);
+    void executeCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_);
     
 
     void mutate(std::vector<Individual> & newPopulation_);

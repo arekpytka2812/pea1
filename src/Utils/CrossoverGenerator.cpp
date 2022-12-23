@@ -1,6 +1,6 @@
 #include "../../inc/Utils/CrossoverGenerator.h"
 
-void CrossoverGenerator::pmxCrossover(std::string & chromosome1_, std::string & chromosome2_)
+void CrossoverGenerator::pmxCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
 {
     size_t firstIndex{0}, secondIndex{0};
 
@@ -13,74 +13,51 @@ void CrossoverGenerator::pmxCrossover(std::string & chromosome1_, std::string & 
     if(firstIndex > secondIndex)
         std::swap(firstIndex, secondIndex);
 
-    std::cout << "findex: " << firstIndex << " sIndeex: " << secondIndex << "\n";
+     
+    std::vector<int> buffer1(chromosome1_.size(), -1);
+    std::vector<int> buffer2(chromosome2_.size(), -1);  
 
-    std::string buffer1, buffer2;
-    
-    buffer1.reserve(chromosome1_.size());
-    buffer2.reserve(chromosome2_.size());
-    buffer1.resize(chromosome1_.size());
-    buffer2.resize(chromosome2_.size());
+    // copy genomes into new chromosomes
 
-    bool* buf1Contains = new bool[buffer1.size()] {false};
-    bool* buf2Contains = new bool[buffer2.size()] {false};
-
-
-    std::cout << "buff1size: " << buffer1.size() << " buf2siize: " << buffer2.size() << "\n";
-
-    // creating subs to new chromosomes
-    auto sub1 = chromosome1_.substr(firstIndex, secondIndex);
-    auto sub2 = chromosome2_.substr(firstIndex, secondIndex);
-
-    // inserting from parents
-    buffer1.replace(firstIndex, secondIndex, sub2);
-    buffer2.replace(firstIndex, secondIndex, sub1);
+    copyGenomes(chromosome2_, buffer1, firstIndex, secondIndex);
+    copyGenomes(chromosome1_, buffer2, firstIndex, secondIndex);
 
     // inserting matching genomes
-    for(int i = 0; i < chromosome1_.size(); ++i)
+    for(int i = 0; i < buffer1.size(); ++i)
     {
         if(i >= firstIndex && i <= secondIndex)
-        {
-            buf1Contains[i] = true;
             continue;
-        }
             
-        auto found = sub1.find(chromosome1_[i]);
-        if(found != std::string::npos)
+        auto found = std::find(buffer1.begin(), buffer1.end(), chromosome1_[i]);
+        if(found != buffer1.end())
             continue;
 
         buffer1[i] = chromosome1_[i];
-        buf1Contains[i] = true;
     }
 
-    for(int i = 0; i < chromosome2_.size(); ++i)
+    for(int i = 0; i < buffer2.size(); ++i)
     {
         if(i >= firstIndex && i <= secondIndex)
-        {
-            buf2Contains[i] = true;
             continue; 
-        }  
 
-        auto found = sub2.find(chromosome2_[i]); 
-        if(found != std::string::npos)
+        auto found = std::find(buffer2.begin(), buffer2.end(), chromosome2_[i]); 
+        if(found != buffer2.end())
             continue;
 
         buffer2[i] = chromosome2_[i];
-        buf2Contains[i] = true;
     }
-
 
     // filling chromosomes
     for(int i = 0, j = 1; i < chromosome1_.size() && j < chromosome1_.size() + 1; ++i)
     {
-        if(buf1Contains[i])
+        if(buffer1[i] != -1)
             continue;
 
-        while(true)
+        while(j < chromosome1_.size())
         {
-            auto found = buffer1.find(j);
-            if(found != std::string::npos)
-            {
+            auto found = std::find(buffer1.begin(), buffer1.end(), j);
+            if(found != buffer1.end())
+            {  
                 j++;
                 continue;
             }
@@ -88,22 +65,20 @@ void CrossoverGenerator::pmxCrossover(std::string & chromosome1_, std::string & 
             break;       
         }
 
-        buffer1[i] = j + 48;
+        buffer1[i] = j;
         j++;
-
-        buf1Contains[i] = true;
         
     }
 
     for(int i = 0, j = 1; i < chromosome2_.size() && j < chromosome2_.size() + 1; ++i)
     {
-        if(buf2Contains[i])
+        if(buffer2[i] != -1)
             continue;
 
-        while(true)
+        while(j < chromosome1_.size())
         {
-            auto found = buffer2.find(j);
-            if(found != std::string::npos)
+            auto found = std::find(buffer2.begin(), buffer2.end(), j);
+            if(found != buffer2.end())
             {
                 j++;
                 continue;
@@ -112,18 +87,29 @@ void CrossoverGenerator::pmxCrossover(std::string & chromosome1_, std::string & 
             break;       
         }
 
-        buffer2[i] = j + 48;
+        buffer2[i] = j;
         j++;
-
-        buf2Contains[i] = true;
-        
     }
-
-    std::cout << chromosome1_ << " " << chromosome2_ << "\n" <<  buffer1 << " " << buffer2 << std::endl;
 
 }
 
-void CrossoverGenerator::exCrossover(std::string & chromosome1_, std::string & chromosome2_)
+void CrossoverGenerator::copyGenomes(const std::vector<int> & source_, std::vector<int> & destination_, size_t firstIndex_, size_t secondIndex_)
+{
+    for(int i = firstIndex_; i <= secondIndex_; ++i)
+    {
+        destination_[i] = source_[i];
+    }
+}
+
+void CrossoverGenerator::printVector(const std::vector<int> & vector_)
+{
+    for(const auto & city: vector_)
+    {
+        std::cout << city << " ";
+    }
+}
+
+void CrossoverGenerator::exCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
 {
 
 }

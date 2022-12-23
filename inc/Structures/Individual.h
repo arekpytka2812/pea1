@@ -5,13 +5,13 @@
 
 #include "../Utils/RandomGenerator.h"
 
-#include <string>
+#include <vector>
 
 class Individual
 {
 
 public:
-    Individual(std::string chromosome_);
+    Individual(std::vector<int> & chromosome_);
     ~Individual() = default;
 
     void calculateFitness(const AdjacencyMatrix & matrix_, size_t source_);
@@ -27,13 +27,13 @@ public:
         return this->fitness;
     }
 
-    std::string getChromosome() const 
+    std::vector<int> getChromosome() const 
     {
-        return this->chromosome;
+        return chromosome;
     }
 
 private:
-    std::string chromosome;
+    std::vector<int> chromosome;
     int fitness{INT_MAX};
 
 

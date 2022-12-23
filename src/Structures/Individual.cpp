@@ -1,7 +1,7 @@
 #include "../../inc/Structures/Individual.h"
 
 
-Individual::Individual(std::string chromosome_)
+Individual::Individual(std::vector<int> & chromosome_)
     : chromosome(chromosome_)
 {
     
@@ -9,14 +9,14 @@ Individual::Individual(std::string chromosome_)
 
 void Individual::calculateFitness(const AdjacencyMatrix & matrix_, size_t source_)
 {
-    this->fitness = matrix_.getValue(source_, chromosome[0] - 48);
+    this->fitness = matrix_.getValue(source_, chromosome[0]);
 
     for(int i = 0; i < this->chromosome.size() - 1; ++i)
     {
-        this->fitness += matrix_.getValue(this->chromosome[i] - 48, this->chromosome[i + 1] - 48);
+        this->fitness += matrix_.getValue(this->chromosome[i], this->chromosome[i + 1]);
     }
 
-    this->fitness += matrix_.getValue(this->chromosome[this->chromosome.size() - 1] - 48, source_);
+    this->fitness += matrix_.getValue(this->chromosome[this->chromosome.size() - 1], source_);
 }
 
 void Individual::mutate(MutationType mutationType_)

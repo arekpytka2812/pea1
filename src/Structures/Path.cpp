@@ -18,12 +18,12 @@ Path::Path(size_t totalCost_, const Array<size_t> & cities_)
 
 }
 
-Path::Path(size_t totalCost_, const std::string & cities_)
+Path::Path(size_t totalCost_, const std::vector<int> & cities_)
     : totalCost(totalCost_)
 {
-    for(const auto & city : cities_)
+    for(auto city : cities_)
     {
-        this->cities.addEnd(city - 48);
+        this->cities.addEnd(city);
     }
 }
 

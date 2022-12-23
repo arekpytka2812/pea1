@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <iostream>
 
 #include "Array.hpp"
@@ -17,7 +18,7 @@ public:
 
     Path();
     Path(size_t totalCost_, const Array<size_t> & cities_);
-    Path(size_t totalCost_, const std::string & cities_);
+    Path(size_t totalCost_, const std::vector<int> & cities_);
     ~Path();
 
     void addCityAtFront(size_t city_, size_t cost_ = 0);

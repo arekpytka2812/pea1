@@ -1,8 +1,8 @@
 #include "../../inc/Algorithms/GeneticAlgorithm.h"
 
 double GeneticAlgorithm::mutationPropability{0.1};
-double GeneticAlgorithm::crossoverPropability{0.1};
-size_t GeneticAlgorithm::populationSize{10};
+double GeneticAlgorithm::crossoverPropability{0.4};
+size_t GeneticAlgorithm::populationSize{30};
 
 MutationType GeneticAlgorithm::mutationType{MutationType::Swap};
 CrossoverType GeneticAlgorithm::crossoverType{CrossoverType::PMX};
@@ -26,20 +26,7 @@ Path * GeneticAlgorithm::solveTSP(const AdjacencyMatrix & matrix_, size_t source
 
     algorithmTime += timer.stopTimer();
 
-    // while((algorithmTime / 1000.0) < stopTime)
-    // {
-    //     timer.startTimer();
-
-    //     std::vector<Individual> newPopulation;
-
-    //     crossoverAndMutate(newPopulation);
-
-    //     this->population = newPopulation;
-
-    //     algorithmTime += timer.stopTimer();
-    // }
-
-    for(int i = 0; i < 5; ++i)
+    while((algorithmTime / 1000.0) < stopTime)
     {
         timer.startTimer();
 
@@ -60,7 +47,6 @@ Path * GeneticAlgorithm::solveTSP(const AdjacencyMatrix & matrix_, size_t source
         algorithmTime += timer.stopTimer();
     }
 
-
     auto returnPath = new Path(optimalCost, optimalPath);
 
     returnPath->addCityAtFront(this->sourceCity);
@@ -79,19 +65,19 @@ void GeneticAlgorithm::setupVariables(const AdjacencyMatrix & matrix_, size_t so
 
 void GeneticAlgorithm::generateFirstPopulation(const AdjacencyMatrix & matrix_)
 {
-    std::string cities;
+    std::vector<int> cities;
 
     for(int i = 0; i < this->citiesNumber; ++i)
     {
         if(i == this->sourceCity)
             continue;
 
-        cities.append(std::to_string(i));
+        cities.push_back(i);
     }
     
     for(int i = 0; i < populationSize; ++i)
     {
-        std::string chromosome = shuffleChromosome(cities);
+        std::vector<int> chromosome = shuffleChromosome(cities);
         
         Individual individual(chromosome);
         individual.calculateFitness(matrix_, this->sourceCity);
@@ -101,9 +87,9 @@ void GeneticAlgorithm::generateFirstPopulation(const AdjacencyMatrix & matrix_)
     
 }
 
-std::string GeneticAlgorithm::shuffleChromosome(std::string cities_)
+std::vector<int> GeneticAlgorithm::shuffleChromosome(const std::vector<int> & cities_)
 {
-    std::string chromosome = cities_;
+    std::vector<int> chromosome = cities_;
 
     for(int i = 0; i < chromosome.size(); ++i)
     {
@@ -150,7 +136,7 @@ void GeneticAlgorithm::crossover(std::vector<Individual> & newPopulation_)
     }
 }
 
-void GeneticAlgorithm::executeCrossover(std::string & chromosome1_, std::string & chromosome2_)
+void GeneticAlgorithm::executeCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
 {
     switch (crossoverType)
     {
