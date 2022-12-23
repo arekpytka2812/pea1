@@ -14,6 +14,7 @@ public:
     ~InsertedData();
 
     void allocateMemory();
+    void allocateMemory(size_t citiesNumber_);
     void deallocateMemory();
 
     void printData();

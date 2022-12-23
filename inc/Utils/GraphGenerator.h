@@ -7,16 +7,17 @@
 
 class GraphGenerator
 {
-    InsertedData *data;
+    InsertedData *data{nullptr};
 
     void generateValues();
 
 public:
     
+    GraphGenerator() = default;
     explicit GraphGenerator(size_t citiesNumber_);
     ~GraphGenerator();
 
-    void generateData();
+    void generateData(size_t citiesNumber_);
     void printData();
 
     size_t getCitiesNumber() const

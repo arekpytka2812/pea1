@@ -17,6 +17,13 @@ void InsertedData::allocateMemory()
     data = new int[tempSize] {0};
 }
 
+void InsertedData::allocateMemory(size_t citiesNumber_)
+{
+    this->citiesNumber = citiesNumber_;
+    auto tempSize = this->citiesNumber * this->citiesNumber;
+    data = new int[tempSize] {0};
+}
+
 void InsertedData::deallocateMemory()
 {
     delete[] this->data;

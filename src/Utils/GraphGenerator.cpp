@@ -28,12 +28,12 @@ GraphGenerator::~GraphGenerator()
     delete this->data;
 }
 
-void GraphGenerator::generateData()
+void GraphGenerator::generateData(size_t citiesNumber_)
 {
     if(data != nullptr)
         this->data->deallocateMemory();
 
-    this->data->allocateMemory();
+    this->data->allocateMemory(citiesNumber_);
     this->generateValues();
 }
 

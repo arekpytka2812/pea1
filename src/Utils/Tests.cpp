@@ -2,118 +2,137 @@
 
 Tests::Tests()
 {
-    this->bf = new BruteForce();
-    this->bnb = new BnB();
-    this->dp = new DP();
-    this->sa = new SimulatedAnnealing();
-    this->ts = new TabuSearch();
-
     this->fileWritter.openFile("out/results.csv");
 }
 
 Tests::~Tests()
 {
-    delete this->bf;
-    delete this->bnb;
-    delete this->dp;
-    delete this->sa;
-    delete this->ts;
-
-    if(this->gg != nullptr)
-        delete this->gg;
 
     if(this->matrix != nullptr)
         delete this->matrix;
 
     if(this->returnPath != nullptr)
         delete this->returnPath;
-
     
 }
 
 void Tests::performAutoTests()
 {
+    int choice{0};
+    while(choice != 4)
+    {
+        std::cout << "1. Task 1 tests\n2. Task 2 tests\n3. Task 3 tests\n4. Exit\n";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+            case 1:
+                task1Tests(); 
+                break;
+        
+            case 2:
+                task2Tests();
+                break;
+
+            case 3:
+                task3Tests();
+
+            case 4:
+                return;
+            
+            default:
+                break;
+        }
+    }
+   
+
+}
+
+void Tests::task1Tests()
+{
+    
+    BruteForce bf;
+    BnB bnb;
+    DP dp;
+
+    GraphGenerator gg;
+
+    const size_t instanceSize[10] = {12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+    size_t testCounter{0};
+    
+    double bfDuration{0}, bnbDuration{0}, dpDuration{0};
+
     std::cout << "Processing auto tests...\n";
 
     for(int i = 0; i < 10; ++i)
     {
         for(int j = 0; j < 100; ++j)
         {
-            this->generateInstance();
+            generateInstance(gg, instanceSize[testCounter]);
 
             if(this->returnPath != nullptr)
                 delete this->returnPath;
 
-            if(this->instanceSize[this->testCounter] < 13)
-                this->testBF();
+            if(instanceSize[testCounter] < 13)
+            {    
+                timer.startTimer();         
+                this->returnPath = bf.solveTSP(*matrix);        
+                bfDuration += timer.stopTimer();
+            }
             
             if(this->returnPath != nullptr)
                 delete this->returnPath;
 
-            this->testBnB();
+            timer.startTimer();         
+            this->returnPath = bnb.solveTSP(*matrix);        
+            bnbDuration += timer.stopTimer();
 
             if(this->returnPath != nullptr)
                 delete this->returnPath;
 
-            this->testDP();
+            timer.startTimer();         
+            this->returnPath = dp.solveTSP(*matrix);        
+            dpDuration += timer.stopTimer();
             
         }
 
-        this->getAverageDurations();
+        bfDuration /= 100;
+        bnbDuration /= 100;
+        dpDuration /= 100;
 
-        this->fileWritter.writeIntoFile("BF", this->instanceSize[this->testCounter], bfDuration);
-        this->fileWritter.writeIntoFile("BnB", this->instanceSize[this->testCounter], bnbDuration);
-        this->fileWritter.writeIntoFile("DP", this->instanceSize[this->testCounter], dpDuration);
+        this->fileWritter.writeIntoFile("BF", instanceSize[testCounter], bfDuration);
+        this->fileWritter.writeIntoFile("BnB", instanceSize[testCounter], bnbDuration);
+        this->fileWritter.writeIntoFile("DP", instanceSize[testCounter], dpDuration);
         
-        this->testCounter++;
+        testCounter++;
 
         std::cout << "Test: " << testCounter << "/" << 10 << "\n";
 
-        this->bfDuration = 0;
-        this->bnbDuration = 0;
-        this->dpDuration = 0;
+        bfDuration = 0;
+        bnbDuration = 0;
+        dpDuration = 0;
     }
 
     std::cout << "Auto tests done!\n";
 }
 
-void Tests::generateInstance()
+void Tests::generateInstance(GraphGenerator& gg_, size_t size_)
 {
-    if(this->gg != nullptr)
-        delete this->gg;
 
     if(this->matrix != nullptr)
         delete this->matrix;
 
-    this->gg = new GraphGenerator(this->instanceSize[this->testCounter]);
-    this->gg->generateData();
+    gg_.generateData(size_);
 
-    this->matrix = new AdjacencyMatrix(gg->getCitiesNumber(), gg->getData());
+    this->matrix = new AdjacencyMatrix(gg_.getCitiesNumber(), gg_.getData());
 }
 
-void Tests::testBF()
-{
-    timer.startTimer();         
-    this->returnPath = bf->solveTSP(*matrix);        
-    this->bfDuration += timer.stopTimer();
-}
-
-void Tests::testBnB()
-{
-    timer.startTimer();         
-    this->returnPath = bnb->solveTSP(*matrix);        
-    this->bnbDuration += timer.stopTimer();
-}
-
-void Tests::testDP()
-{
-    timer.startTimer();         
-    this->returnPath = dp->solveTSP(*matrix);        
-    this->dpDuration += timer.stopTimer();
-}
 
 void Tests::task2Tests()
 {
+    SimulatedAnnealing sa;
+    TabuSearch ts;
+
     std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rbg403.atsp"};
     int bestKnownValues[] = {1776, 2755, 2465};
     double stopTimes[] = {30.0, 60.0, 90.0};
@@ -153,7 +172,7 @@ void Tests::task2Tests()
                 
                 this->timer.startTimer();
                 
-                this->returnPath = this->sa->solveTSP(*matrix);
+                this->returnPath = sa.solveTSP(*matrix);
 
                 saTime += this->timer.stopTimer();
 
@@ -170,7 +189,7 @@ void Tests::task2Tests()
                 
                 this->timer.startTimer();
                 
-                this->returnPath = this->ts->solveTSP(*matrix);
+                this->returnPath = ts.solveTSP(*matrix);
 
                 tsTime += this->timer.stopTimer();
 
@@ -206,9 +225,7 @@ void Tests::task2Tests()
     }
 }
 
-void Tests::getAverageDurations()
+void Tests::task3Tests()
 {
-    this->bfDuration /= 100;
-    this->bnbDuration /= 100;
-    this->dpDuration /= 100;
+    
 }
