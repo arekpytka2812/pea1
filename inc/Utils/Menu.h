@@ -4,35 +4,45 @@
 
 class Menu
 {
-    Tests autoTests;
-    Timer timer;
-
-    int choice {0};
-    size_t howMany {0};
-    double duration{0};
-
-    FileReader fileReader;
-    GraphGenerator* gg {nullptr};
-    AdjacencyMatrix* matrix {nullptr};
-
-    BruteForce* bf {nullptr};
-    DP* dp {nullptr};
-    Path* result {nullptr};
-    BnB* bnb {nullptr};
-
-    SimulatedAnnealing* sa {nullptr};
-    TabuSearch* ts {nullptr};
-
-    void manualTests();
-    void manualMainMenu();
-
-    void setNeighbourType();
-    void setCoolingRatio();
-
 public:
 
     Menu();
     ~Menu();
 
     void chooseTestsType();
+
+private:
+    Tests autoTests;
+    Timer timer;
+
+    int choice {0};
+    double duration{0};
+
+    FileReader fileReader;
+
+    GraphGenerator gg;
+    AdjacencyMatrix* matrix {nullptr};
+    Path* result {nullptr};
+    
+    void task1Menu();
+    void task1ManualTests();
+    
+    void task2Menu();
+    void task2ManualTests();
+
+    void setNeighbourType();
+    void setCoolingRatio();
+
+    void task3Menu();
+    void task3ManualTests();
+
+    void setCrossoverType();
+    void setMutationType();
+
+    void manualTests();
+    void manualMainMenu();
+
+    
+
+
 };

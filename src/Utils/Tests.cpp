@@ -227,5 +227,12 @@ void Tests::task2Tests()
 
 void Tests::task3Tests()
 {
-    
+    GeneticAlgorithm ga;
+
+    double stopTimes[] = {30.0, 60.0, 90.0};
+    std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rbg403.atsp"};
+    int bestKnownValues[] = {1776, 2755, 2465};
+
+    CrossoverType crossTypes[] = {CrossoverType::PMX, CrossoverType::EX};
+    MutationType mutationTypes[] = {MutationType::Swap, MutationType::Insert}; 
 }

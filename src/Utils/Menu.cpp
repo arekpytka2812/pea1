@@ -2,52 +2,49 @@
 
 Menu::Menu()
 {
-    this->bf = new BruteForce();
-    this->bnb = new BnB();
-    this->dp = new DP();
-    this->sa = new SimulatedAnnealing();
-    this->ts = new TabuSearch();
 }
 
 Menu::~Menu()
 {
-    delete this->bf;
-    delete this->bnb;
-    delete this->dp;
-    delete this->sa;
-    delete this->ts;
-
-    if(this->gg != nullptr)
-        delete this->gg;
-
     if(this->matrix != nullptr)
         delete this->matrix;
 
+    if(this->result != nullptr)
+        delete this->result;
 }
 
 void Menu::chooseTestsType()
 {
     while(true)
     {
-        std::cout << "1. Manual Tests\n";
-        std::cout << "2. Auto Tests\n";
-        std::cout << "3. Exit\n";
+        std::cout << "1. Task 1 Manual Tests\n";
+        std::cout << "2. Task 2 Manual Tests\n";
+        std::cout << "3. Task 3 Manual Tests\n";
+        std::cout << "4. Auto Tests\n";
+        std::cout << "5. Exit\n";
 
         std::cin >> choice;
 
         switch(choice)
         {
             case 1: 
-                manualMainMenu();
+                task1Menu();
                 break;
 
             case 2:
+                task2Menu();
+                break;
+            
+            case 3:
+                task3Menu();
+                break;
+
+            case 4:
                 autoTests.performAutoTests();
                 break;
 
-            case 3:
+            case 5:
                 exit(0);
-                break;
 
             default:
                 break;
@@ -55,42 +52,38 @@ void Menu::chooseTestsType()
     }
 }
 
-void Menu::manualMainMenu()
+void Menu::task1Menu()
 {
 
-    while(choice != 11)
+    while(choice != 6)
     {
         std::cout << "1. Read From File\n";
-        std::cout << "2. Generate Graph\n";
-        std::cout << "---- Task 1 algorithms ----\n"; 
+        std::cout << "2. Generate Graph\n"; 
         std::cout << "3. Solve BruteForce\n";
         std::cout << "4. Solve BnB\n";
         std::cout << "5. Solve DP\n";
-        std::cout << "---- Task 2 algorithms ----\n";
-        std::cout << "6. Set stop time for SA and TS\n";
-        std::cout << "7. Choose neighbour type for TS\n";
-        std::cout << "8. Solve TS\n";
-        std::cout << "9. Set cooling ratio for SA\n";
-        std::cout << "10. Solve SA\n";
-        std::cout << "11. Exit\n";
-        
+        std::cout << "6. Exit\n";
+
         std::cin >> choice;
 
-        manualTests();
-
+        task1ManualTests();
     }
+
+    choice = 0;
 }
 
-
-void Menu::manualTests()
+void Menu::task1ManualTests()
 {
-    double stopTime{0};
     std::string filePath;
+    size_t howMany;
 
-    switch (choice)
+    BruteForce bf;
+    BnB bnb;
+    DP dp;
+
+    switch(choice)
     {
         case 1:
-            
             if(matrix != nullptr)
                 delete matrix;
 
@@ -102,21 +95,17 @@ void Menu::manualTests()
             matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData());
 
             break;
-        
+
         case 2:
-            if(gg != nullptr)
-                delete gg;
-            
             if(matrix != nullptr)
                 delete matrix;
 
             std::cout << "How many cities?\n";
             std::cin >> howMany;
 
-            gg = new GraphGenerator(howMany);
-            gg->generateData();
+            gg.generateData(howMany);
 
-            matrix = new AdjacencyMatrix(gg->getCitiesNumber(), gg->getData());
+            matrix = new AdjacencyMatrix(gg.getCitiesNumber(), gg.getData());
 
             break;
 
@@ -128,7 +117,7 @@ void Menu::manualTests()
                 delete result;
 
             timer.startTimer();
-            result = bf->solveTSP(*matrix);
+            result = bf.solveTSP(*matrix);
             duration = timer.stopTimer();
 
             result->printPathInfo();
@@ -145,7 +134,7 @@ void Menu::manualTests()
                 delete result;
 
             timer.startTimer();
-            result = bnb->solveTSP(*matrix);
+            result = bnb.solveTSP(*matrix);
             duration = timer.stopTimer();
 
             result->printPathInfo();
@@ -162,7 +151,7 @@ void Menu::manualTests()
                 delete result;
 
             timer.startTimer();
-            result = dp->solveTSP(*matrix);
+            result = dp.solveTSP(*matrix);
             duration = timer.stopTimer();
 
             result->printPathInfo();
@@ -170,8 +159,55 @@ void Menu::manualTests()
             std::cout << "Duration: " << duration / 1000.0 << " s\n";
 
             break;
-            
-        case 6:
+
+    }
+}
+
+void Menu::task2Menu()
+{
+    while(choice != 7)
+    {
+        std::cout << "1. Read From File\n";
+        std::cout << "2. Set stop time for SA and TS\n";
+        std::cout << "3. Choose neighbour type for TS\n";
+        std::cout << "4. Solve TS\n";
+        std::cout << "5. Set cooling ratio for SA\n";
+        std::cout << "6. Solve SA\n";
+        std::cout << "7. Exit\n";
+
+        std::cin >> choice;
+
+        task2ManualTests();
+    }
+
+    choice = 0;
+}
+
+void Menu::task2ManualTests()
+{
+    std::string filePath;
+    double stopTime{0.0};
+
+    TabuSearch ts;
+    SimulatedAnnealing sa;
+
+    switch(choice)
+    {
+        case 1:
+            if(matrix != nullptr)
+                delete matrix;
+
+            std::cout << "Type file name:\n";
+            std::cin >> filePath;
+
+            fileReader.readFromFile(filePath); 
+
+            matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData());
+
+            break;
+
+
+        case 2:
             std::cout << "Type stop time in seconds:\n";
             std::cin >> stopTime;
 
@@ -179,44 +215,44 @@ void Menu::manualTests()
             TabuSearch::setStopTime(stopTime);
             break;
 
-        case 7:
+        case 3:
             setNeighbourType();
             break;
 
-        case 8:
+        case 4:
             if(matrix == nullptr)
                 break;
 
             if(result != nullptr)
                 delete result;
 
-            result = this->ts->solveTSP(*matrix);
+            result = ts.solveTSP(*matrix);
 
             result->printPathInfo();
             break;
 
-        case 9:
+        case 5:
             setCoolingRatio();
             break;
 
-        case 10:
+        case 6:
             if(matrix == nullptr)
                 break;
 
             if(result != nullptr)
                 delete result;
 
-            result = this->sa->solveTSP(*matrix);
+            result = sa.solveTSP(*matrix);
 
             result->printPathInfo();
             break;
 
-        case 11:
+        case 7:
             return;
 
         default:
             break;
-        }
+    }
 }
 
 void Menu::setNeighbourType()
@@ -261,4 +297,166 @@ void Menu::setCoolingRatio()
 
     SimulatedAnnealing::setCoolingRatio(ratio);
 
+}
+
+void Menu::task3Menu()
+{
+    while(choice != 9)
+    {
+        std::cout << "1. Read from file and print graph\n";
+        std::cout << "2. Set stop time for GA\n";
+        std::cout << "3. Set start population size\n";
+        std::cout << "4. Set mutation propability\n";
+        std::cout << "5. Set crossover propability\n";
+        std::cout << "6. Set crossover method\n";
+        std::cout << "7. Set mutation method\n";
+        std::cout << "8. Solve Genetic Algorithm\n";
+        std::cout << "9. Exit\n";
+
+        std::cin >> choice;
+
+        task3ManualTests();
+    }
+
+    choice = 0;
+}
+
+void Menu::task3ManualTests()
+{
+    std::string filePath;
+    double stopTime{0.0}, mutationPropability{0.0}, crossoverPropability{0.0};
+    size_t populationSize{0};
+
+    GeneticAlgorithm ga;
+
+    switch(choice)
+    {
+        case 1:
+            if(matrix != nullptr)
+                delete matrix;
+
+            std::cout << "Type file name:\n";
+            std::cin >> filePath;
+
+            fileReader.readFromFile(filePath); 
+
+            matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData());
+
+            matrix->printMatrix();
+
+            break;
+
+        case 2:
+            std::cout << "Type stop time in seconds:\n";
+            std::cin >> stopTime;
+
+            GeneticAlgorithm::setStopTime(stopTime);
+            break;
+
+        case 3:
+            std::cout << "Type population size:\n";
+            std::cin >> populationSize;
+
+            GeneticAlgorithm::setPopulationSize(populationSize);
+            break;
+
+        case 4:
+            std::cout << "Type mutation propability:\n";
+            std::cin >> mutationPropability;
+
+            GeneticAlgorithm::setMutationPropability(mutationPropability);
+            break;
+
+        case 5:
+            std::cout << "Type crossover propability:\n";
+            std::cin >> crossoverPropability;
+
+            GeneticAlgorithm::setCrossoverPropability(crossoverPropability);
+            break;
+
+        case 6:
+            setCrossoverType();
+            break;
+
+        case 7:
+            setMutationType();
+            break;
+        
+        case 8:
+            
+            if(this->result != nullptr)
+                delete this->result;
+
+            if(this->matrix == nullptr)
+                break;
+            
+            result = ga.solveTSP(*matrix);
+
+            result->printPathInfo();
+
+            break;
+
+        case 9:
+            return;
+
+        default:
+            break;
+
+    }
+}
+
+void Menu::setCrossoverType()
+{
+    CrossoverType type = CrossoverType::PMX;
+    int choice{-1};
+
+    while(choice < 1 || choice > 2)
+    {   
+        std::cout << "Choose type:\n1. PMX\n2. EX\n";
+        std::cin >> choice;
+    }
+
+    switch (choice)
+    {
+        case 1:
+            type = CrossoverType::PMX;
+            break;
+
+        case 2:
+            type = CrossoverType::EX;
+            break;
+
+        default:
+            break;
+    }
+
+    GeneticAlgorithm::setCrossoverType(type);  
+}
+
+void Menu::setMutationType()
+{
+    MutationType type = MutationType::Swap;
+    int choice{-1};
+
+    while(choice < 1 || choice > 2)
+    {   
+        std::cout << "Choose type:\n1. Swap\n2. Insert\n";
+        std::cin >> choice;
+    }
+
+    switch (choice)
+    {
+        case 1:
+            type = MutationType::Swap;
+            break;
+
+        case 2:
+            type = MutationType::Insert;
+            break;
+
+        default:
+            break;
+    }
+
+    GeneticAlgorithm::setMutationType(type);  
 }

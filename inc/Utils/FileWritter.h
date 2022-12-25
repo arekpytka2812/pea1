@@ -1,10 +1,9 @@
 #pragma once
 
-#include "../Enums/TSEnum.h"
+#include "EnumCaster.h"
 
 #include <fstream>
 #include <iostream>
-#include <string>
 
 class FileWritter
 {
@@ -22,7 +21,4 @@ private:
 
     std::string resultsPath;
     std::ofstream resultsFile;
-    
-    std::string castToString(NeighbourType type_);
-    
 };

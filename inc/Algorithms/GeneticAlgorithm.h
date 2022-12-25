@@ -19,6 +19,36 @@ public:
 
     Path * solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity_ = 0) override;
 
+    static void setStopTime(double stopTime_)
+    {
+        stopTime = stopTime_;
+    }
+
+    static void setPopulationSize(size_t size_)
+    {
+        populationSize = size_;
+    }
+
+    static void setMutationType(MutationType type_)
+    {
+        mutationType = type_;
+    }
+
+    static void setCrossoverType(CrossoverType type_)
+    {
+        crossoverType = type_;
+    }
+
+    static void setMutationPropability(double propability_)
+    {
+        mutationPropability = propability_;
+    }
+
+    static void setCrossoverPropability(double propability_)
+    {
+        crossoverPropability = propability_;
+    }
+
 private:
 
     size_t sourceCity{0};

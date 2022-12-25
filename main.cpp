@@ -4,24 +4,24 @@ int main()
 {
     srand(time(nullptr));
 
-    // Menu menu;
-    // menu.chooseTestsType();
+    Menu menu;
+    menu.chooseTestsType();
 
-    FileReader fr;
+    // FileReader fr;
 
-    fr.readFromFile("tsp_6_2.txt");
+    // fr.readFromFile("tsp_6_2.txt");
 
-    AdjacencyMatrix matrix(fr.getCitiesNumber(), fr.getData());
+    // AdjacencyMatrix matrix(fr.getCitiesNumber(), fr.getData());
 
     // BruteForce bf;
 
     // bf.solveTSP(matrix)->printPathInfo();
 
-    GeneticAlgorithm ga;
+    // GeneticAlgorithm ga;
 
-    ga.solveTSP(matrix)->printPathInfo();
+    // ga.solveTSP(matrix)->printPathInfo();
 
-    return 0;
+    // return 0;
 
 }
 

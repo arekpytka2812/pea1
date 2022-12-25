@@ -36,21 +36,7 @@ void FileWritter::writeSAIntoFile(std::string fileName_, double stopTime_, doubl
 
 void FileWritter::writeTBSIntoFile(std::string fileName_, double stopTime_, NeighbourType type_, double time_, size_t tsValue_, size_t bestKnownValue_)
 {
-    this->resultsFile << fileName_ << ";" << stopTime_ << ";" << castToString(type_) << ";" << time_ << ";" << tsValue_<< ";" << bestKnownValue_ << "\n";
+    this->resultsFile << fileName_ << ";" << stopTime_ << ";" << EnumCaster::castToString(type_) << ";" << time_ << ";" << tsValue_<< ";" << bestKnownValue_ << "\n";
     this->resultsFile.flush();
 }
 
-std::string FileWritter::castToString(NeighbourType type_)
-{
-    switch(type_)
-    {
-        case NeighbourType::Swap:
-            return "swap";
-        
-        case NeighbourType::Insert:
-            return "insert";
-
-        case NeighbourType::Invert:
-            return "invert";
-    }
-}

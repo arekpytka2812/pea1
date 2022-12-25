@@ -3,6 +3,5 @@
 enum class MutationType
 {
     Swap,
-    Insert,
-    Invert
+    Insert
 };
