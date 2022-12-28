@@ -76,7 +76,8 @@ void BruteForce::setupNewOptimalPath()
 
 bool BruteForce::permutate()
 {
-    int size {this->permutations.size()}, firstSmaller{0}, firstBigger{0};
+    size_t size {this->permutations.size()}; 
+    int firstSmaller{0}, firstBigger{0};
 
     // itering from backward to find first ith element smaller
     // than (i + 1)th

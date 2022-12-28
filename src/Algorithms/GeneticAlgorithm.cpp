@@ -1,11 +1,11 @@
 #include "../../inc/Algorithms/GeneticAlgorithm.h"
 
-double GeneticAlgorithm::mutationPropability{0.1};
-double GeneticAlgorithm::crossoverPropability{0.4};
+double GeneticAlgorithm::mutationProbability{0.0};
+double GeneticAlgorithm::crossoverProbability{1.0};
 size_t GeneticAlgorithm::populationSize{30};
 
 MutationType GeneticAlgorithm::mutationType{MutationType::Swap};
-CrossoverType GeneticAlgorithm::crossoverType{CrossoverType::PMX};
+CrossoverType GeneticAlgorithm::crossoverType{CrossoverType::OX};
 double GeneticAlgorithm::stopTime{10};
 
 
@@ -48,6 +48,25 @@ Path * GeneticAlgorithm::solveTSP(const AdjacencyMatrix & matrix_, size_t source
 
         algorithmTime += timer.stopTimer();
     }
+
+    // for(int i = 0; i < 1; ++i)
+    // {
+    //             std::vector<Individual> newPopulation;
+
+    //     generateNewPopulation(newPopulation);
+
+    //     this->population = newPopulation;
+
+    //     calculatePopulationFitness(matrix_);
+
+    //     std::sort(this->population.begin(), this->population.end());
+
+    //     if(this->optimalCost > this->population[0].getFitness())
+    //     {
+    //         this->optimalCost = this->population[0].getFitness();
+    //         this->optimalPath = this->population[0].getChromosome();
+    //     }
+    // }
 
     auto returnPath = new Path(optimalCost, optimalPath);
 
@@ -120,7 +139,7 @@ void GeneticAlgorithm::crossover(std::vector<Individual> & newPopulation_)
     {
         auto randomPropability = RandomGenerator::getDouble(0.0, 1.0);
 
-        if(randomPropability > crossoverPropability)
+        if(randomPropability > crossoverProbability)
         {
             newPopulation_.push_back(this->population[i]);
             newPopulation_.push_back(this->population[i + 1]);
@@ -131,9 +150,6 @@ void GeneticAlgorithm::crossover(std::vector<Individual> & newPopulation_)
         auto chromosome2 = this->population[i + 1].getChromosome();
 
         executeCrossover(chromosome1, chromosome2);
-
-        // Individual newInd1(chromosome1);
-        // Individual newInd2(chromosome2);
 
         newPopulation_.push_back(Individual(chromosome1));
         newPopulation_.push_back(Individual(chromosome2));
@@ -151,9 +167,9 @@ void GeneticAlgorithm::executeCrossover(std::vector<int> & chromosome1_, std::ve
    
             break;
     
-        case CrossoverType::EX:
+        case CrossoverType::OX:
 
-            CrossoverGenerator::exCrossover(chromosome1_, chromosome2_);
+            CrossoverGenerator::oxCrossover(chromosome1_, chromosome2_);
 
             break;
     }
@@ -165,7 +181,7 @@ void GeneticAlgorithm::mutate(std::vector<Individual> & newPopulation_)
     {
         auto randomPropability = RandomGenerator::getDouble(0.0, 1.0);
 
-        if(randomPropability > mutationPropability)
+        if(randomPropability > mutationProbability)
             continue;
 
         newPopulation_[i].mutate(mutationType);

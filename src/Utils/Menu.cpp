@@ -301,17 +301,18 @@ void Menu::setCoolingRatio()
 
 void Menu::task3Menu()
 {
-    while(choice != 9)
+    while(choice != 10)
     {
-        std::cout << "1. Read from file and print graph\n";
-        std::cout << "2. Set stop time for GA\n";
-        std::cout << "3. Set start population size\n";
-        std::cout << "4. Set mutation propability\n";
-        std::cout << "5. Set crossover propability\n";
-        std::cout << "6. Set crossover method\n";
-        std::cout << "7. Set mutation method\n";
-        std::cout << "8. Solve Genetic Algorithm\n";
-        std::cout << "9. Exit\n";
+        std::cout << "1. Read from file\n";
+        std::cout << "2. Print graph\n";
+        std::cout << "3. Set stop time for GA\n";
+        std::cout << "4. Set start population size\n";
+        std::cout << "5. Set mutation propability\n";
+        std::cout << "6. Set crossover propability\n";
+        std::cout << "7. Set crossover method\n";
+        std::cout << "8. Set mutation method\n";
+        std::cout << "9. Solve Genetic Algorithm\n";
+        std::cout << "10. Exit\n";
 
         std::cin >> choice;
 
@@ -342,47 +343,54 @@ void Menu::task3ManualTests()
 
             matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData());
 
+            break;
+
+        case 2:
+
+            if(matrix == nullptr)
+                break;
+
             matrix->printMatrix();
 
             break;
 
-        case 2:
+        case 3:
             std::cout << "Type stop time in seconds:\n";
             std::cin >> stopTime;
 
             GeneticAlgorithm::setStopTime(stopTime);
             break;
 
-        case 3:
+        case 4:
             std::cout << "Type population size:\n";
             std::cin >> populationSize;
 
             GeneticAlgorithm::setPopulationSize(populationSize);
             break;
 
-        case 4:
+        case 5:
             std::cout << "Type mutation propability:\n";
             std::cin >> mutationPropability;
 
-            GeneticAlgorithm::setMutationPropability(mutationPropability);
-            break;
-
-        case 5:
-            std::cout << "Type crossover propability:\n";
-            std::cin >> crossoverPropability;
-
-            GeneticAlgorithm::setCrossoverPropability(crossoverPropability);
+            GeneticAlgorithm::setMutationProbability(mutationPropability);
             break;
 
         case 6:
-            setCrossoverType();
+            std::cout << "Type crossover propability:\n";
+            std::cin >> crossoverPropability;
+
+            GeneticAlgorithm::setCrossoverProbability(crossoverPropability);
             break;
 
         case 7:
+            setCrossoverType();
+            break;
+
+        case 8:
             setMutationType();
             break;
         
-        case 8:
+        case 9:
             
             if(this->result != nullptr)
                 delete this->result;
@@ -396,7 +404,7 @@ void Menu::task3ManualTests()
 
             break;
 
-        case 9:
+        case 10:
             return;
 
         default:
@@ -412,7 +420,7 @@ void Menu::setCrossoverType()
 
     while(choice < 1 || choice > 2)
     {   
-        std::cout << "Choose type:\n1. PMX\n2. EX\n";
+        std::cout << "Choose type:\n1. PMX\n2. OX\n";
         std::cin >> choice;
     }
 
@@ -423,7 +431,7 @@ void Menu::setCrossoverType()
             break;
 
         case 2:
-            type = CrossoverType::EX;
+            type = CrossoverType::OX;
             break;
 
         default:

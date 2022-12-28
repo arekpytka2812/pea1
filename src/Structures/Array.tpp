@@ -94,6 +94,8 @@ T& Array<T>::operator[](size_t index_)
 {
     if(this->isInBounds(index_))
         return *(this->table + index_);
+
+    throw new std::out_of_range("You're out of range");
 }
 
 template<typename T>

@@ -40,3 +40,4 @@ void FileWritter::writeTBSIntoFile(std::string fileName_, double stopTime_, Neig
     this->resultsFile.flush();
 }
 
+

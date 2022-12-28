@@ -111,7 +111,63 @@ void CrossoverGenerator::printVector(const std::vector<int> & vector_)
     }
 }
 
-void CrossoverGenerator::exCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
+void CrossoverGenerator::oxCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
 {
+    size_t firstIndex{0}, secondIndex{0};
 
+    while(firstIndex == secondIndex)
+    {
+        firstIndex = RandomGenerator::getInt(0, chromosome1_.size() - 1);
+        secondIndex = RandomGenerator::getInt(0, chromosome1_.size() - 1);
+    }
+
+    if(firstIndex > secondIndex)
+        std::swap(firstIndex, secondIndex);
+
+    std::vector<int> buffer1(chromosome1_.size(), -1);
+    std::vector<int> buffer2(chromosome2_.size(), -1);
+
+    copyGenomes(chromosome2_, buffer1, firstIndex, secondIndex);
+    copyGenomes(chromosome1_, buffer2, firstIndex, secondIndex);
+    
+    int parentIndex =  (secondIndex + 1) % buffer1.size(), childIndex = (secondIndex + 1) % buffer1.size();
+
+    while(std::find(buffer1.begin(), buffer1.end(), -1) != buffer1.end())
+    {
+        auto found = std::find(buffer1.begin(), buffer1.end(), chromosome1_[parentIndex]);
+
+        if(found != buffer1.end())
+        {
+            parentIndex = (++parentIndex) % buffer1.size();
+            continue;
+        }
+
+        buffer1[childIndex] = chromosome1_[parentIndex];
+
+        parentIndex = (++parentIndex) % buffer1.size();
+        childIndex = (++childIndex) % buffer1.size();
+    }
+
+    parentIndex = (secondIndex + 1) % buffer2.size();
+
+    childIndex = (secondIndex + 1) % buffer2.size();
+
+    while(std::find(buffer2.begin(), buffer2.end(), -1) != buffer2.end())
+    {
+        auto found = std::find(buffer2.begin(), buffer2.end(), chromosome2_[parentIndex]);
+
+        if(found != buffer2.end())
+        {
+            parentIndex = (++parentIndex) % buffer2.size();
+            continue;
+        }
+
+        buffer2[childIndex] = chromosome2_[parentIndex];
+
+        parentIndex = (++parentIndex) % buffer2.size();
+        childIndex = (++childIndex) % buffer2.size();
+    }
+
+    chromosome1_ = buffer1;
+    chromosome2_ = buffer2;
 }

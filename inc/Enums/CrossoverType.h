@@ -3,5 +3,5 @@
 enum class CrossoverType
 {
     PMX,
-    EX
+    OX
 };

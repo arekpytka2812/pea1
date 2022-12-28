@@ -40,8 +40,8 @@ std::string EnumCaster::castToString(CrossoverType type_)
         case CrossoverType::PMX:
             return "PMX";
         
-        case CrossoverType::EX:
-            return "EX";
+        case CrossoverType::OX:
+            return "OX";
 
         default:
             return "";

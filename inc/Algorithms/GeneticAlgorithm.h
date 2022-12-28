@@ -39,14 +39,14 @@ public:
         crossoverType = type_;
     }
 
-    static void setMutationPropability(double propability_)
+    static void setMutationProbability(double probability_)
     {
-        mutationPropability = propability_;
+        mutationProbability = probability_;
     }
 
-    static void setCrossoverPropability(double propability_)
+    static void setCrossoverProbability(double probability_)
     {
-        crossoverPropability = propability_;
+        crossoverProbability = probability_;
     }
 
 private:
@@ -59,8 +59,8 @@ private:
 
     std::vector<Individual> population;
 
-    static double mutationPropability;
-    static double crossoverPropability;
+    static double mutationProbability;
+    static double crossoverProbability;
     static size_t populationSize;
 
     static MutationType mutationType;

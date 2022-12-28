@@ -26,6 +26,8 @@ class Tests
     void task2Tests();
 
     void task3Tests();
+    void task3SubTest1();
+    void task3SubTest2();
 
 public:
 

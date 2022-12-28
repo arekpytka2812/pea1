@@ -12,7 +12,7 @@ public:
 
     static void pmxCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_);
   
-    static void exCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_);
+    static void oxCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_);
 
 private:
 

@@ -44,8 +44,6 @@ void Tests::performAutoTests()
                 break;
         }
     }
-   
-
 }
 
 void Tests::task1Tests()
@@ -232,7 +230,48 @@ void Tests::task3Tests()
     double stopTimes[] = {30.0, 60.0, 90.0};
     std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rbg403.atsp"};
     int bestKnownValues[] = {1776, 2755, 2465};
+    size_t populations[] = {50, 100, 150};
 
-    CrossoverType crossTypes[] = {CrossoverType::PMX, CrossoverType::EX};
+    size_t bestPopulationSize{INT_MAX};
+
+    size_t bestCost{INT_MAX};
+
+    CrossoverType crossTypes[] = {CrossoverType::PMX, CrossoverType::OX};
     MutationType mutationTypes[] = {MutationType::Swap, MutationType::Insert}; 
+
+    GeneticAlgorithm::setCrossoverProbability(0.8);
+    GeneticAlgorithm::setMutationProbability(0.01);
+
+    for(int i = 0; i < 3; ++i)
+    {
+        GeneticAlgorithm::setStopTime(stopTimes[i]);
+        fileReader.readFromFile(fileNames[i]);
+
+        for(int j = 0; j < 2; ++j)
+        {
+            GeneticAlgorithm::setCrossoverType(crossTypes[j]);
+
+            for(int k = 0; k < 2; ++k)
+            {
+                GeneticAlgorithm::setMutationType(mutationTypes[k]);
+
+                
+            }
+        }        
+    }
+
+
+    task3SubTest1();
+
+    task3SubTest2();
+}
+
+void Tests::task3SubTest1()
+{
+
+}
+
+void Tests::task3SubTest2()
+{
+    
 }
