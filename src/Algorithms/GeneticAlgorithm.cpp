@@ -15,16 +15,10 @@ Path * GeneticAlgorithm::solveTSP(const AdjacencyMatrix & matrix_, size_t source
 
     setupVariables(matrix_, sourceCity_);
 
-    timer.startTimer();
-
     generateFirstPopulation(matrix_);
 
     std::sort(population.begin(), population.end());
-
-    this->optimalPath = this->population[0].getChromosome();
-    this->optimalCost = this->population[0].getFitness();
-
-    algorithmTime += timer.stopTimer();
+    this->bestOne = this->population[0];
 
     while((algorithmTime / 1000.0) < stopTime)
     {
@@ -40,35 +34,13 @@ Path * GeneticAlgorithm::solveTSP(const AdjacencyMatrix & matrix_, size_t source
 
         std::sort(this->population.begin(), this->population.end());
 
-        if(this->optimalCost > this->population[0].getFitness())
-        {
-            this->optimalCost = this->population[0].getFitness();
-            this->optimalPath = this->population[0].getChromosome();
-        }
+        if(this->bestOne.getFitness() > this->population[0].getFitness())
+            this->bestOne = this->population[0];
 
         algorithmTime += timer.stopTimer();
     }
 
-    // for(int i = 0; i < 1; ++i)
-    // {
-    //             std::vector<Individual> newPopulation;
-
-    //     generateNewPopulation(newPopulation);
-
-    //     this->population = newPopulation;
-
-    //     calculatePopulationFitness(matrix_);
-
-    //     std::sort(this->population.begin(), this->population.end());
-
-    //     if(this->optimalCost > this->population[0].getFitness())
-    //     {
-    //         this->optimalCost = this->population[0].getFitness();
-    //         this->optimalPath = this->population[0].getChromosome();
-    //     }
-    // }
-
-    auto returnPath = new Path(optimalCost, optimalPath);
+    auto returnPath = new Path(this->bestOne.getFitness(), this->bestOne.getChromosome());
 
     returnPath->addCityAtFront(this->sourceCity);
     returnPath->addCityAtEnd(this->sourceCity);
@@ -82,6 +54,8 @@ void GeneticAlgorithm::setupVariables(const AdjacencyMatrix & matrix_, size_t so
 {       
     this->sourceCity = sourceCity_;
     this->citiesNumber = matrix_.citiesNumber;
+
+    this->bestOnesCrossovers = static_cast<int>(0.1 * populationSize);
 }
 
 void GeneticAlgorithm::generateFirstPopulation(const AdjacencyMatrix & matrix_)
@@ -126,16 +100,55 @@ std::vector<int> GeneticAlgorithm::shuffleChromosome(const std::vector<int> & ci
 
 void GeneticAlgorithm::generateNewPopulation(std::vector<Individual> & newPopulation_)
 {
-    crossover(newPopulation_);
-    
-    mutate(newPopulation_);
-
-    
+    crossover(newPopulation_);   
+    mutate(newPopulation_); 
 }
 
 void GeneticAlgorithm::crossover(std::vector<Individual> & newPopulation_)
 {
-    for(int i = 0; i < populationSize - 1; i += 2)
+    // for(int i = 0; i < populationSize - 1; i += 2)
+    // {
+    //     auto randomPropability = RandomGenerator::getDouble(0.0, 1.0);
+
+    //     if(randomPropability > crossoverProbability)
+    //     {
+    //         newPopulation_.push_back(this->population[i]);
+    //         newPopulation_.push_back(this->population[i + 1]);
+    //         continue;
+    //     }
+            
+    //     auto chromosome1 = this->population[i].getChromosome();
+    //     auto chromosome2 = this->population[i + 1].getChromosome();
+
+    //     executeCrossover(chromosome1, chromosome2);
+
+    //     newPopulation_.push_back(Individual(chromosome1));
+    //     newPopulation_.push_back(Individual(chromosome2));
+    // }
+
+    // best one is always alive until new best one 
+    newPopulation_.push_back(this->bestOne);
+
+    for(int i = 1; i < bestOnesCrossovers + 1; ++i)
+    {
+        auto randomPropability = RandomGenerator::getDouble(0.0, 1.0);
+
+        if(randomPropability > crossoverProbability)
+        {
+            newPopulation_.push_back(this->population[i]);
+            continue;
+        }
+
+        auto chromosome1 = this->bestOne.getChromosome();
+        auto chromosome2 = this->population[i].getChromosome();
+
+        executeCrossover(chromosome1, chromosome2);
+
+        newPopulation_.push_back(Individual(chromosome1));
+        newPopulation_.push_back(Individual(chromosome2));
+    }
+
+    for(int i = bestOnesCrossovers + 1; i < populationSize - 3; i += 2)
     {
         auto randomPropability = RandomGenerator::getDouble(0.0, 1.0);
 
@@ -154,6 +167,10 @@ void GeneticAlgorithm::crossover(std::vector<Individual> & newPopulation_)
         newPopulation_.push_back(Individual(chromosome1));
         newPopulation_.push_back(Individual(chromosome2));
     }
+
+    auto preLastChromosome = this->population[this->populationSize - 2].getChromosome();
+
+    newPopulation_.push_back(Individual(preLastChromosome));
 }
 
 void GeneticAlgorithm::executeCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
@@ -185,8 +202,6 @@ void GeneticAlgorithm::mutate(std::vector<Individual> & newPopulation_)
             continue;
 
         newPopulation_[i].mutate(mutationType);
-
-
     }
 }
 
@@ -198,5 +213,6 @@ void GeneticAlgorithm::calculatePopulationFitness(const AdjacencyMatrix& matrix_
 
 void GeneticAlgorithm::clearVariables()
 {
-
+    this->sourceCity = 0;
+    this->citiesNumber = 0;
 }

@@ -54,8 +54,9 @@ private:
     size_t sourceCity{0};
     size_t citiesNumber{0};
 
-    std::vector<int> optimalPath;
-    size_t optimalCost{INT_MAX};
+    Individual bestOne;
+
+    int bestOnesCrossovers{0};
 
     std::vector<Individual> population;
 

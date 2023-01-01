@@ -2,17 +2,8 @@
 
 void CrossoverGenerator::pmxCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
 {
-    size_t firstIndex{0}, secondIndex{0};
-
-    while(firstIndex == secondIndex)
-    {
-        firstIndex = RandomGenerator::getInt(0, chromosome1_.size() - 1);
-        secondIndex = RandomGenerator::getInt(0, chromosome1_.size() - 1);
-    }
-
-    if(firstIndex > secondIndex)
-        std::swap(firstIndex, secondIndex);
-
+    auto firstIndex{RandomGenerator::getInt(0, chromosome1_.size() - 2)};
+    auto secondIndex{RandomGenerator::getInt(firstIndex + 1, chromosome1_.size() - 1)};
      
     std::vector<int> buffer1(chromosome1_.size(), -1);
     std::vector<int> buffer2(chromosome2_.size(), -1);  
@@ -113,16 +104,8 @@ void CrossoverGenerator::printVector(const std::vector<int> & vector_)
 
 void CrossoverGenerator::oxCrossover(std::vector<int> & chromosome1_, std::vector<int> & chromosome2_)
 {
-    size_t firstIndex{0}, secondIndex{0};
-
-    while(firstIndex == secondIndex)
-    {
-        firstIndex = RandomGenerator::getInt(0, chromosome1_.size() - 1);
-        secondIndex = RandomGenerator::getInt(0, chromosome1_.size() - 1);
-    }
-
-    if(firstIndex > secondIndex)
-        std::swap(firstIndex, secondIndex);
+    auto firstIndex{RandomGenerator::getInt(0, chromosome1_.size() - 2)};
+    auto secondIndex{RandomGenerator::getInt(firstIndex + 1, chromosome1_.size() - 1)};
 
     std::vector<int> buffer1(chromosome1_.size(), -1);
     std::vector<int> buffer2(chromosome2_.size(), -1);

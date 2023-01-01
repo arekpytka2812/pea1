@@ -11,8 +11,17 @@ class Individual
 {
 
 public:
+    Individual() = default;
     Individual(std::vector<int> & chromosome_);
     ~Individual() = default;
+
+    Individual& operator=(const Individual& other_)
+    {
+        this->chromosome = other_.chromosome;
+        this->fitness = other_.fitness;
+
+        return *this;
+    }
 
     void calculateFitness(const AdjacencyMatrix & matrix_, size_t source_);
     void mutate(MutationType mutationType_);

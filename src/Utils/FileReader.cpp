@@ -11,6 +11,8 @@ void FileReader::readFromFile(std::string filePath_)
 {
     clearDataAndCloseStreamIfNeeded();
 
+    this->filePath.clear();
+
     this->filePath = filePath_;
 
     this->graphStream.open(this->filePath.c_str());
@@ -96,7 +98,6 @@ void FileReader::readATSP()
 
     size_t citiesNumber = std::stoi(buffer.substr(pos + 1));    
 
-    this->clearData();
     this->dataFromFile = new InsertedData(citiesNumber);
 
     for(int i = 3; i < 6; ++i)
