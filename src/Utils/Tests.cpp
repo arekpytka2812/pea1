@@ -144,10 +144,6 @@ void Tests::task2Tests()
 
     for(int i = 0; i < 3; ++i)
     {
-
-        if(i == 0)
-            continue;
-
         if(this->matrix != nullptr)
             delete this->matrix;
 
@@ -163,14 +159,12 @@ void Tests::task2Tests()
             SimulatedAnnealing::setCoolingRatio(coolingRatios[j]);
             TabuSearch::setNeighbourType(types[j]);
 
-            for(int k = 0; k < 10; ++k)
-            {
                 if(this->returnPath != nullptr)
                     delete this->returnPath;
                 
                 this->timer.startTimer();
                 
-                this->returnPath = sa.solveTSP(*matrix);
+                this->returnPath = sa.solveTSP(fileNames[i], this->fileWritter, *matrix);
 
                 saTime += this->timer.stopTimer();
 
@@ -187,7 +181,7 @@ void Tests::task2Tests()
                 
                 this->timer.startTimer();
                 
-                this->returnPath = ts.solveTSP(*matrix);
+                this->returnPath = ts.solveTSP(fileNames[i], this->fileWritter, *matrix);
 
                 tsTime += this->timer.stopTimer();
 
@@ -199,9 +193,7 @@ void Tests::task2Tests()
 
                 tsValue += this->returnPath->getTotalCost();
 
-                std::cout << "File: " << i << ", params: " << j << ", test: " << k << "\n";
-
-            }
+                std::cout << "File: " << i << ", params: " << j << "\n";
 
             saTime /= 10;
             tsTime /= 10;
@@ -209,8 +201,8 @@ void Tests::task2Tests()
             saValue /= 10;
             tsValue /= 10;
 
-            fileWritter.writeSAIntoFile(fileNames[i], stopTimes[i], coolingRatios[j], saTime, saValue, bestKnownValues[i]);
-            fileWritter.writeTBSIntoFile(fileNames[i], stopTimes[i], types[j], tsTime, tsValue, bestKnownValues[i]);
+           // fileWritter.writeSAIntoFile(fileNames[i], stopTimes[i], coolingRatios[j], saTime, saValue, bestKnownValues[i]);
+           // fileWritter.writeTBSIntoFile(fileNames[i], stopTimes[i], types[j], tsTime, tsValue, bestKnownValues[i]);
 
             saTime = 0;
             tsTime = 0;
@@ -232,7 +224,7 @@ void Tests::task3Tests()
     int bestKnownValues[] = {1776, 2755, 2465};
     size_t populations[] = {50, 100, 150};
 
-    size_t bestPopulationSize{INT_MAX};
+    size_t bestPopulationSize{populations[0]};
 
     size_t bestCost{INT_MAX};
 
@@ -247,6 +239,11 @@ void Tests::task3Tests()
         GeneticAlgorithm::setStopTime(stopTimes[i]);
         fileReader.readFromFile(fileNames[i]);
 
+        if(this->matrix != nullptr)
+            delete this->matrix;
+
+        this->matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData()); 
+
         for(int j = 0; j < 2; ++j)
         {
             GeneticAlgorithm::setCrossoverType(crossTypes[j]);
@@ -255,23 +252,14 @@ void Tests::task3Tests()
             {
                 GeneticAlgorithm::setMutationType(mutationTypes[k]);
 
-                
+                if(this->returnPath != nullptr)
+                    delete this->returnPath;
+
+                this->returnPath = ga.solveTSP(1, fileNames[i], fileWritter, *matrix);
+
             }
         }        
     }
 
 
-    task3SubTest1();
-
-    task3SubTest2();
-}
-
-void Tests::task3SubTest1()
-{
-
-}
-
-void Tests::task3SubTest2()
-{
-    
 }

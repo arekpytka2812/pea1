@@ -73,6 +73,81 @@ Path* SimulatedAnnealing::solveTSP(const AdjacencyMatrix & matrix_, size_t sourc
     return returnPath;
 } 
 
+Path* SimulatedAnnealing::solveTSP(std::string fileName, FileWritter& writter, const AdjacencyMatrix & matrix_, size_t sourceCity_)
+{
+    // setuping up all needed variables
+    setupVariables(matrix_, sourceCity_);
+
+    // cost is a cost of current path
+    size_t cost = this->optimalCost;
+
+    // temerature that changes during algorithm
+    double temperature = startTemperature;
+
+    // main loop
+    while((this->time / 1000.0) < stopTime)
+    {
+        this->timer.startTimer();
+
+        // creating newCities vector based on current path
+        Array<size_t> newCities(cities);
+        // making move on newCities vector
+        changeOrder(newCities);
+
+        // calculating cost of new solution
+        size_t newCost = this->calculateCost(matrix_, newCities);
+
+        // calculating delta
+        int delta = newCost - cost;
+
+        // if delta is bigger than 0 then
+        // algorithm is making decicsion whether 
+        // to take solution or not
+        if(delta >= 0 && !makeDecision(delta, temperature))
+        {
+            temperature *= coolingRatio;
+            this->time += this->timer.stopTimer();
+            continue;
+        }
+
+        // changing values
+        cost = newCost;
+        this->cities = newCities;
+
+        // checking if new cost is better than optimal
+        if(cost < this->optimalCost)
+        {
+            this->optimalCost = cost;
+            this->optimalPath = cities;
+
+            temperature *= coolingRatio;
+
+            this->time += this->timer.stopTimer();
+
+            writter.writeSAIntoFile(fileName, this->time / 1000.0, coolingRatio, 0.0, this->optimalCost, 1);
+
+            continue;
+        }
+
+        // cooling temperature
+        temperature *= coolingRatio;
+        this->time += this->timer.stopTimer();
+    }
+
+    // creating path object
+    auto returnPath = new Path(optimalCost, optimalPath);
+    
+    // adding source city since its not in the cities vector
+    returnPath->addCityAtEnd(this->sourceCity);
+    returnPath->addCityAtFront(this->sourceCity);
+
+    // clearing variables 
+    clearVariables();
+
+    // returning path
+    return returnPath;
+} 
+
 void SimulatedAnnealing::setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity_)
 {
     this->sourceCity = sourceCity_;

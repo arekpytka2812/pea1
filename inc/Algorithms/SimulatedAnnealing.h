@@ -2,6 +2,8 @@
 
 #include "TSPSolver.h"
 
+#include "../Utils/FileWritter.h"
+
 class SimulatedAnnealing : public TSPSolver
 {
     static double coolingRatio;
@@ -21,6 +23,8 @@ class SimulatedAnnealing : public TSPSolver
 
     Timer timer;
 
+    FileWritter flieWritter;
+
     void setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity) override;
     void randomiseSolution();
     void changeOrder(Array<size_t> & cities_);
@@ -34,6 +38,8 @@ class SimulatedAnnealing : public TSPSolver
 public:
 
     Path* solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity = 0) override;
+
+    Path* solveTSP(std::string fileName, FileWritter & writter, const AdjacencyMatrix & matrix_, size_t sourceCity = 0);
 
     static void setCoolingRatio(double coolingRatio_)
     {

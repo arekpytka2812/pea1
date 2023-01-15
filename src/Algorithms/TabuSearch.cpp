@@ -75,6 +75,78 @@ Path* TabuSearch::solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_)
     return returnPath;
 }
 
+Path* TabuSearch::solveTSP(std::string fileName, FileWritter & writter, const AdjacencyMatrix& matrix_, size_t sourceCity_)
+{
+    // setting up variables 
+    setupVariables(matrix_, sourceCity_);
+
+    // // cost is a cost of current path
+    size_t cost = this->optimalCost;
+
+    // counter for diversification mechanism
+    size_t noBetterSolution{0};
+
+    // main loop
+    while((this->time / 1000.0) < stopTime)
+    {
+        this->timer.startTimer();
+
+        // making move
+        makeMove(matrix_, cost);
+
+        // refreshing tabulist ban
+        this->tabuList.refreshTimeOut();
+
+        // checking if new cost is better than optimal cost
+        if(cost < this->optimalCost)
+        {
+            this->optimalPath = this->cities;
+            this->optimalCost = cost;
+            
+            // reseting diversification counter
+            noBetterSolution = 0;
+
+            this->time += timer.stopTimer();
+
+            writter.writeTBSIntoFile(fileName, this->time / 1000.0, neighbourType, 0.0, this->optimalCost, 1);
+
+            continue;
+        }
+
+        // diversification mechanism 
+        if(noBetterSolution > 9)
+        {
+            // generating new solution
+            randomiseSolution();
+
+            // reseting diversification counter
+            noBetterSolution = 0;
+            
+            this->time += timer.stopTimer();
+            
+            continue;
+        } 
+
+        // increasing diversification counter
+        noBetterSolution++;
+
+        this->time += timer.stopTimer();
+    }
+
+    // creating path object
+    auto returnPath = new Path(this->optimalCost, this->optimalPath);
+
+    // adding source city since its not in the cities vector
+    returnPath->addCityAtEnd(this->sourceCity);
+    returnPath->addCityAtFront(this->sourceCity);
+
+    // clearing variables
+    clearVariables();
+
+    // returning path
+    return returnPath;
+}
+
 void TabuSearch::setupVariables(const AdjacencyMatrix & matrix_, size_t sourceCity_)
 {
     this->citiesNumber = matrix_.citiesNumber;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GraphGenerator.h"
-#include "FileWritter.h"
 #include "FileReader.h"
 
 #include "../Algorithms/BruteForce.h"
@@ -26,8 +25,6 @@ class Tests
     void task2Tests();
 
     void task3Tests();
-    void task3SubTest1();
-    void task3SubTest2();
 
 public:
 

@@ -7,6 +7,7 @@
 #include "../Structures/Individual.h"
 
 #include "../Utils/CrossoverGenerator.h"
+#include "../Utils/FileWritter.h"
 
 #include <vector>
 #include <algorithm>
@@ -18,6 +19,10 @@ public:
     GeneticAlgorithm() = default;
 
     Path * solveTSP(const AdjacencyMatrix & matrix_, size_t sourceCity_ = 0) override;
+
+    Path * solveTSP(std::string fileName_, FileWritter &writter_, const AdjacencyMatrix & matrix_, size_t sourceCity_ = 0);
+
+    Path * solveTSP(size_t  diff_, std::string fileName_, FileWritter &writter_, const AdjacencyMatrix & matrix_);
 
     static void setStopTime(double stopTime_)
     {

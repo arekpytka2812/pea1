@@ -40,4 +40,19 @@ void FileWritter::writeTBSIntoFile(std::string fileName_, double stopTime_, Neig
     this->resultsFile.flush();
 }
 
+void FileWritter::writeGAIntoFile(std::string fileName_, MutationType mutType_, double mutProp_, CrossoverType crossType_, double crossProp_, double time_, size_t gaValue_)
+{
+    this->resultsFile << fileName_ << ";" << EnumCaster::castToString(mutType_) << ";" 
+        << mutProp_ << ";" << EnumCaster::castToString(crossType_) << ";" << crossProp_ << ";" 
+        << time_ << ";" << gaValue_ << "\n";
+    
+    this->resultsFile.flush();
+}
 
+void FileWritter::writeErrorsRelativeToPopulation(std::string fileName_, size_t populationSize_, MutationType mutType_, CrossoverType crossType_, double time_, size_t gaValue_)
+{
+        this->resultsFile << fileName_ << ";" << populationSize_ << ";" << EnumCaster::castToString(mutType_) << ";" 
+        << EnumCaster::castToString(crossType_) << ";"  << time_ << ";" << gaValue_ << "\n";
+    
+    this->resultsFile.flush();
+}

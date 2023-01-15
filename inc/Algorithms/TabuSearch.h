@@ -3,6 +3,9 @@
 #include <cstddef>
 
 #include "TSPSolver.h"
+
+#include "../Utils/FileWritter.h"
+
 #include "../Enums/TSEnum.h"
 #include "../Structures/TabuList.h"
 
@@ -44,6 +47,7 @@ public:
     TabuSearch() = default;
     
     Path* solveTSP(const AdjacencyMatrix& matrix_, size_t sourceCity_ = 0) override;
+    Path* solveTSP(std::string fileName, FileWritter & writter, const AdjacencyMatrix& matrix_, size_t sourceCity_ = 0);
 
     static void setStopTime(double stopTime_)
     {
