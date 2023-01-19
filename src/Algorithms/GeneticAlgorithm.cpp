@@ -196,6 +196,9 @@ void GeneticAlgorithm::clearVariables()
 {
     this->sourceCity = 0;
     this->citiesNumber = 0;
+
+    this->population.clear();
+    this->bestOne.killIndividual();
 }
 
 Path * GeneticAlgorithm::solveTSP(std::string fileName_, FileWritter& writter_, const AdjacencyMatrix & matrix_, size_t sourceCity_)
@@ -229,7 +232,8 @@ Path * GeneticAlgorithm::solveTSP(std::string fileName_, FileWritter& writter_, 
             
             algorithmTime += timer.stopTimer();
 
-            writter_.writeGAIntoFile(fileName_, mutationType, mutationProbability, crossoverType, crossoverProbability, algorithmTime, bestOne.getFitness());
+            writter_.writeGAIntoFile(fileName_, mutationType, mutationProbability, crossoverType, crossoverProbability, (algorithmTime / 1000.0), bestOne.getFitness());
+            continue;
         }
 
         algorithmTime += timer.stopTimer();
@@ -276,7 +280,8 @@ Path * GeneticAlgorithm::solveTSP(size_t  diff_, std::string fileName_, FileWrit
             
             algorithmTime += timer.stopTimer();
 
-            writter_.writeErrorsRelativeToPopulation(fileName_, populationSize, mutationType, crossoverType, algorithmTime, bestOne.getFitness());
+            writter_.writeErrorsRelativeToPopulation(fileName_, populationSize, mutationType, crossoverType, (algorithmTime / 1000.0), bestOne.getFitness());
+            continue;
         }
 
         algorithmTime += timer.stopTimer();

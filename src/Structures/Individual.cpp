@@ -7,6 +7,12 @@ Individual::Individual(std::vector<int> & chromosome_)
     
 }
 
+void Individual::killIndividual()
+{
+    this->chromosome.clear();
+    this->fitness = INT_MAX;
+}
+
 void Individual::calculateFitness(const AdjacencyMatrix & matrix_, size_t source_)
 {
     this->fitness = matrix_.getValue(source_, chromosome[0]);

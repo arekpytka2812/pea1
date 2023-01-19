@@ -26,6 +26,10 @@ class Tests
 
     void task3Tests();
 
+    void task3PopulationsSizeTest();
+    void task3CrossoverProbTest();
+    void task3MutationProbTest();
+
 public:
 
     Tests();

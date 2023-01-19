@@ -12,7 +12,7 @@ class Individual
 
 public:
     Individual() = default;
-    Individual(std::vector<int> & chromosome_);
+    explicit Individual(std::vector<int> & chromosome_);
     ~Individual() = default;
 
     Individual& operator=(const Individual& other_)
@@ -22,6 +22,8 @@ public:
 
         return *this;
     }
+
+    void killIndividual();
 
     void calculateFitness(const AdjacencyMatrix & matrix_, size_t source_);
     void mutate(MutationType mutationType_);
@@ -47,4 +49,3 @@ private:
 
 
 };
-

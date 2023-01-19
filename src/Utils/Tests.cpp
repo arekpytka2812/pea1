@@ -217,6 +217,13 @@ void Tests::task2Tests()
 
 void Tests::task3Tests()
 {
+    task3PopulationsSizeTest();
+    task3CrossoverProbTest();
+    task3MutationProbTest();
+}
+
+void Tests::task3PopulationsSizeTest()
+{
     GeneticAlgorithm ga;
 
     double stopTimes[] = {30.0, 60.0, 90.0};
@@ -224,15 +231,13 @@ void Tests::task3Tests()
     int bestKnownValues[] = {1776, 2755, 2465};
     size_t populations[] = {50, 100, 150};
 
-    size_t bestPopulationSize{populations[0]};
-
-    size_t bestCost{INT_MAX};
-
     CrossoverType crossTypes[] = {CrossoverType::PMX, CrossoverType::OX};
     MutationType mutationTypes[] = {MutationType::Swap, MutationType::Insert}; 
 
     GeneticAlgorithm::setCrossoverProbability(0.8);
     GeneticAlgorithm::setMutationProbability(0.01);
+
+    std::cout << "Population Size test started\n";
 
     for(int i = 0; i < 3; ++i)
     {
@@ -243,23 +248,149 @@ void Tests::task3Tests()
             delete this->matrix;
 
         this->matrix = new AdjacencyMatrix(fileReader.getCitiesNumber(), fileReader.getData()); 
-
-        for(int j = 0; j < 2; ++j)
+        
+        for(int u = 0; u < 3; ++u)
         {
-            GeneticAlgorithm::setCrossoverType(crossTypes[j]);
+            GeneticAlgorithm::setPopulationSize(populations[u]);
 
-            for(int k = 0; k < 2; ++k)
+            for(int j = 0; j < 2; ++j)
             {
-                GeneticAlgorithm::setMutationType(mutationTypes[k]);
+                GeneticAlgorithm::setCrossoverType(crossTypes[j]);
 
-                if(this->returnPath != nullptr)
-                    delete this->returnPath;
+                for(int k = 0; k < 2; ++k)
+                {
+                    GeneticAlgorithm::setMutationType(mutationTypes[k]);
 
-                this->returnPath = ga.solveTSP(1, fileNames[i], fileWritter, *matrix);
+                    if(this->returnPath != nullptr)
+                        delete this->returnPath;
 
-            }
-        }        
+                    this->returnPath = ga.solveTSP(1, fileNames[i], fileWritter, *matrix);
+                }
+
+            }      
+
+            std::cout << "File " << i + 1 << " population size " << u + 1 <<" done\n";  
+        }
+
+        std::cout << "File " << i + 1 << " done\n";  
     }
 
+    std::cout << "Population Size test done\n";
+}
+
+void Tests::task3CrossoverProbTest()
+{
+    GeneticAlgorithm ga;
+
+    double stopTimes[] = {30.0, 60.0, 90.0};
+    std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rbg403.atsp"};
+    int bestKnownValues[] = {1776, 2755, 2465};
+
+    CrossoverType crossTypes[] = {CrossoverType::PMX, CrossoverType::OX};
+    MutationType mutationTypes[] = {MutationType::Swap, MutationType::Insert}; 
+
+    double crossoverProbs[] = {0.5, 0.7, 0.9};
+
+    // Zmienic po testach populacji
+    GeneticAlgorithm::setPopulationSize(100);
+    GeneticAlgorithm::setMutationProbability(0.01);
+
+    std::cout << "Crossover Probability test started\n";
+
+    for(int i = 0; i < 3; ++i)
+    {
+        GeneticAlgorithm::setStopTime(stopTimes[i]);
+        this->fileReader.readFromFile(fileNames[i]);
+
+        if(this->matrix != nullptr)
+            delete this->matrix;
+
+        this->matrix = new AdjacencyMatrix(this->fileReader.getCitiesNumber(), this->fileReader.getData());
+
+        for(int u = 0; u < 3; ++u)
+        {
+            GeneticAlgorithm::setCrossoverProbability(crossoverProbs[u]);    
+
+            for(int j = 0; j < 2; ++j)
+            {
+                GeneticAlgorithm::setCrossoverType(crossTypes[j]);
+
+                for(int k = 0; k < 2; ++k)
+                {
+                    GeneticAlgorithm::setMutationType(mutationTypes[k]);
+
+                    if(this->returnPath != nullptr)
+                        delete this->returnPath;
+
+                    this->returnPath = ga.solveTSP(fileNames[i], fileWritter, *matrix);
+                }
+
+            }      
+
+            std::cout << "File " << i + 1 << " crossover prob " << u + 1 <<" done\n";  
+        }
+
+        std::cout << "File " << i + 1 << " done\n";  
+    }
+
+    std::cout << "Crossover Probability test done\n"; 
+}
+
+void Tests::task3MutationProbTest()
+{
+    GeneticAlgorithm ga;
+
+    double stopTimes[] = {30.0, 60.0, 90.0};
+    std::string fileNames[] = {"ftv47.atsp", "ftv170.atsp", "rbg403.atsp"};
+    int bestKnownValues[] = {1776, 2755, 2465};
+
+    CrossoverType crossTypes[] = {CrossoverType::PMX, CrossoverType::OX};
+    MutationType mutationTypes[] = {MutationType::Swap, MutationType::Insert}; 
+
+    double mutationProbs[] = {0.01, 0.05, 0.1};
+
+    // Zmienic po testach populacji
+    GeneticAlgorithm::setPopulationSize(100);
+    GeneticAlgorithm::setCrossoverProbability(0.8);
+
+    std::cout << "Mutation Probability test started\n";
+
+    for(int i = 0; i < 3; ++i)
+    {
+        GeneticAlgorithm::setStopTime(stopTimes[i]);
+        this->fileReader.readFromFile(fileNames[i]);
+
+        if(this->matrix != nullptr)
+            delete this->matrix;
+
+        this->matrix = new AdjacencyMatrix(this->fileReader.getCitiesNumber(), this->fileReader.getData());
+
+        for(int u = 0; u < 3; ++u)
+        {
+            GeneticAlgorithm::setMutationProbability(mutationProbs[u]);    
+
+            for(int j = 0; j < 2; ++j)
+            {
+                GeneticAlgorithm::setCrossoverType(crossTypes[j]);
+
+                for(int k = 0; k < 2; ++k)
+                {
+                    GeneticAlgorithm::setMutationType(mutationTypes[k]);
+
+                    if(this->returnPath != nullptr)
+                        delete this->returnPath;
+
+                    this->returnPath = ga.solveTSP(fileNames[i], fileWritter, *matrix);
+                }
+
+            }      
+
+            std::cout << "File " << i + 1 << " mutation prob " << u + 1 <<" done\n";  
+        }
+
+        std::cout << "File " << i + 1 << " done\n";  
+    }
+
+    std::cout << "Mutation Probability test done\n"; 
 
 }
