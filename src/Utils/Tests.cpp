@@ -217,9 +217,9 @@ void Tests::task2Tests()
 
 void Tests::task3Tests()
 {
-    task3PopulationsSizeTest();
+    // task3PopulationsSizeTest();
     task3CrossoverProbTest();
-    task3MutationProbTest();
+    // task3MutationProbTest();
 }
 
 void Tests::task3PopulationsSizeTest()
@@ -291,7 +291,6 @@ void Tests::task3CrossoverProbTest()
 
     double crossoverProbs[] = {0.5, 0.7, 0.9};
 
-    // Zmienic po testach populacji
     GeneticAlgorithm::setPopulationSize(100);
     GeneticAlgorithm::setMutationProbability(0.01);
 
@@ -349,7 +348,6 @@ void Tests::task3MutationProbTest()
 
     double mutationProbs[] = {0.01, 0.05, 0.1};
 
-    // Zmienic po testach populacji
     GeneticAlgorithm::setPopulationSize(100);
     GeneticAlgorithm::setCrossoverProbability(0.8);
 
